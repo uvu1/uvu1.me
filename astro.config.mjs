@@ -15,7 +15,7 @@ const __dirName = dirname(__fileName)
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), sitemap(), robots()],
-  site: "https://kigou.me",
+  site: "https://uvu1.me",
   trailingSlash: "never",
   build: {
     format: "file",
