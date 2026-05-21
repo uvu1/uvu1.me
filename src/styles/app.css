@@ -28,6 +28,7 @@ html {
     radial-gradient(circle at 86% 12%, rgba(220, 231, 255, 0.9), transparent 30%),
     linear-gradient(135deg, #ffffff 0%, var(--bg) 55%, #fbf5ff 100%);
   color: var(--text);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -41,6 +42,7 @@ body {
   margin-top: 3rem;
   font-size: 1.875rem;
   font-weight: 600;
+  scroll-margin-top: 6rem;
 }
 
 .article-body h2 {

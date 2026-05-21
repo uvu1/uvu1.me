@@ -9,6 +9,8 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import rehypePrettyCode from "rehype-pretty-code";
+import rehypeSlug from "rehype-slug";
+import { visit } from "unist-util-visit";
 
 const ROOT = process.cwd();
 
@@ -24,6 +26,13 @@ const FONT_BOLD_PATH = path.join(
   ROOT,
   "src/assets/fonts/NotoSansJP-Bold.ttf",
 );
+
+type TocItem = {
+  id: string;
+  text: string;
+  depth: 1;
+};
+
 
 type Frontmatter = {
   title?: string;
@@ -44,6 +53,7 @@ type GeneratedArticle = {
   thumbnail: string;
   body: string;
   html: string;
+  toc: TocItem[];
 };
 
 const articles: GeneratedArticle[] = [];
@@ -74,11 +84,46 @@ function splitTitle(title: string, maxCharsPerLine = 18) {
   return lines.slice(0, 3);
 }
 
+function extractText(node: any): string {
+  if (!node) return "";
+
+  if (node.type === "text") {
+    return node.value ?? "";
+  }
+
+  if (Array.isArray(node.children)) {
+    return node.children.map(extractText).join("");
+  }
+
+  return "";
+}
+
 async function markdownToHtml(markdown: string) {
+  const toc: TocItem[] = [];
+
   const file = await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype)
+    .use(rehypeSlug)
+    .use(() => {
+      return (tree) => {
+        visit(tree, "element", (node: any) => {
+          if (node.tagName !== "h1") return;
+
+          const id = node.properties?.id;
+          const text = extractText(node);
+
+          if (!id || !text) return;
+
+          toc.push({
+            id: String(id),
+            text,
+            depth: 1,
+          });
+        });
+      };
+    })
     .use(rehypePrettyCode, {
       theme: "github-light",
       keepBackground: false,
@@ -86,7 +131,10 @@ async function markdownToHtml(markdown: string) {
     .use(rehypeStringify)
     .process(markdown);
 
-  return String(file);
+  return {
+    html: String(file),
+    toc,
+  };
 }
 
 async function toDataUrl(filePath: string, mimeType: string) {
@@ -114,7 +162,7 @@ async function main() {
     const filePath = path.join(CONTENT_DIR, fileName);
     const raw = await fs.readFile(filePath, "utf8");
     const { data, content } = matter(raw);
-    const html = await markdownToHtml(content);
+    const { html, toc } = await markdownToHtml(content);
     const fm = data as Frontmatter;
 
     if (fm.draft) continue;
@@ -298,6 +346,7 @@ async function main() {
       thumbnail: `/article-thumbs/${slug}.png`,
       body: content,
       html,
+      toc,
     })
   }
   articles.sort((a, b) => b.date.localeCompare(a.date));
@@ -316,6 +365,7 @@ async function main() {
     thumbnail: string;
     body: string;
     html: string;
+    toc: TocItem[];
   };
 
   export const articles: Article[] = ${JSON.stringify(articles, null, 2)} as const;
