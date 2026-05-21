@@ -58,7 +58,7 @@ async function main() {
     const date = formatDate(frontmatter.date);
     const tags = normalizeTags(frontmatter.tags);
     const { html, toc } = await markdownToHtml(content);
-    const png = await renderArticleThumbnail({
+    const webp = await renderArticleThumbnail({
       title,
       tags,
       date,
@@ -66,9 +66,9 @@ async function main() {
       regularFont,
       boldFont,
     });
-    const outputPath = path.join(THUMBNAILS_DIR, `${slug}.png`);
+    const outputPath = path.join(THUMBNAILS_DIR, `${slug}.webp`);
 
-    await fs.writeFile(outputPath, png);
+    await fs.writeFile(outputPath, webp);
     console.log(`generated: ${path.relative(ROOT, outputPath)}`);
 
     articles.push({

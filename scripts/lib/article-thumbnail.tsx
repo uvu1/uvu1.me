@@ -1,6 +1,7 @@
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import { splitTitle } from "./article-utils";
+import sharp from "sharp";
 
 type RenderArticleThumbnailOptions = {
   title: string;
@@ -179,5 +180,9 @@ export async function renderArticleThumbnail({
     },
   );
 
-  return new Resvg(svg).render().asPng();
+  const png = new Resvg(svg).render().asPng();
+  const webp = await sharp(png)
+    .webp({ quality: 82, effort: 6 })
+    .toBuffer();
+  return webp;
 }
