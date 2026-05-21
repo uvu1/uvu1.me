@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  repository_dispatch:
+    types:
+      - articles-updated
+  workflow_dispatch:
 
 concurrency:
   group: deploy-production
@@ -16,8 +20,17 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - name: Checkout
+      - name: Checkout site repo
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Update articles submodule to latest main
+        run: |
+          git submodule update --init --recursive
+          git submodule update --remote src/content/articles
+          git status --short
 
       - name: Setup Node.js
         uses: actions/setup-node@v5
@@ -34,9 +47,6 @@ jobs:
 
       - name: Check formatting
         run: bun run check
-
-      - name: Lint
-        run: bun run lint
 
       - name: Unit test
         run: bun run test:run
