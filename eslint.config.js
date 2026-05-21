@@ -26,6 +26,7 @@ export default [
 
       "src/content/articles/**",
       "eslint.config.js",
+      "prettier.config.js",
     ],
   },
 ]
