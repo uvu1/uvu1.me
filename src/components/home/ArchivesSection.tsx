@@ -49,7 +49,7 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
                 </time>
               </div>
 
-              <ArticleListItem article={article} />
+              <ArticleListItem article={article} showDate={false}/>
             </div>
           );
         })}

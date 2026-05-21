@@ -6,6 +6,7 @@ import { TagPill } from "../ui/TagPill";
 type ArticleListItemProps = {
   article: Article;
   compact?: boolean;
+  showDate?: boolean;
 };
 
 function formatDate(date: string) {
@@ -15,6 +16,7 @@ function formatDate(date: string) {
 export function ArticleListItem({
   article,
   compact = false,
+  showDate = true,
 }: ArticleListItemProps) {
   return (
     <Link
@@ -29,9 +31,11 @@ export function ArticleListItem({
       />
 
       <div className="min-w-0 flex-1">
-        <time className="text-xs text-[var(--muted)]">
-          {formatDate(article.date)}
-        </time>
+        {showDate && ( 
+          <time className="text-xs text-[var(--muted)]">
+            {formatDate(article.date)}
+          </time> 
+        )}
 
         <h3 className="mt-1 line-clamp-1 text-lg font-semibold text-[var(--text)] transition group-hover:text-[var(--accent-strong)]">
           {article.title}
