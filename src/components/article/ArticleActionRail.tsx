@@ -140,7 +140,7 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
   }
 
   return (
-    <aside className="fixed left-[max(4rem,calc((100vw-96rem)/2+5.75rem))] top-[10.25rem] z-40 hidden h-fit flex-col items-center gap-3 lg:flex">
+    <aside className="fixed left-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] top-24 z-40 hidden h-fit flex-col items-center gap-3 xl:flex">
       <button
         type="button"
         onClick={toggleLike}
@@ -164,15 +164,15 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
       <Divider />
 
       <ShareLink href={shareLinks.twitter} label="Xで共有">
-        X
+        <FaXTwitter className="size-4" />
       </ShareLink>
 
       <ShareLink href={shareLinks.misskey} label="Misskeyで共有">
-        Mk
+        <SiMisskey className="size-4" />
       </ShareLink>
 
       <ShareLink href={shareLinks.hatena} label="はてなブックマークで共有">
-        B!
+        <SiHatenabookmark className="size-4" />
       </ShareLink>
 
       <button

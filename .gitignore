@@ -12,4 +12,7 @@ dist-ssr
 __unconfig*
 todos.json
 public/article-thumbs/*
+public/robots.txt
+public/rss.xml
+public/sitemap.xml
 src/generated/*

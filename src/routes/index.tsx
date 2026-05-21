@@ -45,7 +45,7 @@ function HomePage() {
   return (
     <PageLayout maxWidth="lg">
       <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-        <section className="rounded-[2rem] bg-[var(--card-bg)]/72 p-8 shadow-[0_16px_50px_rgba(127,183,232,0.12)] backdrop-blur-xl">
+        <section className="rounded-[2rem] bg-[var(--card-bg)]/72 p-8 shadow-[0_16px_50px_rgba(127,183,232,0.12)] backdrop-blur-xl space-y-10">
           <PinnedSection articles={pinnedArticles} />
           <ArchivesSection articles={archiveArticles} />
         </section>

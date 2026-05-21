@@ -22,7 +22,7 @@ export function ArticleBody({ html }: ArticleBodyProps) {
       const heading = target.closest("h1, h2, h3");
 
       if (!(heading instanceof HTMLHeadingElement)) return;
-      if (!body.contains(heading)) return;
+      if (!body?.contains(heading)) return;
       if (!heading.id) return;
 
       const url = new URL(window.location.href);
@@ -51,7 +51,7 @@ export function ArticleBody({ html }: ArticleBodyProps) {
   return (
     <div
       ref={bodyRef}
-      className="article-body mt-12 text-[var(--text)]"
+      className="article-body mt-10 min-w-0 overflow-hidden text-[var(--text)] sm:mt-12"
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { articles } from "../src/generated/articles";
 import { getAllTags } from "../src/lib/articles";
-import { siteConfig } from "../src/config/site";
+import { absoluteUrl, escapeXml } from "./lib/xml";
 
 const rootDir = process.cwd();
 const publicDir = path.join(rootDir, "public");
@@ -14,19 +14,6 @@ type SitemapEntry = {
   changefreq?: "daily" | "weekly" | "monthly" | "yearly";
   priority?: number;
 };
-
-function escapeXml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&apos;");
-}
-
-function absoluteUrl(pathname: string) {
-  return new URL(pathname, siteConfig.url).toString();
-}
 
 function toDateOnly(date: string) {
   return new Date(date).toISOString().split("T")[0];

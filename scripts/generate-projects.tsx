@@ -1,20 +1,8 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-
-type ProjectStatus = "running" | "planning" | "archived";
-
-type ProjectFrontmatter = {
-  title?: string;
-  description?: string;
-  category?: string;
-  status?: ProjectStatus;
-  date?: string;
-  stack?: string[];
-  repo?: string;
-  link?: string;
-  featured?: boolean;
-};
+import { ProjectFrontmatterSchema } from "./lib/project-schema";
+import type { ProjectStatus } from "./lib/project-schema";
 
 type Project = {
   slug: string;
@@ -38,18 +26,6 @@ function toSlug(filename: string) {
   return filename.replace(/\.mdx?$/, "");
 }
 
-function isProjectStatus(value: unknown): value is ProjectStatus {
-  return (
-    value === "running" ||
-    value === "planning" ||
-    value === "archived"
-  );
-}
-
-function optionalString(value: unknown) {
-  return typeof value === "string" && value.length > 0 ? value : undefined;
-}
-
 async function main() {
   await mkdir(generatedDir, { recursive: true });
 
@@ -62,25 +38,27 @@ async function main() {
     const filePath = path.join(projectsDir, file);
     const raw = await readFile(filePath, "utf-8");
     const { data } = matter(raw);
+    const parsed = ProjectFrontmatterSchema.safeParse(data);
 
-    const frontmatter = data as ProjectFrontmatter;
+    if (!parsed.success) {
+      console.error(`${file} due to invalid project frontmatter:`, parsed.error);
+      process.exit(1);
+    }
+
+    const frontmatter = parsed.data;
 
     const slug = toSlug(file);
-    const status = isProjectStatus(frontmatter.status)
-      ? frontmatter.status
-      : "running";
-
     projects.push({
       slug,
-      title: frontmatter.title ?? slug,
-      description: frontmatter.description ?? "",
-      category: frontmatter.category ?? "other",
-      status,
-      date: frontmatter.date ?? "1970-01-01",
-      stack: Array.isArray(frontmatter.stack) ? frontmatter.stack : [],
-      repo: optionalString(frontmatter.repo),
-      link: optionalString(frontmatter.link),
-      featured: frontmatter.featured ?? false,
+      title: frontmatter.title,
+      description: frontmatter.description,
+      category: frontmatter.category,
+      status: frontmatter.status,
+      date: frontmatter.date,
+      stack: frontmatter.stack,
+      repo: frontmatter.repo,
+      link: frontmatter.link,
+      featured: frontmatter.featured,
     });
   }
 

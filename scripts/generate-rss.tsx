@@ -2,23 +2,11 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { articles } from "../src/generated/articles";
 import { siteConfig } from "../src/config/site";
+import { absoluteUrl, escapeXml } from "./lib/xml";
 
 const rootDir = process.cwd();
 const publicDir = path.join(rootDir, "public");
 const outputPath = path.join(publicDir, "rss.xml");
-
-function escapeXml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&apos;");
-}
-
-function absoluteUrl(pathname: string) {
-  return new URL(pathname, siteConfig.url).toString();
-}
 
 function toRfc822(date: string) {
   return new Date(date).toUTCString();
