@@ -7,18 +7,19 @@ import { PageLayout } from "../components/layout/PageLayout";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { TagPill } from "../components/ui/TagPill";
 
+const description = "?Sw()m%kLc$VfD!! のプロフィール・リンクページです。" 
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About | uvu1.me" },
       {
         name: "description",
-        content: "uvu1 のプロフィール・リンクページです。",
+        content: description,
       },
       { property: "og:title", content: "About | uvu1.me" },
       {
         property: "og:description",
-        content: "uvu1 のプロフィール・リンクページです。",
+        content: description,
       },
       { property: "og:type", content: "website" },
     ],
@@ -82,12 +83,12 @@ const socialItems = [
   },
   {
     label: "X",
-    href: "https://x.com/",
+    href: "https://x.com/kigou_",
     icon: FaXTwitter,
   },
   {
     label: "Misskey",
-    href: "https://misskey.io/",
+    href: "https://misskey.io/@kigou",
     icon: SiMisskey,
   },
 ];

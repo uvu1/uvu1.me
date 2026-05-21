@@ -13,7 +13,7 @@ export function ProfileCard() {
         />
 
         <h3 className="mt-4 text-lg font-semibold text-[var(--accent-strong)]">
-          uvu1
+          ?Sw()m%kLc$VfD!!
         </h3>
 
         <p className="mt-4 text-sm leading-7 text-[var(--text)]">

@@ -7,14 +7,16 @@
   },
   "scripts": {
     "dev": "vite dev --port 3000",
-    "build": "bun run generate:thumbs && vite build",
+    "build": "bun run generate:contents && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint",
     "format": "prettier --write . && eslint --fix",
     "check": "prettier --check .",
     "deploy": "bun run build && wrangler deploy",
-    "generate:thumbs": "bun run scripts/generate-thumbnails.tsx"
+    "generate:thumbs": "bun run scripts/generate-thumbnails.tsx",
+    "generate:projects": "bun run scripts/generate-projects.tsx",
+    "generate:contents": "bun run scripts/generate-thumbnails.tsx && bun run scripts/generate-projects.tsx"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.26.0",
