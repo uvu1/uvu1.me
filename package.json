@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.26.0",
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-router": "latest",
@@ -24,9 +25,11 @@
     "@tanstack/react-router-ssr-query": "latest",
     "@tanstack/react-start": "latest",
     "@tanstack/router-plugin": "^1.132.0",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^0.545.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "satori": "^0.26.0",
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
