@@ -304,7 +304,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         onClick={() => onOpenChange(false)}
       />
 
-      <div className="absolute left-1/2 top-24 w-[min(calc(100vw-2rem),46rem)] -translate-x-1/2 overflow-hidden rounded-[2rem] border border-white/70 bg-white/85 shadow-[0_24px_90px_rgba(127,183,232,0.28)] backdrop-blur-2xl">
+      <div className="absolute left-1/2 top-24 w-[min(calc(100vw-2rem),46rem)] -translate-x-1/2 overflow-hidden rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/85 shadow-[0_24px_90px_rgba(127,183,232,0.28)] backdrop-blur-2xl">
         <div className="flex items-center gap-3 border-b border-[var(--border)] px-5 py-4">
           <FiSearch className="size-5 shrink-0 text-[var(--accent-strong)]" />
 
@@ -330,7 +330,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="hidden rounded-full border border-[var(--accent-strong)]/25 bg-white/60 px-3 py-1 text-xs font-semibold text-[var(--muted)] transition hover:bg-[var(--blue-50)]/70 hover:text-[var(--accent-strong)] sm:block"
+            className="hidden rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/60 px-3 py-1 text-xs font-semibold text-[var(--muted)] transition hover:bg-[var(--blue-50)]/70 hover:text-[var(--accent-strong)] sm:block"
           >
             ESC
           </button>
@@ -406,7 +406,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 function SearchEmptyState() {
   return (
     <div className="px-6 py-14 text-center">
-      <div className="mx-auto grid size-14 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-white/60 text-[var(--accent-strong)] shadow-[0_12px_36px_rgba(127,183,232,0.12)]">
+      <div className="mx-auto grid size-14 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/60 text-[var(--accent-strong)] shadow-[0_12px_36px_rgba(127,183,232,0.12)]">
         <FiSearch className="size-6" />
       </div>
 
@@ -435,7 +435,7 @@ function SearchEmptyState() {
 
 function ExampleQuery({ query }: { query: string }) {
   return (
-    <span className="rounded-full border border-[var(--accent-strong)]/20 bg-white/55 px-3 py-1 text-xs font-semibold text-[var(--muted)]">
+    <span className="rounded-full border border-[var(--accent-strong)]/20 bg-[var(--card-bg)]/55 px-3 py-1 text-xs font-semibold text-[var(--muted)]">
       {query}
     </span>
   );

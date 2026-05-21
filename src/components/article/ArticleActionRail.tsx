@@ -151,7 +151,7 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
           "grid size-11 place-items-center rounded-full border transition duration-200 disabled:cursor-wait disabled:opacity-70",
           liked
             ? "border-[#F2B8D8]/70 bg-[#FCECF4]/80 text-[#D978A6]"
-            : "border-[var(--accent-strong)]/30 bg-white/55 text-[var(--accent-strong)] hover:border-[#F2B8D8]/70 hover:bg-[#FCECF4]/70 hover:text-[#D978A6]",
+            : "border-[var(--accent-strong)]/30 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] hover:border-[#F2B8D8]/70 hover:bg-[#FCECF4]/70 hover:text-[#D978A6]",
         ].join(" ")}
       >
         <HeartIcon filled={liked} />
@@ -179,7 +179,7 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
         type="button"
         onClick={copyUrl}
         aria-label="URLをコピー"
-        className="grid size-11 place-items-center rounded-full border border-[var(--accent-strong)]/30 bg-white/55 text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
+        className="grid size-11 place-items-center rounded-full border border-[var(--accent-strong)]/30 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
       >
         {copied ? (
           <span className="text-[0.65rem] font-bold">OK</span>
@@ -206,7 +206,7 @@ function ShareLink({
       aria-label={label}
       target="_blank"
       rel="noreferrer"
-      className="grid size-11 place-items-center rounded-full border border-[var(--accent-strong)]/30 bg-white/55 text-xs font-bold text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
+      className="grid size-11 place-items-center rounded-full border border-[var(--accent-strong)]/30 bg-[var(--card-bg)]/55 text-xs font-bold text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
     >
       {children}
     </a>

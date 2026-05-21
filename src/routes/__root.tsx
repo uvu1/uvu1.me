@@ -1,8 +1,9 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { siteConfig  }from '../config/site'
-import { NotFoundPage  }from "../components/error/NotFoundPage"
+import { siteConfig }from '../config/site'
+import { NotFoundPage }from "../components/error/NotFoundPage"
+import { ThemeScript } from '../components/theme/ThemeScript'
 
 import appCss from '../styles/app.css?url'
 
@@ -74,6 +75,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <ThemeScript />
         <link
           rel="alternate"
           type="application/rss+xml"

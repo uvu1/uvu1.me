@@ -1,0 +1,26 @@
+.glass-card {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: 0 18px 60px var(--shadow-soft);
+  backdrop-filter: blur(24px);
+}
+
+.glass-card-strong {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg-strong);
+  box-shadow: 0 18px 60px var(--shadow-soft);
+  backdrop-filter: blur(24px);
+}
+
+.glass-button {
+  border: 1px solid color-mix(in srgb, var(--accent-strong) 25%, transparent);
+  background: var(--input-bg);
+  color: var(--accent-strong);
+  box-shadow: 0 8px 24px rgba(127, 183, 232, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.glass-button:hover {
+  border-color: var(--accent-strong);
+  background: var(--blue-50);
+}

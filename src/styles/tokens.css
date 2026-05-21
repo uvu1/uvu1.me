@@ -1,10 +1,22 @@
 :root {
+  color-scheme: light;
+
   --font-sans:
-  "futura-pt",
-  "Noto Sans JP",
-  "Noto Sans CJK JP",
-  system-ui,
-  sans-serif;
+    "futura-pt",
+    "Noto Sans JP",
+    "Noto Sans CJK JP",
+    system-ui,
+    sans-serif;
+
+  --font-mono:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
 
   --bg: #f7faff;
   --surface: #ffffff;
@@ -27,4 +39,46 @@
   --title-gradient-from: #7fb7e8;
   --title-gradient-via: #a7bdf4;
   --title-gradient-to: #f2b8d8;
+
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-bg-strong: rgba(255, 255, 255, 0.84);
+  --card-border: rgba(255, 255, 255, 0.72);
+  --shadow-soft: rgba(127, 183, 232, 0.14);
+
+  --input-bg: rgba(255, 255, 255, 0.55);
+  --overlay-bg: rgba(16, 24, 39, 0.2);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0f172a;
+  --surface: rgba(24, 34, 57, 0.78);
+  --surface-soft: rgba(30, 43, 72, 0.72);
+
+  --blue-50: rgba(93, 159, 219, 0.18);
+  --blue-100: rgba(127, 183, 232, 0.22);
+  --blue-200: rgba(157, 204, 245, 0.3);
+
+  --lavender: #b8c7ff;
+  --pink-soft: rgba(242, 184, 216, 0.18);
+  --pink-lavender: rgba(214, 199, 255, 0.2);
+
+  --text: #e8f0f8;
+  --muted: #9aaec4;
+  --border: rgba(157, 204, 245, 0.22);
+  --accent: #9dccf5;
+  --accent-strong: #7fb7e8;
+
+  --title-gradient-from: #9dccf5;
+  --title-gradient-via: #b8c7ff;
+  --title-gradient-to: #f2b8d8;
+
+  --card-bg: rgba(24, 34, 57, 0.72);
+  --card-bg-strong: rgba(30, 43, 72, 0.84);
+  --card-border: rgba(157, 204, 245, 0.18);
+  --shadow-soft: rgba(0, 0, 0, 0.28);
+
+  --input-bg: rgba(24, 34, 57, 0.72);
+  --overlay-bg: rgba(3, 7, 18, 0.45);
 }

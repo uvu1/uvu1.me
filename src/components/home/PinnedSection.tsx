@@ -26,7 +26,7 @@ export function PinnedSection({ articles }: PinnedSectionProps) {
             key={article.slug}
             to="/articles/$slug"
             params={{ slug: article.slug }}
-            className="group flex items-center gap-4 rounded-[1.5rem] border border-[var(--border)] bg-white/70 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] transition duration-200 ease-out hover:-translate-y-0.5 hover:border-[var(--accent)] hover:bg-[var(--blue-50)]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/45"
+            className="group flex items-center gap-4 rounded-[1.5rem] border border-[var(--border)] bg-[var(--card-bg)]/70 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] transition duration-200 ease-out hover:-translate-y-0.5 hover:border-[var(--accent)] hover:bg-[var(--blue-50)]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/45"
           >
             <ArticleThumb
               src={article.thumbnail}

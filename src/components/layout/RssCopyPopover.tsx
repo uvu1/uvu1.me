@@ -30,7 +30,7 @@ export function RssCopyPopover({
 
   return (
     <div className="fixed right-6 top-24 z-[1000] w-[min(calc(100vw-2rem),24rem)]">
-      <div className="rounded-[1.5rem] border border-white/70 bg-white/90 p-5 shadow-[0_24px_80px_rgba(127,183,232,0.28)] backdrop-blur-2xl">
+      <div className="rounded-[1.5rem] border border-white/70 bg-[var(--card-bg)]/90 p-5 shadow-[0_24px_80px_rgba(127,183,232,0.28)] backdrop-blur-2xl">
         <div className="flex items-start gap-4">
           <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[var(--blue-50)] text-[var(--accent-strong)]">
             <FiCheck className="size-5" />
@@ -48,7 +48,7 @@ export function RssCopyPopover({
               お好みのRSSリーダーに登録すると、uvu1.me の最新記事を簡単に確認できます。
             </p>
 
-            <p className="mt-3 truncate rounded-full border border-[var(--accent-strong)]/20 bg-white/65 px-3 py-1.5 font-mono text-xs text-[var(--accent-strong)]">
+            <p className="mt-3 truncate rounded-full border border-[var(--accent-strong)]/20 bg-[var(--card-bg)]/65 px-3 py-1.5 font-mono text-xs text-[var(--accent-strong)]">
               https://uvu1.me/rss.xml
             </p>
           </div>

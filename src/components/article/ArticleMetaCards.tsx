@@ -13,7 +13,7 @@ export function ArticleMetaCards({
 }: ArticleMetaCardsProps) {
   return (
     <div className="mt-6 grid gap-3 sm:grid-cols-2">
-      <div className="flex items-center gap-3 rounded-2xl border border-[var(--accent-strong)]/25 bg-white/55 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] backdrop-blur">
+      <div className="flex items-center gap-3 rounded-2xl border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/55 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] backdrop-blur">
         <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[var(--blue-50)] text-[var(--accent-strong)]">
           <CalendarIcon />
         </span>
@@ -26,7 +26,7 @@ export function ArticleMetaCards({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 rounded-2xl border border-[var(--accent-strong)]/25 bg-white/55 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] backdrop-blur">
+      <div className="flex items-center gap-3 rounded-2xl border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/55 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] backdrop-blur">
         <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[var(--blue-50)] text-[var(--accent-strong)]">
           <ClockIcon />
         </span>

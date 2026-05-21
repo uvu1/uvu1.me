@@ -37,7 +37,7 @@ const socialItems = [
 
 export function Footer() {
   return (
-    <footer className="rounded-[2rem] border border-white/70 bg-white/60 px-8 py-6 shadow-[0_18px_60px_rgba(127,183,232,0.12)] backdrop-blur-xl">
+    <footer className="rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/60 px-8 py-6 shadow-[0_18px_60px_rgba(127,183,232,0.12)] backdrop-blur-xl">
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-wrap items-center gap-6">
 

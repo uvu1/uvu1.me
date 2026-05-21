@@ -21,7 +21,7 @@ function NavCard({
 }) {
   if (!article) {
     return (
-      <div className="border border-[var(--border)] bg-white/35 px-5 py-4 opacity-45">
+      <div className="border border-[var(--border)] bg-[var(--card-bg)]/35 px-5 py-4 opacity-45">
         <p className="text-xs text-[var(--muted)]">{label}</p>
         <p className="mt-2 text-sm text-[var(--muted)]">記事がありません</p>
       </div>

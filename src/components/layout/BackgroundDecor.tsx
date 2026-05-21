@@ -17,7 +17,7 @@ export function BackgroundDecor() {
       <Cloud className="left-[10%] bottom-[10%] scale-125 opacity-55" />
       <Cloud className="right-[12%] bottom-[14%] scale-110 opacity-50" />
 
-      <div className="absolute -bottom-24 left-[-8%] h-56 w-[42rem] rounded-full bg-white/50 blur-2xl" />
+      <div className="absolute -bottom-24 left-[-8%] h-56 w-[42rem] rounded-full bg-[var(--card-bg)]/50 blur-2xl" />
       <div className="absolute -bottom-28 right-[-10%] h-64 w-[46rem] rounded-full bg-[#E6F2FF]/55 blur-2xl" />
       <div className="absolute bottom-4 left-[28%] h-40 w-[34rem] rounded-full bg-[#FCECF4]/35 blur-3xl" />
 
@@ -35,9 +35,9 @@ function Cloud({ className = "" }: { className?: string }) {
   return (
     <div className={`absolute ${className}`}>
       <div className="relative h-40 w-80">
-        <div className="absolute bottom-4 left-8 h-24 w-40 rounded-full bg-white/65" />
-        <div className="absolute bottom-10 left-28 h-28 w-28 rounded-full bg-white/70" />
-        <div className="absolute bottom-6 left-48 h-20 w-28 rounded-full bg-white/60" />
+        <div className="absolute bottom-4 left-8 h-24 w-40 rounded-full bg-[var(--card-bg)]/65" />
+        <div className="absolute bottom-10 left-28 h-28 w-28 rounded-full bg-[var(--card-bg)]/70" />
+        <div className="absolute bottom-6 left-48 h-20 w-28 rounded-full bg-[var(--card-bg)]/60" />
         <div className="absolute bottom-2 left-0 h-20 w-72 rounded-full bg-[#E6F2FF]/55 blur-sm" />
       </div>
     </div>

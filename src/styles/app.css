@@ -1,5 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    "futura-pt",
+    "Noto Sans JP",
+    "Noto Sans CJK JP",
+    system-ui,
+    sans-serif;
+
+  --font-mono:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+}
+
+@import "./base.css";
+@import "./components.css";
 @import "./framework.css";
 @import "./theme.css";
-@import "./base.css";
 @import "./tokens.css";
 @import "./markdown/index.css";

@@ -71,7 +71,7 @@ function ArticlePage() {
         title={article.title}
       />
       <div className="ml-28 grid gap-10 lg:grid-cols-[minmax(0,920px)_260px] lg:justify-center">
-        <article className="w-full max-w-[920px] rounded-[2rem] border border-white/70 bg-white/70 p-8 shadow-[0_18px_60px_rgba(127,183,232,0.16)] backdrop-blur-xl">
+        <article className="w-full max-w-[920px] rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/70 p-8 shadow-[0_18px_60px_rgba(127,183,232,0.16)] backdrop-blur-xl">
           <Link
             to="/"
             className="text-sm font-medium text-[var(--accent-strong)] transition hover:opacity-70"

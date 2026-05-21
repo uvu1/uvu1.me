@@ -78,7 +78,7 @@ export function ArticleToc({ toc }: ArticleTocProps) {
           onClick={() => setIsOpen((current) => !current)}
           aria-label={isOpen ? "目次を折りたたむ" : "目次を開く"}
           aria-expanded={isOpen}
-          className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--accent-strong)]/35 bg-white/70 text-sm font-bold leading-none text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
+          className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--accent-strong)]/35 bg-[var(--card-bg)]/70 text-sm font-bold leading-none text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
         >
           <span
             className={[
@@ -113,7 +113,7 @@ export function ArticleToc({ toc }: ArticleTocProps) {
                   "block border-l-2 px-3 py-1.5 text-sm leading-6 transition duration-200",
                   isActive
                     ? "border-[var(--accent-strong)] bg-[var(--blue-50)]/70 font-semibold text-[var(--accent-strong)]"
-                    : "border-transparent text-[var(--text)] hover:border-[var(--accent-strong)]/45 hover:bg-white/45 hover:text-[var(--accent-strong)]",
+                    : "border-transparent text-[var(--text)] hover:border-[var(--accent-strong)]/45 hover:bg-[var(--card-bg)]/45 hover:text-[var(--accent-strong)]",
                 ].join(" ")}
               >
                 {item.text}
@@ -128,7 +128,7 @@ export function ArticleToc({ toc }: ArticleTocProps) {
 
 function TocIcon() {
   return (
-    <span className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--accent-strong)]/35 bg-white/45 text-[var(--accent-strong)]">
+    <span className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--accent-strong)]/35 bg-[var(--card-bg)]/45 text-[var(--accent-strong)]">
       <svg
         viewBox="0 0 24 24"
         aria-hidden="true"

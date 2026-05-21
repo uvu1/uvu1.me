@@ -60,7 +60,7 @@ export function TagPill({
   const s = sizeClass[size];
 
   const baseClassName = [
-    "inline-flex items-center rounded-full border border-[var(--accent-strong)]/45 bg-white/50 transition duration-200",
+    "inline-flex items-center rounded-full border border-[var(--accent-strong)]/45 bg-[var(--card-bg)]/50 transition duration-200",
     "hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70",
     s.root,
     className,

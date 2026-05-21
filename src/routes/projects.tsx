@@ -37,7 +37,7 @@ function ProjectsPage() {
 
   return (
     <PageLayout maxWidth="lg">
-      <main className="rounded-[2rem] border border-white/70 bg-white/70 p-8 shadow-[0_18px_60px_rgba(127,183,232,0.14)] backdrop-blur-xl">
+      <main className="rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/70 p-8 shadow-[0_18px_60px_rgba(127,183,232,0.14)] backdrop-blur-xl">
         <section>
           <SectionTitle>Projects</SectionTitle>
 
@@ -57,7 +57,7 @@ function ProjectsPage() {
 function TerminalProjectList({ projects }: { projects: Project[] }) {
   return (
     <div className="overflow-hidden rounded-[1.5rem] border border-[#182536]/80 bg-[#101827] shadow-[0_20px_70px_rgba(16,24,39,0.24)]">
-      <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-5 py-3">
+      <div className="flex items-center justify-between border-b border-white/10 bg-[var(--card-bg)]/[0.03] px-5 py-3">
         <div className="flex items-center gap-2">
           <span className="size-3 rounded-full bg-[#F2B8D8]" />
           <span className="size-3 rounded-full bg-[#F8E3A1]" />
@@ -154,7 +154,7 @@ function StatusBadge({ status }: { status: ProjectStatus }) {
   const statusClass = {
     running: "border-[#7EE0B5]/40 bg-[#7EE0B5]/10 text-[#7EE0B5]",
     planning: "border-[#F2B8D8]/40 bg-[#F2B8D8]/10 text-[#F2B8D8]",
-    archived: "border-white/20 bg-white/5 text-white/45",
+    archived: "border-white/20 bg-[var(--card-bg)]/5 text-white/45",
   } satisfies Record<ProjectStatus, string>;
 
   return (

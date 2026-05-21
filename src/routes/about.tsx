@@ -109,7 +109,7 @@ function AboutPage() {
           <InfoCard />
         </aside>
 
-        <main className="rounded-[2rem] border border-white/70 bg-white/70 p-8 shadow-[0_18px_60px_rgba(127,183,232,0.14)] backdrop-blur-xl">
+        <main className="rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/70 p-8 shadow-[0_18px_60px_rgba(127,183,232,0.14)] backdrop-blur-xl">
           <section>
             <p className="text-sm font-semibold text-[var(--accent-strong)]">
               About Me
@@ -140,7 +140,7 @@ function AboutPage() {
 
 function ProfileCard() {
   return (
-    <section className="rounded-[2rem] border border-white/70 bg-white/70 p-7 shadow-[0_18px_60px_rgba(127,183,232,0.12)] backdrop-blur-xl">
+    <section className="rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/70 p-7 shadow-[0_18px_60px_rgba(127,183,232,0.12)] backdrop-blur-xl">
       <div className="flex flex-col items-center text-center">
         <img
           src="/icon.png"
@@ -169,7 +169,7 @@ function ProfileCard() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={item.label}
-                className="grid size-10 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-white/60 text-[var(--accent-strong)] transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
+                className="grid size-10 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/60 text-[var(--accent-strong)] transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
               >
                 <Icon className="size-4" />
               </a>
@@ -183,7 +183,7 @@ function ProfileCard() {
 
 function InfoCard() {
   return (
-    <section className="rounded-[2rem] border border-white/70 bg-white/62 p-6 shadow-[0_18px_60px_rgba(127,183,232,0.1)] backdrop-blur-xl">
+    <section className="rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/62 p-6 shadow-[0_18px_60px_rgba(127,183,232,0.1)] backdrop-blur-xl">
       <div className="space-y-5">
         {profileItems.map((item) => {
           const Icon = item.icon;
@@ -239,7 +239,7 @@ function Timeline() {
               <span
                 className={[
                   "absolute left-0 top-1.5 size-5 rounded-full border-2 border-[var(--accent-strong)]",
-                  isLatest ? "bg-[var(--accent-strong)]" : "bg-white",
+                  isLatest ? "bg-[var(--accent-strong)]" : "bg-[var(--card-bg)]",
                 ].join(" ")}
               />
 
@@ -247,7 +247,7 @@ function Timeline() {
                 {item.year}
               </time>
 
-              <div className="rounded-[1.5rem] border border-[var(--accent-strong)]/20 bg-white/50 p-5 transition duration-200 hover:-translate-y-0.5 hover:bg-[var(--blue-50)]/50">
+              <div className="rounded-[1.5rem] border border-[var(--accent-strong)]/20 bg-[var(--card-bg)]/50 p-5 transition duration-200 hover:-translate-y-0.5 hover:bg-[var(--blue-50)]/50">
                 <div className="flex items-center gap-3">
                   <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[var(--blue-50)] text-[var(--accent-strong)]">
                     <FiCode className="size-4" />

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { FiMenu, FiRss, FiSearch, FiX } from "react-icons/fi";
 import { SearchDialog } from "../search/SearchDialog";
 import { RssCopyPopover } from "./RssCopyPopover";
+import { ThemeToggle } from "../theme/ThemeToggle";
 
 const navItems = [
   { label: "Home", to: "/" },
@@ -84,11 +85,12 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-2">
+              <ThemeToggle />
               <button
                 type="button"
                 onClick={copyRssUrl}
                 aria-label="RSSリンクをコピー"
-                className="hidden size-9 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-white/55 text-[var(--accent-strong)] shadow-[0_8px_24px_rgba(127,183,232,0.08)] backdrop-blur transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70 md:grid"
+                className="hidden size-9 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] shadow-[0_8px_24px_rgba(127,183,232,0.08)] backdrop-blur transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70 md:grid"
               >
                 <FiRss className="size-4" />
               </button>
@@ -97,11 +99,11 @@ export function Header() {
                 type="button"
                 onClick={() => setSearchOpen(true)}
                 aria-label="検索を開く"
-                className="grid size-9 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-white/55 text-[var(--accent-strong)] shadow-[0_8px_24px_rgba(127,183,232,0.08)] backdrop-blur transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70 md:size-auto md:flex md:gap-2 md:px-3 md:py-2 md:text-xs md:font-semibold md:text-[var(--muted)] md:hover:text-[var(--accent-strong)]"
+                className="grid size-9 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] shadow-[0_8px_24px_rgba(127,183,232,0.08)] backdrop-blur transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70 md:size-auto md:flex md:gap-2 md:px-3 md:py-2 md:text-xs md:font-semibold md:text-[var(--muted)] md:hover:text-[var(--accent-strong)]"
               >
                 <FiSearch className="size-4" />
                 <span className="hidden md:inline">Search</span>
-                <kbd className="ml-1 hidden rounded-full bg-white/70 px-2 py-0.5 text-[0.65rem] text-[var(--muted)] lg:inline">
+                <kbd className="ml-1 hidden rounded-full bg-[var(--card-bg)]/70 px-2 py-0.5 text-[0.65rem] text-[var(--muted)] lg:inline">
                   ⌘K
                 </kbd>
               </button>
@@ -111,7 +113,7 @@ export function Header() {
                 onClick={() => setMenuOpen((current) => !current)}
                 aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"}
                 aria-expanded={menuOpen}
-                className="grid size-9 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-white/55 text-[var(--accent-strong)] shadow-[0_8px_24px_rgba(127,183,232,0.08)] backdrop-blur transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70 md:hidden"
+                className="grid size-9 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] shadow-[0_8px_24px_rgba(127,183,232,0.08)] backdrop-blur transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70 md:hidden"
               >
                 {menuOpen ? (
                   <FiX className="size-4" />
@@ -168,7 +170,7 @@ function MobileMenu({
 
       <div
         className={[
-          "fixed left-4 right-4 top-20 z-50 overflow-hidden rounded-[1.75rem] border border-white/70 bg-white/90 shadow-[0_24px_80px_rgba(127,183,232,0.26)] backdrop-blur-2xl transition duration-200",
+          "fixed left-4 right-4 top-20 z-50 overflow-hidden rounded-[1.75rem] border border-white/70 bg-[var(--card-bg)]/90 shadow-[0_24px_80px_rgba(127,183,232,0.26)] backdrop-blur-2xl transition duration-200",
           open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
         ].join(" ")}
       >
@@ -191,7 +193,7 @@ function MobileMenu({
           <button
             type="button"
             onClick={onRssClick}
-            className="mt-2 flex w-full items-center justify-between rounded-[1.25rem] border border-[var(--accent-strong)]/20 bg-white/55 px-4 py-3 text-sm font-bold text-[var(--text)] transition hover:bg-[var(--blue-50)]/70 hover:text-[var(--accent-strong)]"
+            className="mt-2 flex w-full items-center justify-between rounded-[1.25rem] border border-[var(--accent-strong)]/20 bg-[var(--card-bg)]/55 px-4 py-3 text-sm font-bold text-[var(--text)] transition hover:bg-[var(--blue-50)]/70 hover:text-[var(--accent-strong)]"
           >
             <span className="flex items-center gap-2">
               <FiRss className="size-4 text-[var(--accent-strong)]" />
