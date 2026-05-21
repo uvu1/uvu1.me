@@ -6,10 +6,11 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "bun run generate:contents && vite dev --port 3000",
     "build": "bun run generate:contents && vite build",
     "preview": "vite preview",
-    "test": "vitest run",
+    "test": "vitest --config vitest.config.ts",
+    "test:run": "vitest run --config vitest.config.ts",
     "lint": "eslint",
     "format": "prettier --write . && eslint --fix",
     "check": "prettier --check .",
@@ -67,6 +68,7 @@
     "prettier": "^3.8.1",
     "typescript": "^6.0.2",
     "vite": "^8.0.0",
+    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.7",
     "wrangler": "^4.70.0"
   },

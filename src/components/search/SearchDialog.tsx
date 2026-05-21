@@ -6,155 +6,15 @@ import { FiSearch, FiX } from "react-icons/fi";
 import { getArchiveArticles } from "../../lib/articles";
 import type { Article } from "../../lib/articles";
 import { TagPill } from "../ui/TagPill";
+import { escapeRegExp, searchArticles, normalizeText, parseQuery, } from "../../lib/search";
 
 type SearchDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-type ParsedQuery = {
-  textQuery: string;
-  words: string[];
-  tagFilters: string[];
-};
-
-type SearchResult = {
-  article: Article;
-  score: number;
-};
-
-function normalizeText(text: string) {
-  return text.toLowerCase().normalize("NFKC").trim();
-}
-
-function tokenize(text: string) {
-  return normalizeText(text).split(/\s+/).filter(Boolean);
-}
-
-function toTime(date: string) {
-  return new Date(date).getTime();
-}
-
-function parseQuery(query: string): ParsedQuery {
-  const tagFilters: string[] = [];
-
-  const textQuery = query
-    .replace(/\{tag:\s*([^}]+)\}/gi, (_, tag: string) => {
-      const normalizedTag = tag.trim();
-
-      if (normalizedTag) {
-        tagFilters.push(normalizedTag);
-      }
-
-      return " ";
-    })
-    .trim();
-
-  return {
-    textQuery,
-    words: tokenize(textQuery),
-    tagFilters,
-  };
-}
-
-function articleMatchesTags(article: Article, tagFilters: string[]) {
-  if (tagFilters.length === 0) {
-    return true;
-  }
-
-  const articleTags = article.tags.map(normalizeText);
-
-  return tagFilters.every((tag) => {
-    const normalizedTag = normalizeText(tag);
-    return articleTags.includes(normalizedTag);
-  });
-}
-
-function scoreArticle(article: Article, parsed: ParsedQuery) {
-  const { words, tagFilters } = parsed;
-
-  if (!articleMatchesTags(article, tagFilters)) {
-    return 0;
-  }
-
-  if (words.length === 0) {
-    return tagFilters.length > 0 ? 1 : 0;
-  }
-
-  const title = normalizeText(article.title);
-  const description = normalizeText(article.description);
-  const tags = normalizeText(article.tags.join(" "));
-  const body = normalizeText(article.body);
-
-  let score = 0;
-
-  for (const word of words) {
-    let matched = false;
-
-    if (title.includes(word)) {
-      score += title === word ? 120 : title.startsWith(word) ? 90 : 70;
-      matched = true;
-    }
-
-    if (article.tags.some((tag) => normalizeText(tag) === word)) {
-      score += 85;
-      matched = true;
-    } else if (tags.includes(word)) {
-      score += 55;
-      matched = true;
-    }
-
-    if (description.includes(word)) {
-      score += 35;
-      matched = true;
-    }
-
-    if (body.includes(word)) {
-      score += 12;
-      matched = true;
-    }
-
-    if (!matched) {
-      return 0;
-    }
-  }
-
-  if (words.length >= 2 && title.includes(words.join(" "))) {
-    score += 40;
-  }
-
-  if (tagFilters.length > 0) {
-    score += tagFilters.length * 20;
-  }
-
-  return score;
-}
-
-function searchArticles(articles: Article[], query: string): SearchResult[] {
-  const parsed = parseQuery(query);
-
-  if (parsed.words.length === 0 && parsed.tagFilters.length === 0) {
-    return [];
-  }
-
-  return articles
-    .map((article) => ({
-      article,
-      score: scoreArticle(article, parsed),
-    }))
-    .filter((result) => result.score > 0)
-    .sort((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return toTime(b.article.date) - toTime(a.article.date);
-    });
-}
-
 function formatDate(date: string) {
   return date.replaceAll("-", "/");
-}
-
-function escapeRegExp(text: string) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function HighlightText({ text, query }: { text: string; query: string }) {

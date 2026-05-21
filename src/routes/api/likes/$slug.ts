@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
+import { getArticleBySlug } from "../../../lib/articles";
 
 type LikeRow = {
   count: number;
@@ -21,6 +22,20 @@ function json(data: unknown, init?: ResponseInit) {
 
 function getClientId(request: Request) {
   return request.headers.get("x-uvu-client-id")?.trim() ?? "";
+}
+
+function getExistingArticleSlug(slug: string) {
+  let decodedSlug: string;
+
+  try {
+    decodedSlug = decodeURIComponent(slug);
+  } catch {
+    return undefined;
+  }
+
+  const article = getArticleBySlug(decodedSlug);
+
+  return article?.slug;
 }
 
 async function getLikeState(slug: string, clientId: string) {
@@ -49,14 +64,24 @@ export const Route = createFileRoute("/api/likes/$slug")({
   server: {
     handlers: {
       GET: async ({ request, params }) => {
-        const slug = params.slug;
+        const slug = getExistingArticleSlug(params.slug);
+
+        if (!slug) {
+          return json({ error: "Article not found" }, { status: 404 });
+        }
+
         const clientId = getClientId(request);
 
         return json(await getLikeState(slug, clientId));
       },
 
       POST: async ({ request, params }) => {
-        const slug = params.slug;
+        const slug = getExistingArticleSlug(params.slug);
+
+        if (!slug) {
+          return json({ error: "Article not found" }, { status: 404 });
+        }
+
         const clientId = getClientId(request);
 
         if (!clientId) {

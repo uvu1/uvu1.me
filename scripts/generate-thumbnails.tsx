@@ -14,7 +14,6 @@ import {
 import type { GeneratedArticle } from "./lib/article-types";
 import {
   calculateReadingTime,
-  formatDate,
   isArticleFile,
   normalizeTags,
   slugFromFileName,
@@ -23,6 +22,7 @@ import { renderArticleThumbnail } from "./lib/article-thumbnail";
 import { ensureCleanDir, toDataUrl } from "./lib/file-utils";
 import { writeGeneratedArticles } from "./lib/generated-articles";
 import { markdownToHtml } from "./lib/markdown";
+import { formatDate } from "../src/lib/date";
 
 async function main() {
   const backgroundDataUrl = await toDataUrl(BACKGROUND_PATH, "image/png");

@@ -6,9 +6,6 @@ export function slugFromFileName(fileName: string) {
   return fileName.replace(/\.(md|mdx)$/, "");
 }
 
-export function formatDate(date?: string) {
-  return date ? date.replaceAll("-", "/") : "";
-}
 
 export function normalizeTags(tags?: string[]) {
   return [...new Set((tags ?? []).map((tag) => tag.trim()).filter(Boolean))];

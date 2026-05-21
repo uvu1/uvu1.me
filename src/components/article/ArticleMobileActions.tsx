@@ -4,10 +4,17 @@ import { useEffect, useMemo, useState } from "react";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiHeart, FiLink } from "react-icons/fi";
 import { SiHatenabookmark, SiMisskey } from "react-icons/si";
+import { getClientId } from "../../lib/client-id";
 
 type ArticleMobileActionsProps = {
   slug: string;
   title: string;
+};
+
+type LikeState = {
+  slug: string;
+  count: number;
+  liked: boolean;
 };
 
 const MISSKEY_INSTANCE = "misskey.io";
@@ -18,15 +25,51 @@ export function ArticleMobileActions({
 }: ArticleMobileActionsProps) {
   const [url, setUrl] = useState("");
   const [liked, setLiked] = useState(false);
+  const [likeLoading, setLikeLoading] = useState(true);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setUrl(window.location.href);
+  }, [slug]);
 
-    const storedLiked =
-      window.localStorage.getItem(`uvu1-like:${slug}`) === "true";
+  useEffect(() => {
+    let cancelled = false;
 
-    setLiked(storedLiked);
+    async function loadLikeState() {
+      try {
+        setLikeLoading(true);
+
+        const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
+          headers: {
+            "x-uvu-client-id": getClientId(),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load likes");
+        }
+
+        const data = (await response.json()) as LikeState;
+
+        if (cancelled) return;
+
+        setLiked(data.liked);
+      } catch {
+        if (cancelled) return;
+
+        setLiked(false);
+      } finally {
+        if (!cancelled) {
+          setLikeLoading(false);
+        }
+      }
+    }
+
+    loadLikeState();
+
+    return () => {
+      cancelled = true;
+    };
   }, [slug]);
 
   const shareLinks = useMemo(() => {
@@ -41,10 +84,39 @@ export function ArticleMobileActions({
     };
   }, [title, url]);
 
-  function toggleLike() {
+  async function toggleLike() {
+    if (likeLoading) return;
+
     const nextLiked = !liked;
+    const previousLiked = liked;
+
     setLiked(nextLiked);
-    window.localStorage.setItem(`uvu1-like:${slug}`, String(nextLiked));
+    setLikeLoading(true);
+
+    try {
+      const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-uvu-client-id": getClientId(),
+        },
+        body: JSON.stringify({
+          liked: nextLiked,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update like");
+      }
+
+      const data = (await response.json()) as LikeState;
+
+      setLiked(data.liked);
+    } catch {
+      setLiked(previousLiked);
+    } finally {
+      setLikeLoading(false);
+    }
   }
 
   async function copyUrl() {
@@ -65,10 +137,11 @@ export function ArticleMobileActions({
         <button
           type="button"
           onClick={toggleLike}
+          disabled={likeLoading}
           aria-pressed={liked}
           aria-label="この記事にいいねする"
           className={[
-            "grid size-10 place-items-center rounded-full border transition",
+            "grid size-10 place-items-center rounded-full border transition disabled:cursor-wait disabled:opacity-70",
             liked
               ? "border-[#F2B8D8]/70 bg-[#FCECF4]/30 text-[#D978A6]"
               : "border-[var(--accent-strong)]/30 text-[var(--accent-strong)] hover:bg-[var(--blue-50)]",
