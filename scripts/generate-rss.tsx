@@ -34,7 +34,7 @@ async function main() {
       ${article.tags
         .map((tag) => `<category>${escapeXml(tag)}</category>`)
         .join("\n      ")}
-      <enclosure url="${escapeXml(imageUrl)}" type="image/png" />
+      <enclosure url="${escapeXml(imageUrl)}" type="image/webp" />
     </item>`;
     })
     .join("");

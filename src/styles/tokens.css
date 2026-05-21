@@ -47,6 +47,16 @@
 
   --input-bg: rgba(255, 255, 255, 0.55);
   --overlay-bg: rgba(16, 24, 39, 0.2);
+
+  --code-header-bg: rgba(230, 242, 255, 0.58);
+  --code-button-bg: rgba(255, 255, 255, 0.72);
+  --code-button-hover-bg: rgba(255, 255, 255, 0.92);
+  --code-border: rgba(127, 183, 232, 0.28);
+  --code-border-hover: rgba(127, 183, 232, 0.8);
+
+  --inline-code-border: rgba(127, 183, 232, 0.28);
+  --inline-code-bg: rgba(230, 242, 255, 0.75);
+  --inline-code-color: var(--accent-strong);
 }
 
 :root[data-theme="dark"] {
@@ -81,4 +91,15 @@
 
   --input-bg: rgba(24, 34, 57, 0.72);
   --overlay-bg: rgba(3, 7, 18, 0.45);
+
+  --code-block-bg: rgba(15, 23, 42, 0.92);
+  --code-header-bg: rgba(30, 41, 59, 0.92);
+  --code-button-bg: rgba(15, 23, 42, 0.72);
+  --code-button-hover-bg: rgba(51, 65, 85, 0.82);
+  --code-border: rgba(157, 204, 245, 0.22);
+  --code-border-hover: rgba(157, 204, 245, 0.55);
+
+  --inline-code-border: rgba(157, 204, 245, 0.22);
+  --inline-code-bg: rgba(93, 159, 219, 0.16);
+  --inline-code-color: #b7ddff;
 }

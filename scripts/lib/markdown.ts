@@ -140,7 +140,10 @@ export async function markdownToHtml(markdown: string) {
     .use(rehypeSlug)
     .use(() => collectToc(toc))
     .use(rehypePrettyCode, {
-      theme: "github-light",
+      theme: {
+        light: "github-light",
+        dark: "github-dark",
+      },
       keepBackground: false,
     })
     .use(addCodeBlockMeta)

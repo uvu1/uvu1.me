@@ -1,7 +1,7 @@
 .article-body code:not(pre code) {
-  border: 1px solid rgba(127, 183, 232, 0.28);
-  background: rgba(230, 242, 255, 0.75);
-  color: var(--accent-strong);
+  border: 1px solid var(--inline-code-border);
+  background: var(--inline-code-bg);
+  color: var(--inline-code-color);
   padding: 0.12rem 0.42rem;
   font-size: 0.875em;
 }
@@ -11,18 +11,20 @@
   position: relative;
   margin-top: 1.75rem;
   overflow: hidden;
-  border: 1px solid rgba(127, 183, 232, 0.28);
-  background: rgba(255, 255, 255, 0.76);
-  box-shadow: 0 14px 40px rgba(127, 183, 232, 0.12);
+  border: 1px solid var(--border);
+  background: var(--card-bg-strong);
+  box-shadow: 0 14px 40px var(--shadow-soft);
 }
 
-.article-body figure[data-rehype-pretty-code-figure] {
-  position: relative;
-  margin-top: 1.75rem;
-  overflow: hidden;
-  border: 1px solid rgba(127, 183, 232, 0.28);
-  background: rgba(255, 255, 255, 0.76);
-  box-shadow: 0 14px 40px rgba(127, 183, 232, 0.12);
+.article-body figure[data-rehype-pretty-code-figure] [style*="--shiki-light"] {
+  color: var(--shiki-light);
+}
+
+:root[data-theme="dark"]
+  .article-body
+  figure[data-rehype-pretty-code-figure]
+  [style*="--shiki-dark"] {
+  color: var(--shiki-dark);
 }
 
 .article-body .code-block-header {
@@ -30,8 +32,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid rgba(127, 183, 232, 0.22);
-  background: rgba(230, 242, 255, 0.58);
+  border-bottom: 1px solid var(--code-border);
+  background: var(--code-header-bg);
   padding: 0.65rem 0.75rem 0.65rem 1rem;
 }
 
@@ -46,8 +48,8 @@
 }
 
 .article-body .code-copy-button {
-  border: 1px solid rgba(127, 183, 232, 0.36);
-  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--code-border);
+  background: var(--code-button-bg);
   padding: 0.28rem 0.58rem;
   color: var(--accent-strong);
   font-size: 0.72rem;
@@ -61,8 +63,8 @@
 }
 
 .article-body .code-copy-button:hover {
-  border-color: rgba(127, 183, 232, 0.8);
-  background: rgba(255, 255, 255, 0.92);
+  border-color: var(--code-border-hover);
+  background: var(--code-button-hover-bg);
   transform: translateY(-1px);
 }
 
