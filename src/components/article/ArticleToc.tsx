@@ -68,8 +68,7 @@ export function ArticleToc({ toc }: ArticleTocProps) {
       <div className="flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
           <TocIcon />
-
-          <p className="truncate bg-gradient-to-r from-[#7FB7E8] via-[#A7BDF4] to-[#F2B8D8] bg-clip-text text-sm font-bold tracking-wide text-transparent">
+          <p className="truncate text-sm font-bold tracking-wide text-[var(--text)]">
             Table of Contents
           </p>
         </div>

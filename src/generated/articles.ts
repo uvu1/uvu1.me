@@ -12,6 +12,7 @@
     body: string;
     html: string;
     toc: TocItem[];
+    readingTime: number;
   };
 
   export const articles: Article[] = [
@@ -33,7 +34,8 @@
         "text": "はじめに",
         "depth": 1
       }
-    ]
+    ],
+    "readingTime": 1
   },
   {
     "slug": "markdown-test",
@@ -83,7 +85,8 @@
         "text": "長めの本文",
         "depth": 1
       }
-    ]
+    ],
+    "readingTime": 2
   },
   {
     "slug": "test",
@@ -103,7 +106,8 @@
         "text": "Test unpinned",
         "depth": 1
       }
-    ]
+    ],
+    "readingTime": 1
   }
 ] as const;
   

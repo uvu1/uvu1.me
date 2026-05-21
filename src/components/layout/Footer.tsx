@@ -1,71 +1,88 @@
 import { Link } from "@tanstack/react-router";
+import { FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FiMail } from "react-icons/fi";
+import { SiMisskey } from "react-icons/si";
 
-function FooterLogo() {
-  return (
-    <div className="grid size-14 place-items-center rounded-full border border-[var(--border)] bg-white/70 shadow-[0_10px_30px_rgba(127,183,232,0.18)]">
-      <span className="text-2xl text-[var(--accent-strong)]">✽</span>
-    </div>
-  );
-}
+const navItems = [
+  { label: "Home", to: "/" },
+  { label: "Articles", to: "/articles" },
+  { label: "About", to: "/about" },
+  { label: "Projects", to: "/projects" },
+] as const;
 
-function SocialLink({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href="#"
-      aria-label={label}
-      className="grid size-9 place-items-center rounded-full text-[var(--accent-strong)] transition hover:bg-[var(--blue-50)]"
-    >
-      {children}
-    </a>
-  );
-}
+const socialItems = [
+  {
+    label: "GitHub",
+    href: "https://github.com/uvu1",
+    icon: FaGithub,
+  },
+  {
+    label: "X",
+    href: "https://x.com/kigou_",
+    icon: FaXTwitter,
+  },
+  {
+    label: "Misskey",
+    href: "https://misskey.io/@kigou",
+    icon: SiMisskey,
+  },
+  {
+    label: "Mail",
+    href: "mailto:me@uvu1.me",
+    icon: FiMail,
+  },
+] as const;
 
 export function Footer() {
   return (
-    <footer className="flex items-center justify-between rounded-[1.75rem] border border-[var(--border)] bg-white/76 px-8 py-6 shadow-[0_16px_50px_rgba(127,183,232,0.16)] backdrop-blur-xl">
-      <div className="flex items-center gap-8">
-        <FooterLogo />
-
-        <nav className="flex items-center gap-7 text-sm font-medium text-[var(--text)]">
-          <Link to="/" className="transition hover:text-[var(--accent-strong)]">
-            Home 
+    <footer className="rounded-[2rem] border border-white/70 bg-white/60 px-8 py-6 shadow-[0_18px_60px_rgba(127,183,232,0.12)] backdrop-blur-xl">
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-wrap items-center gap-6">
+          <Link
+            to="/"
+            className="grid size-12 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-white/60 text-xl text-[var(--accent-strong)] transition hover:bg-[var(--blue-50)]/70"
+            aria-label="Home"
+          >
+            ✻
           </Link>
-          <Link to="/about" className="transition hover:text-[var(--accent-strong)]">
-            About 
-          </Link>
-          <Link to="/projects" className="transition hover:text-[var(--accent-strong)]">
-            Projects
-          </Link>
-        </nav>
 
-        <div className="h-8 w-px bg-[var(--border)]" />
+          <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-[var(--text)]">
+            {navItems.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="transition hover:text-[var(--accent-strong)]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="flex items-center gap-3">
-          <SocialLink label="Instagram">
-            <span className="text-lg">◎</span>
-          </SocialLink>
+          <div className="hidden h-7 w-px bg-[var(--border)] md:block" />
 
-          <SocialLink label="X">
-            <span className="text-lg">𝕏</span>
-          </SocialLink>
+          <div className="flex items-center gap-3">
+            {socialItems.map((item) => {
+              const Icon = item.icon;
 
-          <SocialLink label="GitHub">
-            <span className="text-lg">⌘</span>
-          </SocialLink>
-
-          <SocialLink label="Mail">
-            <span className="text-lg">✉</span>
-          </SocialLink>
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "noreferrer" : undefined}
+                  aria-label={item.label}
+                  className="grid size-9 place-items-center rounded-full border border-transparent text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)]/35 hover:bg-[var(--blue-50)]/70"
+                >
+                  <Icon className="size-4" />
+                </a>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      <p className="text-sm text-[var(--muted)]">© 2026 uvu1.me</p>
+        <p className="text-sm text-[var(--muted)]">© 2026 uvu1.me</p>
+      </div>
     </footer>
   );
 }

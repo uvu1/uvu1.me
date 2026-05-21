@@ -6,6 +6,8 @@ import { ArticleToc } from "../../components/article/ArticleToc";
 import { TagPill } from "../../components/ui/TagPill";
 import { getAdjacentArticles, getArticleBySlug } from "../../lib/articles";
 import { CodeCopyController } from "../../components/article/CodeCopyController";
+import { ArticleMetaCards } from "../../components/article/ArticleMetaCards";
+import { ArticleActionRail } from "../../components/article/ArticleActionRail";
 
 export const Route = createFileRoute("/articles/$slug")({
   head: ({ params }) => {
@@ -38,10 +40,6 @@ export const Route = createFileRoute("/articles/$slug")({
   component: ArticlePage,
 });
 
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
-
 function ArticlePage() {
   const { slug } = Route.useParams();
   const article = getArticleBySlug(slug);
@@ -53,9 +51,13 @@ function ArticlePage() {
   const { olderArticle, newerArticle } = getAdjacentArticles(slug);
 
   return (
-    <PageLayout maxWidth="lg">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px]">
-        <article className="mx-auto w-full max-w-3xl">
+    <PageLayout maxWidth="xl">
+      <ArticleActionRail
+        slug={article.slug}
+        title={article.title}
+      />
+      <div className="ml-28 grid gap-10 lg:grid-cols-[minmax(0,920px)_260px] lg:justify-center">
+        <article className="w-full max-w-[920px] rounded-[2rem] border border-white/70 bg-white/70 p-8 shadow-[0_18px_60px_rgba(127,183,232,0.16)] backdrop-blur-xl">
           <Link
             to="/"
             className="text-sm font-medium text-[var(--accent-strong)] transition hover:opacity-70"
@@ -65,10 +67,6 @@ function ArticlePage() {
 
           <header className="mt-8">
             <div className="mt-8">
-              <time className="text-sm text-[var(--muted)]">
-                {formatDate(article.date)}
-              </time>
-
               <h1 className="mt-3 text-4xl font-semibold tracking-tight text-[var(--text)]">
                 {article.title}
               </h1>
@@ -84,6 +82,11 @@ function ArticlePage() {
                   <TagPill key={tag} name={tag} to="tag" size="md" />
                 ))}
               </div>
+
+              <ArticleMetaCards
+                date={article.date}
+                readingTime={article.readingTime}
+              />
             </div>
           </header>
 

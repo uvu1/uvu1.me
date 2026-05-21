@@ -1,4 +1,11 @@
 :root {
+  --font-sans:
+  "futura-pt",
+  "Noto Sans JP",
+  "Noto Sans CJK JP",
+  system-ui,
+  sans-serif;
+
   --bg: #f7faff;
   --surface: #ffffff;
   --surface-soft: #f7faff;

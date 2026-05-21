@@ -54,6 +54,7 @@ type GeneratedArticle = {
   body: string;
   html: string;
   toc: TocItem[];
+  readingTime: number;
 };
 
 const articles: GeneratedArticle[] = [];
@@ -82,6 +83,24 @@ function splitTitle(title: string, maxCharsPerLine = 18) {
 
   lines.push(rest);
   return lines.slice(0, 3);
+}
+
+function calculateReadingTime(markdown: string) {
+  const plainText = markdown
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/`[^`]*`/g, "")
+    .replace(/!\[[^\]]*]\([^)]*\)/g, "")
+    .replace(/\[[^\]]*]\([^)]*\)/g, "")
+    .replace(/[#>*_\-|]/g, "")
+    .trim();
+
+  const japaneseChars = (plainText.match(/[\u3040-\u30ff\u3400-\u9fff]/g) ?? [])
+    .length;
+  const latinWords = (plainText.match(/[A-Za-z0-9]+/g) ?? []).length;
+
+  const estimatedMinutes = Math.ceil(japaneseChars / 500 + latinWords / 220);
+
+  return Math.max(1, estimatedMinutes);
 }
 
 function rehypeCodeBlockMeta() {
@@ -439,6 +458,7 @@ async function main() {
       body: content,
       html,
       toc,
+      readingTime: calculateReadingTime(content),
     })
   }
   articles.sort((a, b) => b.date.localeCompare(a.date));
@@ -458,6 +478,7 @@ async function main() {
     body: string;
     html: string;
     toc: TocItem[];
+    readingTime: number;
   };
 
   export const articles: Article[] = ${JSON.stringify(articles, null, 2)} as const;
