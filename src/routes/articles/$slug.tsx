@@ -3,6 +3,7 @@ import { PageLayout } from "../../components/layout/PageLayout";
 import { ArticleBody } from "../../components/article/ArticleBody";
 import { ArticleNavigation } from "../../components/article/ArticleNavigation";
 import { getAdjacentArticles, getArticleBySlug } from "../../lib/articles";
+import { TagPill } from "../../components/ui/TagPill";
 
 export const Route = createFileRoute("/articles/$slug")({
   head: ({ params }) => {
@@ -79,14 +80,7 @@ function ArticlePage() {
 
             <div className="mt-5 flex flex-wrap gap-2">
               {article.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  to="/tags/$tag"
-                  params={{ tag }}
-                  className="border border-[var(--border)] bg-white/70 px-3 py-1 text-sm text-[var(--accent-strong)] transition hover:bg-[var(--blue-50)]/70"
-                >
-                  #{tag}
-                </Link>
+                <TagPill key={tag} name={tag} to="tag" size="md" />
               ))}
             </div>
           </div>

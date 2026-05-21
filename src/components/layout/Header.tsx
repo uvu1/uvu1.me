@@ -9,11 +9,11 @@ const navItems = [
 
 export function Header() {
   return (
-    <header className="bg-white/60 backdrop-blur-xl">
+    <header>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
         <Link
           to="/"
-          className="text-xl font-bold tracking-[0.08em] text-[var(--accent-strong)] transition hover:opacity-70"
+          className="bg-gradient-to-r from-[#6FA8DC] via-[#9DB9F2] to-[#E8B7D8] bg-clip-text text-xl font-bold tracking-[0.1em] text-transparent drop-shadow-[0_4px_16px_rgba(127,183,232,0.24)] transition hover:opacity-70"
         >
           uvu1.me
         </Link>
@@ -28,15 +28,6 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-
-          <button
-            type="button"
-            aria-label="Toggle color theme"
-            className="flex h-8 w-16 items-center justify-between rounded-full border border-[var(--border)] bg-white/70 px-2 shadow-sm backdrop-blur transition hover:border-[var(--accent)]"
-          >
-            <span className="size-4 rounded-full bg-[var(--pink-soft)] shadow-sm" />
-            <span className="text-xs text-[var(--accent-strong)]">✦</span>
-          </button>
         </nav>
       </div>
     </header>

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { Article } from "../../lib/articles";
 import { ArticleThumb } from "../ui/ArticleThumb";
+import { TagPill } from "../ui/TagPill";
 
 type ArticleListItemProps = {
   article: Article;
@@ -42,15 +43,10 @@ export function ArticleListItem({
           </p>
         )}
 
-        {!compact && (
+        {!compact && article.tags.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {article.tags.map((tag) => (
-              <span
-                key={tag}
-                className="border border-[var(--border)] bg-white/70 px-3 py-1 text-xs text-[var(--accent-strong)]"
-              >
-                #{tag}
-              </span>
+              <TagPill key={tag} name={tag} size="sm" />
             ))}
           </div>
         )}

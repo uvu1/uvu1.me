@@ -1,5 +1,6 @@
 import type { Article } from "../../lib/articles";
 import { ArticleThumb } from "../ui/ArticleThumb";
+import { SectionTitle } from "../ui/SectionTitle";
 
 type PinnedSectionProps = {
   articles: Article[];
@@ -12,15 +13,13 @@ function formatDate(date: string) {
 export function PinnedSection({ articles }: PinnedSectionProps) {
   return (
     <section>
-      <h2 className="mb-5 text-xl font-bold tracking-wide text-[var(--accent-strong)]">
-        # Pinned
-      </h2>
+      <SectionTitle>Pinned</SectionTitle>
 
       <div className="grid gap-4 md:grid-cols-2">
         {articles.map((article) => (
           <article
             key={article.slug}
-            className="flex items-center gap-4 rounded-3xl border border-[var(--border)] bg-white/70 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] transition hover:-translate-y-0.5 hover:border-[var(--accent)]"
+            className="flex items-center gap-4 rounded-2xl border border-[var(--border)] bg-white/70 px-4 py-3 shadow-[0_10px_30px_rgba(127,183,232,0.08)] transition hover:-translate-y-0.5 hover:border-[var(--accent)]"
           >
             <ArticleThumb
               src={article.thumbnail}

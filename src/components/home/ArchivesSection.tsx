@@ -1,5 +1,6 @@
 import type { Article } from "../../lib/articles";
 import { ArticleListItem } from "../article/ArticleListItem";
+import { SectionTitle } from "../ui/SectionTitle";
 
 type ArchivesSectionProps = {
   articles: Article[];
@@ -20,9 +21,7 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
 
   return (
     <section className="mt-12">
-      <h2 className="mb-6 text-xl font-bold tracking-wide text-[var(--text)]">
-        # Archives
-      </h2>
+      <SectionTitle>Archives</SectionTitle>
 
       <div className="relative space-y-3">
         <div className="absolute left-2 top-6 bottom-6 w-px bg-[var(--accent-strong)]/35" />

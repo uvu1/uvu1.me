@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import { BackgroundDecor } from "./BackgroundDecor";
 
 type PageLayoutProps = {
   children: ReactNode;
@@ -15,12 +16,11 @@ const maxWidthClass = {
   full: "max-w-none",
 };
 
-export function PageLayout({
-  children,
-  maxWidth = "lg",
-}: PageLayoutProps) {
+export function PageLayout({ children, maxWidth = "lg" }: PageLayoutProps) {
   return (
-    <main className="min-h-screen">
+    <main className="relative min-h-screen">
+      <BackgroundDecor />
+
       <Header />
 
       <div className={`mx-auto w-full ${maxWidthClass[maxWidth]} px-6 py-8`}>

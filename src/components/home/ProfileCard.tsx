@@ -1,9 +1,9 @@
+import { SectionTitle } from "../ui/SectionTitle";
+
 export function ProfileCard() {
   return (
     <section>
-      <h2 className="mb-6 text-xl font-bold tracking-wide text-[var(--accent-strong)]">
-        # Profile
-      </h2>
+      <SectionTitle>Profile</SectionTitle>
 
       <div className="flex flex-col items-center text-center">
         <img
@@ -17,13 +17,7 @@ export function ProfileCard() {
         </h3>
 
         <p className="mt-4 text-sm leading-7 text-[var(--text)]">
-          こんにちは、uvu1です。
-          <br />
-          このブログでは、日々の学びや
-          <br />
-          考えたこと、作ったものを
-          <br />
-          ゆるく発信しています。
+          💕Rust and Vim⋆。˚✩
         </p>
       </div>
     </section>
