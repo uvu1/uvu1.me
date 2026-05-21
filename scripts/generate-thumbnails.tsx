@@ -12,39 +12,38 @@ import {
   THUMBNAILS_DIR,
 } from './lib/article-paths'
 import type { GeneratedArticle } from './lib/article-types'
-import {
-  calculateReadingTime,
-  isArticleFile,
-  normalizeTags,
-  slugFromFileName,
-} from './lib/article-utils'
+import { calculateReadingTime, normalizeTags } from './lib/article-utils'
 import { renderArticleThumbnail } from './lib/article-thumbnail'
 import { ensureCleanDir, toDataUrl } from './lib/file-utils'
 import { writeGeneratedArticles } from './lib/generated-articles'
 import { markdownToHtml } from './lib/markdown'
 import { formatDate } from '../src/lib/date'
+import { getArticleFiles } from './lib/article-files'
+import { processArticleImages } from './lib/article-images'
+
+const ARTICLE_ASSETS_DIR = path.join(ROOT, 'public/article-assets')
 
 async function main() {
   const backgroundDataUrl = await toDataUrl(BACKGROUND_PATH, 'image/png')
   const regularFont = await fs.readFile(FONT_REGULAR_PATH)
   const boldFont = await fs.readFile(FONT_BOLD_PATH)
 
-  const fileNames = await fs.readdir(CONTENT_DIR)
-  const articleFiles = fileNames.filter(isArticleFile)
+  const articleFiles = await getArticleFiles(CONTENT_DIR)
   const articles: GeneratedArticle[] = []
 
   await ensureCleanDir(THUMBNAILS_DIR)
+  await ensureCleanDir(ARTICLE_ASSETS_DIR)
 
-  for (const fileName of articleFiles) {
-    const slug = slugFromFileName(fileName)
-    const filePath = path.join(CONTENT_DIR, fileName)
-    const raw = await fs.readFile(filePath, 'utf8')
+  for (const articleFile of articleFiles) {
+    const slug = articleFile.slug
+    const raw = await fs.readFile(articleFile.filePath, 'utf8')
     const { data, content } = matter(raw)
+
     const parsed = ArticleFrontmatterSchema.safeParse(data)
 
     if (!parsed.success) {
       console.error(
-        `Invalid frontmatter in ${filePath}:`,
+        `Invalid frontmatter in ${articleFile.filePath}:`,
         parsed.error.format(),
       )
       process.exit(1)
@@ -53,22 +52,30 @@ async function main() {
     const frontmatter = parsed.data
 
     if (frontmatter.draft) {
-      console.log(`skipped (draft): ${filePath}`)
+      console.log(`skipped (draft): ${articleFile.filePath}`)
       continue
     }
 
-    const title = frontmatter.title
-    const date = formatDate(frontmatter.date)
     const tags = normalizeTags(frontmatter.tags)
-    const { html, toc } = await markdownToHtml(content)
+    const formattedDate = formatDate(frontmatter.date)
+
+    const processedContent = await processArticleImages({
+      markdown: content,
+      articleDir: articleFile.articleDir,
+      slug,
+    })
+
+    const { html, toc } = await markdownToHtml(processedContent)
+
     const webp = await renderArticleThumbnail({
-      title,
+      title: frontmatter.title,
       tags,
-      date,
+      date: formattedDate,
       backgroundDataUrl,
       regularFont,
       boldFont,
     })
+
     const outputPath = path.join(THUMBNAILS_DIR, `${slug}.webp`)
 
     await fs.writeFile(outputPath, webp)
@@ -76,16 +83,16 @@ async function main() {
 
     articles.push({
       slug,
-      title,
+      title: frontmatter.title,
       description: frontmatter.description,
       date: frontmatter.date,
       tags,
       pin: frontmatter.pin,
       thumbnail: `/article-thumbs/${slug}.webp`,
-      body: content,
+      body: processedContent,
       html,
       toc,
-      readingTime: calculateReadingTime(content),
+      readingTime: calculateReadingTime(processedContent),
     })
   }
 
