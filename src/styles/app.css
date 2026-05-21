@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans:
@@ -19,9 +20,7 @@
     monospace;
 }
 
+@import "./tokens.css";
 @import "./base.css";
 @import "./components.css";
-@import "./framework.css";
-@import "./theme.css";
-@import "./tokens.css";
 @import "./markdown/index.css";
