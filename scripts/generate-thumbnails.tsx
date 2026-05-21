@@ -84,6 +84,97 @@ function splitTitle(title: string, maxCharsPerLine = 18) {
   return lines.slice(0, 3);
 }
 
+function rehypeCodeBlockMeta() {
+  return (tree: any) => {
+    visit(tree, "element", (node: any) => {
+      if (
+        node.tagName !== "figure" ||
+        !node.properties ||
+        !("data-rehype-pretty-code-figure" in node.properties)
+      ) {
+        return;
+      }
+
+      const pre = node.children?.find((child: any) => child.tagName === "pre");
+      const code = pre?.children?.find((child: any) => child.tagName === "code");
+
+      if (!pre || !code) return;
+
+      const rawCode = extractCodeText(code).replace(/\n$/, "");
+      const lineCount = rawCode.length === 0 ? 1 : rawCode.split("\n").length;
+      const maxDigits = String(lineCount).length;
+
+      const language =
+        code.properties?.["data-language"] ||
+        code.properties?.dataLanguage ||
+        "text";
+
+      code.properties = {
+        ...(code.properties ?? {}),
+        "data-line-numbers": "",
+        "data-line-numbers-max-digits": String(maxDigits),
+      };
+
+      node.properties.className = [
+        ...(node.properties.className ?? []),
+        "code-block",
+      ];
+
+      node.children = node.children.filter(
+        (child: any) =>
+          !(
+            child.tagName === "figcaption" &&
+            child.properties &&
+            "data-rehype-pretty-code-title" in child.properties
+          ),
+      );
+
+      node.children.unshift({
+        type: "element",
+        tagName: "div",
+        properties: {
+          className: ["code-block-header"],
+        },
+        children: [
+          {
+            type: "element",
+            tagName: "span",
+            properties: {
+              className: ["code-block-language"],
+            },
+            children: [{ type: "text", value: String(language) }],
+          },
+          {
+            type: "element",
+            tagName: "button",
+            properties: {
+              type: "button",
+              className: ["code-copy-button"],
+              "data-code": rawCode,
+              "aria-label": "コードをコピー",
+            },
+            children: [{ type: "text", value: "Copy" }],
+          },
+        ],
+      });
+    });
+  };
+}
+
+function extractCodeText(node: any): string {
+  if (!node) return "";
+
+  if (node.type === "text") {
+    return node.value ?? "";
+  }
+
+  if (Array.isArray(node.children)) {
+    return node.children.map(extractCodeText).join("");
+  }
+
+  return "";
+}
+
 function extractText(node: any): string {
   if (!node) return "";
 
@@ -129,6 +220,7 @@ async function markdownToHtml(markdown: string) {
       keepBackground: false,
     })
     .use(rehypeStringify)
+    .use(rehypeCodeBlockMeta)
     .process(markdown);
 
   return {

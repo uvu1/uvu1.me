@@ -5,6 +5,7 @@ import { ArticleNavigation } from "../../components/article/ArticleNavigation";
 import { ArticleToc } from "../../components/article/ArticleToc";
 import { TagPill } from "../../components/ui/TagPill";
 import { getAdjacentArticles, getArticleBySlug } from "../../lib/articles";
+import { CodeCopyController } from "../../components/article/CodeCopyController";
 
 export const Route = createFileRoute("/articles/$slug")({
   head: ({ params }) => {
@@ -86,6 +87,7 @@ function ArticlePage() {
             </div>
           </header>
 
+          <CodeCopyController />
           <ArticleBody html={article.html} />
 
           <ArticleNavigation

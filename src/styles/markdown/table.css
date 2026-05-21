@@ -1,0 +1,22 @@
+.article-body table {
+  margin-top: 1.75rem;
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  font-size: 0.92rem;
+}
+
+.article-body th {
+  border: 1px solid rgba(127, 183, 232, 0.34);
+  background: rgba(230, 242, 255, 0.72);
+  padding: 0.75rem 0.9rem;
+  color: var(--accent-strong);
+  font-weight: 700;
+  text-align: left;
+}
+
+.article-body td {
+  border: 1px solid rgba(127, 183, 232, 0.24);
+  background: rgba(255, 255, 255, 0.54);
+  padding: 0.75rem 0.9rem;
+}

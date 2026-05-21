@@ -1,0 +1,127 @@
+.article-body code:not(pre code) {
+  border: 1px solid rgba(127, 183, 232, 0.28);
+  background: rgba(230, 242, 255, 0.75);
+  color: var(--accent-strong);
+  padding: 0.12rem 0.42rem;
+  font-size: 0.875em;
+}
+
+/* ここからコードブロック */
+.article-body figure[data-rehype-pretty-code-figure] {
+  position: relative;
+  margin-top: 1.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(127, 183, 232, 0.28);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 14px 40px rgba(127, 183, 232, 0.12);
+}
+
+.article-body figure[data-rehype-pretty-code-figure] {
+  position: relative;
+  margin-top: 1.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(127, 183, 232, 0.28);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 14px 40px rgba(127, 183, 232, 0.12);
+}
+
+.article-body .code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(127, 183, 232, 0.22);
+  background: rgba(230, 242, 255, 0.58);
+  padding: 0.65rem 0.75rem 0.65rem 1rem;
+}
+
+.article-body .code-block-language {
+  color: var(--accent-strong);
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.article-body .code-copy-button {
+  border: 1px solid rgba(127, 183, 232, 0.36);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.28rem 0.58rem;
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.article-body .code-copy-button:hover {
+  border-color: rgba(127, 183, 232, 0.8);
+  background: rgba(255, 255, 255, 0.92);
+  transform: translateY(-1px);
+}
+
+.article-body pre {
+  overflow-x: auto;
+  background: transparent;
+  padding: 1.15rem 0;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  box-shadow: none;
+}
+
+.article-body pre code {
+  display: grid;
+  min-width: max-content;
+  background: transparent;
+  padding: 0;
+}
+
+.article-body [data-line] {
+  padding-inline: 1rem;
+}
+
+.article-body code[data-line-numbers] {
+  counter-reset: line;
+}
+
+.article-body code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: calc(var(--line-number-digits, 2) * 0.65rem);
+  margin-right: 1.2rem;
+  color: rgba(122, 138, 153, 0.72);
+  text-align: right;
+  user-select: none;
+}
+
+.article-body code[data-line-numbers][data-line-numbers-max-digits="1"] {
+  --line-number-digits: 1;
+}
+
+.article-body code[data-line-numbers][data-line-numbers-max-digits="2"] {
+  --line-number-digits: 2;
+}
+
+.article-body code[data-line-numbers][data-line-numbers-max-digits="3"] {
+  --line-number-digits: 3;
+}
+
+.article-body code[data-line-numbers][data-line-numbers-max-digits="4"] {
+  --line-number-digits: 4;
+}
+
+.article-body [data-highlighted-line] {
+  background: rgba(217, 236, 255, 0.78);
+}
+
+.article-body [data-highlighted-chars] {
+  background: rgba(252, 236, 244, 0.86);
+  padding: 0.1rem 0.2rem;
+}

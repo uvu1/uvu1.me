@@ -1,0 +1,59 @@
+.article-body p {
+  margin-top: 1.4rem;
+  color: var(--text);
+  line-height: 2;
+}
+
+.article-body a {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-decoration-color: rgba(127, 183, 232, 0.55);
+  text-underline-offset: 0.25rem;
+  transition: opacity 0.2s ease;
+}
+
+.article-body a:hover {
+  opacity: 0.72;
+}
+
+.article-body ul,
+.article-body ol {
+  margin-top: 1.4rem;
+  padding-left: 1.4rem;
+  line-height: 2;
+}
+
+.article-body ul {
+  list-style: disc;
+}
+
+.article-body ol {
+  list-style: decimal;
+}
+
+.article-body li {
+  padding-left: 0.25rem;
+}
+
+.article-body li::marker {
+  color: var(--accent-strong);
+}
+
+.article-body blockquote {
+  position: relative;
+  margin-top: 1.75rem;
+  border-left: 4px solid var(--accent-strong);
+  background: rgba(230, 242, 255, 0.52);
+  padding: 1rem 1.25rem 1rem 1.5rem;
+  color: var(--text);
+}
+
+.article-body blockquote p {
+  margin-top: 0;
+}
+
+.article-body hr {
+  margin-block: 3rem;
+  border: 0;
+  border-top: 1px solid rgba(127, 183, 232, 0.28);
+}

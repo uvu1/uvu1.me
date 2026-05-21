@@ -1,0 +1,18 @@
+.article-body img {
+  margin-top: 1.75rem;
+  width: 100%;
+  border: 1px solid rgba(127, 183, 232, 0.28);
+  object-fit: cover;
+  box-shadow: 0 14px 40px rgba(127, 183, 232, 0.12);
+}
+
+.article-body figure {
+  margin-top: 1.75rem;
+}
+
+.article-body figcaption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--muted);
+}

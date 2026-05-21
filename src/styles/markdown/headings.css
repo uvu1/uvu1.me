@@ -1,0 +1,112 @@
+.article-body {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 2;
+}
+
+.article-body h1,
+.article-body h2,
+.article-body h3 {
+  scroll-margin-top: 6rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.article-body h1:hover,
+.article-body h2:hover,
+.article-body h3:hover {
+  color: var(--accent-strong);
+}
+
+.article-body h1::before,
+.article-body h2::before,
+.article-body h3::before {
+  flex-shrink: 0;
+  background: linear-gradient(
+    90deg,
+    var(--title-gradient-from, #7fb7e8),
+    var(--title-gradient-via, #a7bdf4),
+    var(--title-gradient-to, #f2b8d8)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.article-body h1::after,
+.article-body h2::after,
+.article-body h3::after {
+  content: "🔗";
+  margin-left: 0.35rem;
+  color: var(--accent-strong);
+  font-size: 0.75em;
+  opacity: 0;
+  transform: translateY(-0.05em);
+  transition: opacity 0.2s ease;
+}
+
+.article-body h1:hover::after,
+.article-body h2:hover::after,
+.article-body h3:hover::after {
+  opacity: 0.75;
+}
+
+.article-body h1[data-copied="true"]::after,
+.article-body h2[data-copied="true"]::after,
+.article-body h3[data-copied="true"]::after {
+  content: "copied";
+  opacity: 1;
+  font-size: 0.65em;
+  color: var(--accent-strong);
+}
+
+.article-body h1 {
+  margin-top: 3.5rem;
+  font-size: 2rem;
+  line-height: 1.35;
+}
+
+.article-body h1:first-child {
+  margin-top: 0;
+}
+
+.article-body h1::before {
+  content: "#";
+  font-size: 2.15rem;
+}
+
+.article-body h2 {
+  margin-top: 3rem;
+  font-size: 1.5rem;
+  line-height: 1.45;
+}
+
+.article-body h2::before {
+  content: "##";
+  font-size: 1.45rem;
+}
+
+.article-body h3 {
+  margin-top: 2.25rem;
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+
+.article-body h3::before {
+  content: "###";
+  font-size: 1.05rem;
+}
