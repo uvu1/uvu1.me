@@ -1,143 +1,19 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
-import { FaXTwitter } from "react-icons/fa6";
 import { FiLink } from "react-icons/fi";
-import { SiHatenabookmark, SiMisskey } from "react-icons/si";
-import { getClientId } from "../../lib/client-id";
+import { ArticleShareButtons } from "./ArticleShareButtons";
+import { useArticleActionsContext } from "./useArticleActions";
 
-type ArticleActionRailProps = {
-  slug: string;
-  title: string;
-};
-
-type LikeState = {
-  slug: string;
-  count: number;
-  liked: boolean;
-};
-
-const MISSKEY_INSTANCE = "misskey.io";
-
-export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
-  const [url, setUrl] = useState("");
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [likeLoading, setLikeLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    setUrl(window.location.href);
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadLikeState() {
-      try {
-        setLikeLoading(true);
-
-        const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
-          headers: {
-            "x-uvu-client-id": getClientId(),
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to load likes");
-        }
-
-        const data = (await response.json()) as LikeState;
-
-        if (cancelled) return;
-
-        setLiked(data.liked);
-        setLikeCount(data.count);
-      } catch {
-        if (cancelled) return;
-
-        setLiked(false);
-        setLikeCount(0);
-      } finally {
-        if (!cancelled) {
-          setLikeLoading(false);
-        }
-      }
-    }
-
-    loadLikeState();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [slug]);
-
-  const shareLinks = useMemo(() => {
-    const encodedUrl = encodeURIComponent(url);
-    const encodedTitle = encodeURIComponent(title);
-    const encodedText = encodeURIComponent(`${title}\n${url}`);
-
-    return {
-      twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-      misskey: `https://${MISSKEY_INSTANCE}/share?text=${encodedText}`,
-      hatena: `https://b.hatena.ne.jp/entry/panel/?url=${encodedUrl}&title=${encodedTitle}`,
-    };
-  }, [title, url]);
-
-  async function toggleLike() {
-    if (likeLoading) return;
-
-    const nextLiked = !liked;
-    const previousLiked = liked;
-    const previousCount = likeCount;
-
-    setLiked(nextLiked);
-    setLikeCount((current) => Math.max(0, current + (nextLiked ? 1 : -1)));
-    setLikeLoading(true);
-
-    try {
-      const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          "x-uvu-client-id": getClientId(),
-        },
-        body: JSON.stringify({
-          liked: nextLiked,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update like");
-      }
-
-      const data = (await response.json()) as LikeState;
-
-      setLiked(data.liked);
-      setLikeCount(data.count);
-    } catch {
-      setLiked(previousLiked);
-      setLikeCount(previousCount);
-    } finally {
-      setLikeLoading(false);
-    }
-  }
-
-  async function copyUrl() {
-    if (!url) return;
-
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-
-      window.setTimeout(() => {
-        setCopied(false);
-      }, 1200);
-    } catch {
-      setCopied(false);
-    }
-  }
+export function ArticleActionRail() {
+  const {
+    shareLinks,
+    liked,
+    likeCount,
+    likeLoading,
+    copied,
+    toggleLike,
+    copyUrl,
+  } = useArticleActionsContext();
 
   return (
     <aside className="fixed left-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] top-49 z-40 hidden h-fit flex-col items-center gap-3 xl:flex">
@@ -163,17 +39,7 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
 
       <Divider />
 
-      <ShareLink href={shareLinks.twitter} label="Xで共有">
-        <FaXTwitter className="size-4" />
-      </ShareLink>
-
-      <ShareLink href={shareLinks.misskey} label="Misskeyで共有">
-        <SiMisskey className="size-4" />
-      </ShareLink>
-
-      <ShareLink href={shareLinks.hatena} label="はてなブックマークで共有">
-        <SiHatenabookmark className="size-4" />
-      </ShareLink>
+      <ArticleShareButtons links={shareLinks} variant="rail" />
 
       <button
         type="button"
@@ -188,28 +54,6 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
         )}
       </button>
     </aside>
-  );
-}
-
-function ShareLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      target="_blank"
-      rel="noreferrer"
-      className="grid size-11 place-items-center rounded-full border border-[var(--accent-strong)]/30 bg-[var(--card-bg)]/55 text-xs font-bold text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
-    >
-      {children}
-    </a>
   );
 }
 
