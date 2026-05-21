@@ -3,6 +3,12 @@ import { promises as fs } from "node:fs";
 import matter from "gray-matter";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import rehypePrettyCode from "rehype-pretty-code";
 
 const ROOT = process.cwd();
 
@@ -37,6 +43,7 @@ type GeneratedArticle = {
   pin: boolean;
   thumbnail: string;
   body: string;
+  html: string;
 };
 
 const articles: GeneratedArticle[] = [];
@@ -67,6 +74,21 @@ function splitTitle(title: string, maxCharsPerLine = 18) {
   return lines.slice(0, 3);
 }
 
+async function markdownToHtml(markdown: string) {
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype)
+    .use(rehypePrettyCode, {
+      theme: "github-light",
+      keepBackground: false,
+    })
+    .use(rehypeStringify)
+    .process(markdown);
+
+  return String(file);
+}
+
 async function toDataUrl(filePath: string, mimeType: string) {
   const buffer = await fs.readFile(filePath);
   return `data:${mimeType};base64,${buffer.toString("base64")}`;
@@ -92,6 +114,7 @@ async function main() {
     const filePath = path.join(CONTENT_DIR, fileName);
     const raw = await fs.readFile(filePath, "utf8");
     const { data, content } = matter(raw);
+    const html = await markdownToHtml(content);
     const fm = data as Frontmatter;
 
     if (fm.draft) continue;
@@ -274,6 +297,7 @@ async function main() {
       pin: fm.pin ?? false,
       thumbnail: `/article-thumbs/${slug}.png`,
       body: content,
+      html,
     })
   }
   articles.sort((a, b) => b.date.localeCompare(a.date));
@@ -291,6 +315,7 @@ async function main() {
     pin: boolean;
     thumbnail: string;
     body: string;
+    html: string;
   };
 
   export const articles: Article[] = ${JSON.stringify(articles, null, 2)} as const;

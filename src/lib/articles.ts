@@ -22,6 +22,22 @@ export function getArticlesByTag(tag: string) {
   return articles.filter((article) => article.tags.includes(tag));
 }
 
+export function getAdjacentArticles(slug: string) {
+  const index = articles.findIndex((article) => article.slug === slug);
+
+  if (index === -1) {
+    return {
+      newerArticle: undefined,
+      olderArticle: undefined,
+    };
+  }
+
+  return {
+    newerArticle: articles[index - 1],
+    olderArticle: articles[index + 1],
+  };
+}
+
 export function getAllTags() {
   const tagCounts = new Map<string, number>();
 

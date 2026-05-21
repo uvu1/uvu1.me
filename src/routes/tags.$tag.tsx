@@ -1,96 +1,82 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Header } from "../components/layout/Header";
-import { Footer } from "../components/layout/Footer";
-import { ArticleThumb } from "../components/ui/ArticleThumb";
-import { getArticlesByTag } from "../lib/articles";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { PageLayout } from "../components/layout/PageLayout";
+import { ArticleListItem } from "../components/article/ArticleListItem";
+import { getAllTags, getArticlesByTag } from "../lib/articles";
 
 export const Route = createFileRoute("/tags/$tag")({
+  head: ({ params }) => {
+    const tag = decodeURIComponent(params.tag);
+
+    return {
+      meta: [
+        { title: `#${tag} | uvu1.me` },
+        {
+          name: "description",
+          content: `#${tag} の記事一覧です。`,
+        },
+        { property: "og:title", content: `#${tag} | uvu1.me` },
+        {
+          property: "og:description",
+          content: `#${tag} の記事一覧です。`,
+        },
+        { property: "og:type", content: "website" },
+      ],
+    };
+  },
   component: TagPage,
 });
-
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
 
 function TagPage() {
   const { tag } = Route.useParams();
   const decodedTag = decodeURIComponent(tag);
+
   const articles = getArticlesByTag(decodedTag);
+  const allTags = getAllTags();
+
+  const exists = allTags.some((tag) => tag.name === decodedTag);
+
+  if (!exists) {
+    throw notFound();
+  }
 
   return (
-    <main className="min-h-screen">
-      <Header />
+    <PageLayout maxWidth="md">
+      <div className="mb-8">
+        <Link
+          to="/"
+          className="text-sm font-medium text-[var(--accent-strong)] transition hover:opacity-70"
+        >
+          ← Home
+        </Link>
 
-      <div className="mx-auto max-w-5xl px-6 py-10">
-        <div className="mb-8">
-          <Link
-            to="/"
-            className="text-sm font-medium text-[var(--accent-strong)] transition hover:opacity-70"
-          >
-            ← Home
-          </Link>
+        <div className="mt-8">
+          <p className="text-sm font-medium text-[var(--muted)]">
+            Tag Archive
+          </p>
 
-          <h1 className="mt-6 text-3xl font-semibold tracking-tight text-[var(--text)]">
-            # {decodedTag}
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[var(--text)]">
+            #{decodedTag}
           </h1>
 
           <p className="mt-3 text-sm text-[var(--muted)]">
             {articles.length} articles
           </p>
         </div>
+      </div>
 
-        <div className="space-y-4">
+      {articles.length === 0 ? (
+        <div className="border-t border-[var(--border)] py-12">
+          <p className="text-sm text-[var(--muted)]">
+            このタグの記事はまだありません。
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3 border-t border-[var(--border)] pt-6">
           {articles.map((article) => (
-            <Link
-              key={article.slug}
-              to="/articles/$slug"
-              params={{ slug: article.slug }}
-              className="group flex items-center gap-5 bg-transparent px-5 py-4 transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[var(--blue-50)]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/45"
-            >
-              <ArticleThumb
-                src={article.thumbnail}
-                title={article.title}
-                className="h-24 w-40 shrink-0"
-              />
-
-              <div className="min-w-0 flex-1">
-                <time className="text-xs text-[var(--muted)]">
-                  {formatDate(article.date)}
-                </time>
-
-                <h2 className="mt-1 text-lg font-semibold text-[var(--text)] transition group-hover:text-[var(--accent-strong)]">
-                  {article.title}
-                </h2>
-
-                {article.description && (
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-[var(--muted)]">
-                    {article.description}
-                  </p>
-                )}
-
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {article.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="border border-[var(--border)] bg-white/70 px-3 py-1 text-xs text-[var(--accent-strong)]"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="shrink-0 text-sm font-semibold text-[var(--text)] transition group-hover:translate-x-1 group-hover:text-[var(--accent-strong)]">
-                読む →
-              </div>
-            </Link>
+            <ArticleListItem key={article.slug} article={article} />
           ))}
         </div>
-      </div>
-
-      <div className="mx-auto max-w-7xl px-6 pb-10">
-        <Footer />
-      </div>
-    </main>
+      )}
+    </PageLayout>
   );
 }

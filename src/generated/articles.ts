@@ -9,6 +9,8 @@
     tags: string[];
     pin: boolean;
     thumbnail: string;
+    body: string;
+    html: string;
   };
 
   export const articles: Article[] = [
@@ -21,7 +23,9 @@
       "test"
     ],
     "pin": true,
-    "thumbnail": "/article-thumbs/test-pin.png"
+    "thumbnail": "/article-thumbs/test-pin.png",
+    "body": "# はじめに\n\nこれは本文のテストです。淡い背景に対して、読みやすい余白と行間になっているかを確認します。\n\n## 見出しのテスト\n\nMarkdownの見出し、リスト、コード、引用がちゃんと見えるか確認します。\n\n- リスト項目1\n- リスト項目2\n- リスト項目3\n\n`inline code` はこんな感じで表示されます。\n\n```ts\nconst site = \"uvu1.me\";\nconsole.log(site);\n```\n",
+    "html": "<h1>はじめに</h1>\n<p>これは本文のテストです。淡い背景に対して、読みやすい余白と行間になっているかを確認します。</p>\n<h2>見出しのテスト</h2>\n<p>Markdownの見出し、リスト、コード、引用がちゃんと見えるか確認します。</p>\n<ul>\n<li>リスト項目1</li>\n<li>リスト項目2</li>\n<li>リスト項目3</li>\n</ul>\n<p><code>inline code</code> はこんな感じで表示されます。</p>\n<figure data-rehype-pretty-code-figure=\"\"><pre tabindex=\"0\" data-language=\"ts\" data-theme=\"github-light\"><code data-language=\"ts\" data-theme=\"github-light\" style=\"display: grid;\"><span data-line=\"\"><span style=\"color:#D73A49\">const</span><span style=\"color:#005CC5\"> site</span><span style=\"color:#D73A49\"> =</span><span style=\"color:#032F62\"> \"uvu1.me\"</span><span style=\"color:#24292E\">;</span></span>\n<span data-line=\"\"><span style=\"color:#24292E\">console.</span><span style=\"color:#6F42C1\">log</span><span style=\"color:#24292E\">(site);</span></span></code></pre></figure>"
   },
   {
     "slug": "test",
@@ -32,7 +36,9 @@
       "test"
     ],
     "pin": false,
-    "thumbnail": "/article-thumbs/test.png"
+    "thumbnail": "/article-thumbs/test.png",
+    "body": "# Test unpinned\n\n\n",
+    "html": "<h1>Test unpinned</h1>"
   }
 ] as const;
   
