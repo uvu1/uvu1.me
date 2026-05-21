@@ -1,6 +1,6 @@
 "use client";
 
-import { FiLink } from "react-icons/fi";
+import { FiHeart, FiLink } from "react-icons/fi";
 import { ArticleShareButtons } from "./ArticleShareButtons";
 import { useArticleActionsContext } from "./useArticleActions";
 
@@ -30,7 +30,7 @@ export function ArticleActionRail() {
             : "border-[var(--accent-strong)]/30 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] hover:border-[#F2B8D8]/70 hover:bg-[#FCECF4]/70 hover:text-[#D978A6]",
         ].join(" ")}
       >
-        <HeartIcon filled={liked} />
+        <FiHeart className={liked ? "size-5 fill-current" : "size-5"} />
       </button>
 
       <span className="text-xs font-semibold text-[var(--muted)]">
@@ -59,21 +59,4 @@ export function ArticleActionRail() {
 
 function Divider() {
   return <div className="my-1 h-px w-8 bg-[var(--border)]" />;
-}
-
-function HeartIcon({ filled }: { filled: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-      className="size-5"
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M20.8 4.6c-1.8-1.8-4.8-1.8-6.6 0L12 6.8 9.8 4.6c-1.8-1.8-4.8-1.8-6.6 0s-1.8 4.8 0 6.6L12 20l8.8-8.8c1.8-1.8 1.8-4.8 0-6.6Z" />
-    </svg>
-  );
 }

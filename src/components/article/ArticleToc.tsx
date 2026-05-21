@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FiList } from "react-icons/fi";
 import type { TocItem } from "../../generated/articles";
 
 type ArticleTocProps = {
@@ -67,7 +68,9 @@ export function ArticleToc({ toc }: ArticleTocProps) {
     <aside className="sticky top-8 z-50 max-h-[calc(100vh-4rem)] overflow-y-auto border-l border-[var(--border)] pl-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-2">
-          <TocIcon />
+          <span className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--accent-strong)]/35 bg-[var(--card-bg)]/45 text-[var(--accent-strong)]">
+            <FiList className="size-4" />
+          </span>
           <p className="truncate text-sm font-bold tracking-wide text-[var(--text)]">
             Table of Contents
           </p>
@@ -123,29 +126,5 @@ export function ArticleToc({ toc }: ArticleTocProps) {
         </nav>
       </div>
     </aside>
-  );
-}
-
-function TocIcon() {
-  return (
-    <span className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--accent-strong)]/35 bg-[var(--card-bg)]/45 text-[var(--accent-strong)]">
-      <svg
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-        className="size-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M8 6h11" />
-        <path d="M8 12h11" />
-        <path d="M8 18h11" />
-        <path d="M4 6h.01" />
-        <path d="M4 12h.01" />
-        <path d="M4 18h.01" />
-      </svg>
-    </span>
   );
 }
