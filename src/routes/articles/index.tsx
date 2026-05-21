@@ -2,17 +2,31 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageLayout } from "../../components/layout/PageLayout";
 import { ArticleListItem } from "../../components/article/ArticleListItem";
 import { getArchiveArticles } from "../../lib/articles";
+import { siteConfig } from "../../config/site";
 
 export const Route = createFileRoute("/articles/")({
-  head: () => ({
-    meta: [
-      { title: "Articles | uvu1.me" },
-      {
-        name: "description",
-        content: "uvu1.me の記事一覧です。",
-      },
-    ],
-  }),
+  head: () => {
+    const title = `Articles | ${siteConfig.name}`;
+    const description = "uvu1.me の記事一覧です。";
+    const url = `${siteConfig.url}/articles`;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+        { property: "og:image", content: `${siteConfig.url}/ogp.png` },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: `${siteConfig.url}/ogp.png` },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: ArticlesPage,
 });
 

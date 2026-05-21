@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS article_likes (
+  slug TEXT PRIMARY KEY,
+  count INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS article_like_clients (
+  slug TEXT NOT NULL,
+  client_id TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (slug, client_id)
+);

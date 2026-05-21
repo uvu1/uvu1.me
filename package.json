@@ -16,7 +16,10 @@
     "deploy": "bun run build && wrangler deploy",
     "generate:thumbs": "bun run scripts/generate-thumbnails.tsx",
     "generate:projects": "bun run scripts/generate-projects.tsx",
-    "generate:contents": "bun run scripts/generate-thumbnails.tsx && bun run scripts/generate-projects.tsx"
+    "generate:sitemap": "bun run scripts/generate-sitemap.tsx",
+    "generate:robots": "bun run scripts/generate-robots.tsx",
+    "generate:rss": "bun run scripts/generate-rss.tsx",
+    "generate:contents": "bun run scripts/generate-thumbnails.tsx && bun run scripts/generate-projects.tsx && bun run scripts/generate-rss.tsx && bun run scripts/generate-sitemap.tsx && bun run scripts/generate-robots.tsx"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.26.0",

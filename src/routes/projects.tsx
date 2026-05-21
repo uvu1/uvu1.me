@@ -1,26 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { FiExternalLink, FiGithub, FiTerminal } from "react-icons/fi";
+import { FiExternalLink, } from "react-icons/fi";
 import { PageLayout } from "../components/layout/PageLayout";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { getAllProjects } from "../lib/projects";
 import type { Project, ProjectStatus } from "../lib/projects";
+import { siteConfig } from "../config/site";
 
 export const Route = createFileRoute("/projects")({
-  head: () => ({
-    meta: [
-      { title: "Projects | uvu1.me" },
-      {
-        name: "description",
-        content: "uvu1.me の制作物・実験・プロジェクト一覧です。",
-      },
-      { property: "og:title", content: "Projects | uvu1.me" },
-      {
-        property: "og:description",
-        content: "uvu1.me の制作物・実験・プロジェクト一覧です。",
-      },
-      { property: "og:type", content: "website" },
-    ],
-  }),
+  head: () => {
+    const title = `Projects | ${siteConfig.name}`;
+    const description = "uvu1.me で公開しているプロジェクトの一覧です。";
+    const url = `${siteConfig.url}/projects`;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+        { property: "og:image", content: `${siteConfig.url}/ogp.png` },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: `${siteConfig.url}/ogp.png` },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: ProjectsPage,
 });
 

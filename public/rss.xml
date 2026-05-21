@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>uvu1.me</title>
+    <link>https://uvu1.me</link>
+    <description>日々の学びや考えたこと、作ったものを雑に書きます。</description>
+    <language>ja</language>
+    <lastBuildDate>Thu, 21 May 2026 10:00:09 GMT</lastBuildDate>
+    <generator>uvu1.me generator</generator>
+    <item>
+      <title>ghqとfzfで快適にプロジェクト移動できるようにした</title>
+      <link>https://uvu1.me/articles/fzf-ghq-terminal</link>
+      <guid isPermaLink="true">https://uvu1.me/articles/fzf-ghq-terminal</guid>
+      <description></description>
+      <pubDate>Sat, 30 Nov 2024 00:00:00 GMT</pubDate>
+      <category>zsh</category>
+      <enclosure url="https://uvu1.me/article-thumbs/fzf-ghq-terminal.png" type="image/png" />
+    </item>
+    <item>
+      <title>Pagefind.jsで検索機能を実装する</title>
+      <link>https://uvu1.me/articles/implement-search-with-pagefind</link>
+      <guid isPermaLink="true">https://uvu1.me/articles/implement-search-with-pagefind</guid>
+      <description></description>
+      <pubDate>Wed, 27 Nov 2024 00:00:00 GMT</pubDate>
+      <category>astro</category>
+      <category>pagefind</category>
+      <enclosure url="https://uvu1.me/article-thumbs/implement-search-with-pagefind.png" type="image/png" />
+    </item>
+    <item>
+      <title>Astro.js + Github Actions + Cloudflare Pagesでサイトを作った</title>
+      <link>https://uvu1.me/articles/create-website-with-astro-github-actions-cloudflare-pages</link>
+      <guid isPermaLink="true">https://uvu1.me/articles/create-website-with-astro-github-actions-cloudflare-pages</guid>
+      <description></description>
+      <pubDate>Wed, 23 Oct 2024 00:00:00 GMT</pubDate>
+      <category>astro</category>
+      <category>github</category>
+      <category>cloudflare</category>
+      <enclosure url="https://uvu1.me/article-thumbs/create-website-with-astro-github-actions-cloudflare-pages.png" type="image/png" />
+    </item>
+  </channel>
+</rss>

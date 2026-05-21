@@ -1,13 +1,21 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { FaXTwitter } from "react-icons/fa6";
 import { FiLink } from "react-icons/fi";
 import { SiHatenabookmark, SiMisskey } from "react-icons/si";
+import { getClientId } from "../../lib/client-id";
 
 type ArticleActionRailProps = {
   slug: string;
   title: string;
+};
+
+type LikeState = {
+  slug: string;
+  count: number;
+  liked: boolean;
 };
 
 const MISSKEY_INSTANCE = "misskey.io";
@@ -16,20 +24,54 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
   const [url, setUrl] = useState("");
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+  const [likeLoading, setLikeLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-
-  const likeKey = `uvu1-like:${slug}`;
-  const likeCountKey = `uvu1-like-count:${slug}`;
 
   useEffect(() => {
     setUrl(window.location.href);
+  }, []);
 
-    const storedLiked = window.localStorage.getItem(likeKey) === "true";
-    const storedCount = Number(window.localStorage.getItem(likeCountKey) ?? "0");
+  useEffect(() => {
+    let cancelled = false;
 
-    setLiked(storedLiked);
-    setLikeCount(Number.isNaN(storedCount) ? 0 : storedCount);
-  }, [likeKey, likeCountKey]);
+    async function loadLikeState() {
+      try {
+        setLikeLoading(true);
+
+        const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
+          headers: {
+            "x-uvu-client-id": getClientId(),
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load likes");
+        }
+
+        const data = (await response.json()) as LikeState;
+
+        if (cancelled) return;
+
+        setLiked(data.liked);
+        setLikeCount(data.count);
+      } catch {
+        if (cancelled) return;
+
+        setLiked(false);
+        setLikeCount(0);
+      } finally {
+        if (!cancelled) {
+          setLikeLoading(false);
+        }
+      }
+    }
+
+    loadLikeState();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
 
   const shareLinks = useMemo(() => {
     const encodedUrl = encodeURIComponent(url);
@@ -43,15 +85,43 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
     };
   }, [title, url]);
 
-  function toggleLike() {
+  async function toggleLike() {
+    if (likeLoading) return;
+
     const nextLiked = !liked;
-    const nextCount = Math.max(0, likeCount + (nextLiked ? 1 : -1));
+    const previousLiked = liked;
+    const previousCount = likeCount;
 
     setLiked(nextLiked);
-    setLikeCount(nextCount);
+    setLikeCount((current) => Math.max(0, current + (nextLiked ? 1 : -1)));
+    setLikeLoading(true);
 
-    window.localStorage.setItem(likeKey, String(nextLiked));
-    window.localStorage.setItem(likeCountKey, String(nextCount));
+    try {
+      const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "x-uvu-client-id": getClientId(),
+        },
+        body: JSON.stringify({
+          liked: nextLiked,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update like");
+      }
+
+      const data = (await response.json()) as LikeState;
+
+      setLiked(data.liked);
+      setLikeCount(data.count);
+    } catch {
+      setLiked(previousLiked);
+      setLikeCount(previousCount);
+    } finally {
+      setLikeLoading(false);
+    }
   }
 
   async function copyUrl() {
@@ -70,14 +140,15 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
   }
 
   return (
-    <aside className="fixed left-[max(1rem,calc((100vw-88rem)/2+4rem))] top-48 z-40 hidden h-fit flex-col items-center gap-3 lg:flex">
+    <aside className="fixed left-[max(4rem,calc((100vw-96rem)/2+5.75rem))] top-[10.25rem] z-40 hidden h-fit flex-col items-center gap-3 lg:flex">
       <button
         type="button"
         onClick={toggleLike}
+        disabled={likeLoading}
         aria-pressed={liked}
         aria-label="この記事にいいねする"
         className={[
-          "grid size-11 place-items-center rounded-full border transition duration-200",
+          "grid size-11 place-items-center rounded-full border transition duration-200 disabled:cursor-wait disabled:opacity-70",
           liked
             ? "border-[#F2B8D8]/70 bg-[#FCECF4]/80 text-[#D978A6]"
             : "border-[var(--accent-strong)]/30 bg-white/55 text-[var(--accent-strong)] hover:border-[#F2B8D8]/70 hover:bg-[#FCECF4]/70 hover:text-[#D978A6]",
@@ -87,21 +158,21 @@ export function ArticleActionRail({ slug, title }: ArticleActionRailProps) {
       </button>
 
       <span className="text-xs font-semibold text-[var(--muted)]">
-        {likeCount}
+        {likeLoading ? "…" : likeCount}
       </span>
 
       <Divider />
 
       <ShareLink href={shareLinks.twitter} label="Xで共有">
-        <FaXTwitter className="size-4" />
+        X
       </ShareLink>
 
       <ShareLink href={shareLinks.misskey} label="Misskeyで共有">
-        <SiMisskey className="size-4" />
+        Mk
       </ShareLink>
 
       <ShareLink href={shareLinks.hatena} label="はてなブックマークで共有">
-        <SiHatenabookmark className="size-4" />
+        B!
       </ShareLink>
 
       <button
@@ -127,7 +198,7 @@ function ShareLink({
 }: {
   href: string;
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <a
@@ -135,7 +206,7 @@ function ShareLink({
       aria-label={label}
       target="_blank"
       rel="noreferrer"
-      className="grid size-11 place-items-center rounded-full border border-[var(--accent-strong)]/30 bg-white/55 text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
+      className="grid size-11 place-items-center rounded-full border border-[var(--accent-strong)]/30 bg-white/55 text-xs font-bold text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
     >
       {children}
     </a>

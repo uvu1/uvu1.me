@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArticlesIndexRouteImport } from './routes/articles/index'
 import { Route as TagsTagRouteImport } from './routes/tags.$tag'
 import { Route as ArticlesSlugRouteImport } from './routes/articles/$slug'
+import { Route as ApiLikesSlugRouteImport } from './routes/api/likes/$slug'
 
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
@@ -46,6 +47,11 @@ const ArticlesSlugRoute = ArticlesSlugRouteImport.update({
   path: '/articles/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiLikesSlugRoute = ApiLikesSlugRouteImport.update({
+  id: '/api/likes/$slug',
+  path: '/api/likes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -54,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/tags/$tag': typeof TagsTagRoute
   '/articles/': typeof ArticlesIndexRoute
+  '/api/likes/$slug': typeof ApiLikesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/tags/$tag': typeof TagsTagRoute
   '/articles': typeof ArticlesIndexRoute
+  '/api/likes/$slug': typeof ApiLikesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/articles/$slug': typeof ArticlesSlugRoute
   '/tags/$tag': typeof TagsTagRoute
   '/articles/': typeof ArticlesIndexRoute
+  '/api/likes/$slug': typeof ApiLikesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/tags/$tag'
     | '/articles/'
+    | '/api/likes/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/tags/$tag'
     | '/articles'
+    | '/api/likes/$slug'
   id:
     | '__root__'
     | '/'
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/articles/$slug'
     | '/tags/$tag'
     | '/articles/'
+    | '/api/likes/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   ArticlesSlugRoute: typeof ArticlesSlugRoute
   TagsTagRoute: typeof TagsTagRoute
   ArticlesIndexRoute: typeof ArticlesIndexRoute
+  ApiLikesSlugRoute: typeof ApiLikesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -152,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticlesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/likes/$slug': {
+      id: '/api/likes/$slug'
+      path: '/api/likes/$slug'
+      fullPath: '/api/likes/$slug'
+      preLoaderRoute: typeof ApiLikesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   ArticlesSlugRoute: ArticlesSlugRoute,
   TagsTagRoute: TagsTagRoute,
   ArticlesIndexRoute: ArticlesIndexRoute,
+  ApiLikesSlugRoute: ApiLikesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

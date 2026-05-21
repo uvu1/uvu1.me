@@ -8,6 +8,7 @@ import { getAdjacentArticles, getArticleBySlug } from "../../lib/articles";
 import { CodeCopyController } from "../../components/article/CodeCopyController";
 import { ArticleMetaCards } from "../../components/article/ArticleMetaCards";
 import { ArticleActionRail } from "../../components/article/ArticleActionRail";
+import { siteConfig } from "../../config/site";
 
 export const Route = createFileRoute("/articles/$slug")({
   head: ({ params }) => {
@@ -19,21 +20,34 @@ export const Route = createFileRoute("/articles/$slug")({
       };
     }
 
-    const title = `${article.title} | uvu1.me`;
-    const description = article.description || `${article.title}の記事です。`;
+    const url = `${siteConfig.url}/articles/${article.slug}`;
+    const title = `${article.title} | ${siteConfig.name}`;
+    const description =
+      article.description || `${article.title}の記事です。`;
+    const image = new URL(article.thumbnail, siteConfig.url).toString();
 
     return {
       meta: [
         { title },
         { name: "description", content: description },
+
+        { property: "og:site_name", content: siteConfig.name },
         { property: "og:type", content: "article" },
         { property: "og:title", content: title },
         { property: "og:description", content: description },
-        { property: "og:image", content: article.thumbnail },
+        { property: "og:url", content: url },
+        { property: "og:image", content: image },
+
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: title },
         { name: "twitter:description", content: description },
-        { name: "twitter:image", content: article.thumbnail },
+        { name: "twitter:image", content: image },
+      ],
+      links: [
+        {
+          rel: "canonical",
+          href: url,
+        },
       ],
     };
   },

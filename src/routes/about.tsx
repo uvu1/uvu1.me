@@ -1,29 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
-import { FiCode, FiHeart, FiMapPin, FiStar, FiTool } from "react-icons/fi";
+import { FiCode, FiHeart, FiMapPin, FiTool } from "react-icons/fi";
 import { SiMisskey } from "react-icons/si";
 import { PageLayout } from "../components/layout/PageLayout";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { TagPill } from "../components/ui/TagPill";
+import { siteConfig } from "../config/site";
 
-const description = "?Sw()m%kLc$VfD!! のプロフィール・リンクページです。" 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About | uvu1.me" },
-      {
-        name: "description",
-        content: description,
-      },
-      { property: "og:title", content: "About | uvu1.me" },
-      {
-        property: "og:description",
-        content: description,
-      },
-      { property: "og:type", content: "website" },
-    ],
-  }),
+  head: () => {
+    const title = `About | ${siteConfig.name}`;
+    const description = "uvu1.meのプロフィールです。";
+    const url = `${siteConfig.url}/about`;
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: url },
+        { property: "og:image", content: `${siteConfig.url}/ogp.png` },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: `${siteConfig.url}/ogp.png` },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: AboutPage,
 });
 
@@ -125,23 +132,6 @@ function AboutPage() {
             <Timeline />
           </section>
 
-          <section className="mt-12 rounded-[1.5rem] border border-[var(--accent-strong)]/20 bg-white/55 p-6">
-            <div className="flex items-center gap-3">
-              <span className="grid size-10 place-items-center rounded-full bg-[var(--blue-50)] text-[var(--accent-strong)]">
-                <FiStar className="size-5" />
-              </span>
-
-              <div>
-                <h2 className="text-lg font-bold text-[var(--text)]">
-                  このサイトについて
-                </h2>
-                <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
-                  日々の学びやメモ、作ったものを残すための個人サイトです。
-                  淡くて読みやすく、少しだけきらきらした場所を目指しています。
-                </p>
-              </div>
-            </div>
-          </section>
         </main>
       </div>
     </PageLayout>
