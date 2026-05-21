@@ -1,18 +1,42 @@
 "use client";
 
 import { Link, useRouter } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
 import { getArchiveArticles } from "../../lib/articles";
 import type { Article } from "../../lib/articles";
 import { formatDate } from "../../lib/date";
+import {
+  escapeRegExp,
+  normalizeText,
+  parseQuery,
+  searchArticles,
+} from "../../lib/search";
 import { TagPill } from "../ui/TagPill";
-import { escapeRegExp, searchArticles, normalizeText, parseQuery, } from "../../lib/search";
 
 type SearchDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
+
+const FOCUSABLE_SELECTOR = [
+  "a[href]",
+  "button:not([disabled])",
+  "input:not([disabled])",
+  "select:not([disabled])",
+  "textarea:not([disabled])",
+  '[tabindex]:not([tabindex="-1"])',
+].join(",");
+
+function getFocusableElements(container: HTMLElement) {
+  return [...container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)].filter(
+    (element) => {
+      const style = window.getComputedStyle(element);
+
+      return style.display !== "none" && style.visibility !== "hidden";
+    },
+  );
+}
 
 function HighlightText({ text, query }: { text: string; query: string }) {
   const { words } = parseQuery(query);
@@ -51,8 +75,11 @@ function HighlightText({ text, query }: { text: string; query: string }) {
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const router = useRouter();
+  const dialogTitleId = useId();
+  const dialogDescriptionId = useId();
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const resultRefs = useRef<Array<HTMLAnchorElement | null>>([]);
 
@@ -72,12 +99,25 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   useEffect(() => {
     if (!open) return;
 
+    const previouslyFocused =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    const previousBodyOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
     const timeout = window.setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
 
     return () => {
       window.clearTimeout(timeout);
+      document.body.style.overflow = previousBodyOverflow;
+
+      if (previouslyFocused && document.contains(previouslyFocused)) {
+        previouslyFocused.focus({ preventScroll: true });
+      }
     };
   }, [open]);
 
@@ -100,6 +140,43 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     if (!open) return;
 
     function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Tab") {
+        const dialog = dialogRef.current;
+
+        if (!dialog) return;
+
+        const focusableElements = getFocusableElements(dialog);
+
+        if (focusableElements.length === 0) {
+          event.preventDefault();
+          dialog.focus();
+          return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        const activeElement = document.activeElement;
+
+        if (!dialog.contains(activeElement)) {
+          event.preventDefault();
+          (event.shiftKey ? lastElement : firstElement).focus();
+          return;
+        }
+
+        if (event.shiftKey && activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+          return;
+        }
+
+        if (!event.shiftKey && activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+
+        return;
+      }
+
       if (event.key === "Escape") {
         event.preventDefault();
         onOpenChange(false);
@@ -125,12 +202,12 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       }
 
       if (event.key === "Enter") {
-        const selected = results[activeIndex];
-
-        if (!selected) return;
+        if (results.length === 0) return;
 
         event.preventDefault();
         onOpenChange(false);
+
+        const selected = results[Math.min(activeIndex, results.length - 1)];
 
         router.navigate({
           to: "/articles/$slug",
@@ -156,12 +233,28 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
     <div className="fixed inset-0 z-[999]">
       <button
         type="button"
+        tabIndex={-1}
         aria-label="検索を閉じる"
         className="absolute inset-0 bg-[#101827]/20 backdrop-blur-sm"
         onClick={() => onOpenChange(false)}
       />
 
-      <div className="absolute left-1/2 top-24 w-[min(calc(100vw-2rem),46rem)] -translate-x-1/2 overflow-hidden rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/85 shadow-[0_24px_90px_rgba(127,183,232,0.28)] backdrop-blur-2xl">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={dialogTitleId}
+        aria-describedby={dialogDescriptionId}
+        tabIndex={-1}
+        className="absolute left-1/2 top-24 w-[min(calc(100vw-2rem),46rem)] -translate-x-1/2 overflow-hidden rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/85 shadow-[0_24px_90px_rgba(127,183,232,0.28)] backdrop-blur-2xl"
+      >
+        <h2 id={dialogTitleId} className="sr-only">
+          記事検索
+        </h2>
+        <p id={dialogDescriptionId} className="sr-only">
+          キーワード、説明、タグ、本文から記事を検索できます。
+        </p>
+
         <div className="flex items-center gap-3 border-b border-[var(--border)] px-5 py-4">
           <FiSearch className="size-5 shrink-0 text-[var(--accent-strong)]" />
 
@@ -169,7 +262,8 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
             ref={inputRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder='検索'
+            aria-label="記事検索"
+            placeholder="検索"
             className="min-w-0 flex-1 bg-transparent text-base text-[var(--text)] outline-none placeholder:text-[var(--muted)]"
           />
 
@@ -187,6 +281,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           <button
             type="button"
             onClick={() => onOpenChange(false)}
+            aria-label="検索を閉じる"
             className="hidden rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/60 px-3 py-1 text-xs font-semibold text-[var(--muted)] transition hover:bg-[var(--blue-50)]/70 hover:text-[var(--accent-strong)] sm:block"
           >
             ESC
