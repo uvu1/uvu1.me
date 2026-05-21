@@ -78,7 +78,7 @@ async function main() {
       date: frontmatter.date,
       tags,
       pin: frontmatter.pin,
-      thumbnail: `/article-thumbs/${slug}.png`,
+      thumbnail: `/article-thumbs/${slug}.webp`,
       body: content,
       html,
       toc,
