@@ -26,7 +26,7 @@ function TagPage() {
   const articles = getArticlesByTag(decodedTag);
   const allTags = getAllTags();
 
-  const exists = allTags.some((tag) => tag.name === decodedTag);
+  const exists = allTags.some((t) => t.name === decodedTag);
 
   if (!exists) {
     throw notFound();
