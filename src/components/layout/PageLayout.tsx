@@ -25,9 +25,9 @@ export function PageLayout({ children, maxWidth = 'lg' }: PageLayoutProps) {
 
       <div
         className={[
-          "page-transition-surface mx-auto w-full px-4 py-8 sm:px-6 lg:px-8",
+          'page-transition-surface mx-auto w-full px-4 py-8 sm:px-6 lg:px-8',
           maxWidthClass[maxWidth],
-        ].join(" ")}
+        ].join(' ')}
       >
         {children}
       </div>
