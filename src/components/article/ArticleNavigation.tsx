@@ -1,14 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import type { Article } from "../../lib/articles";
+import { formatDate } from "../../lib/date";
 
 type ArticleNavigationProps = {
   newerArticle?: Article;
   olderArticle?: Article;
 };
-
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
 
 function NavCard({
   label,

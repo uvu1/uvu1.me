@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FiSearch, FiX } from "react-icons/fi";
 import { getArchiveArticles } from "../../lib/articles";
 import type { Article } from "../../lib/articles";
+import { formatDate } from "../../lib/date";
 import { TagPill } from "../ui/TagPill";
 import { escapeRegExp, searchArticles, normalizeText, parseQuery, } from "../../lib/search";
 
@@ -12,10 +13,6 @@ type SearchDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
-
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
 
 function HighlightText({ text, query }: { text: string; query: string }) {
   const { words } = parseQuery(query);

@@ -1,14 +1,11 @@
 import { ArticleListItem } from "../article/ArticleListItem";
 import { SectionTitle } from "../ui/SectionTitle";
 import type { Article } from "../../lib/articles";
+import { formatDate } from "../../lib/date";
 
 type ArchivesSectionProps = {
   articles: Article[];
 };
-
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
 
 export function ArchivesSection({ articles }: ArchivesSectionProps) {
   if (articles.length === 0) {

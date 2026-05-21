@@ -2,14 +2,11 @@ import { Link } from "@tanstack/react-router";
 import type { Article } from "../../lib/articles";
 import { ArticleThumb } from "../ui/ArticleThumb";
 import { SectionTitle } from "../ui/SectionTitle";
+import { formatDate } from "../../lib/date";
 
 type PinnedSectionProps = {
   articles: Article[];
 };
-
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
 
 export function PinnedSection({ articles }: PinnedSectionProps) {
   if (articles.length === 0) {

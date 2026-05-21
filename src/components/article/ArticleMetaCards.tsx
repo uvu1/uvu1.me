@@ -1,11 +1,9 @@
+import { formatDate } from "../../lib/date";
+
 type ArticleMetaCardsProps = {
   date: string;
   readingTime: number;
 };
-
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
 
 export function ArticleMetaCards({
   date,

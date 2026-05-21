@@ -2,16 +2,13 @@ import { Link } from "@tanstack/react-router";
 import type { Article } from "../../lib/articles";
 import { ArticleThumb } from "../ui/ArticleThumb";
 import { TagPill } from "../ui/TagPill";
+import { formatDate } from "../../lib/date";
 
 type ArticleListItemProps = {
   article: Article;
   compact?: boolean;
   showDate?: boolean;
 };
-
-function formatDate(date: string) {
-  return date.replaceAll("-", "/");
-}
 
 export function ArticleListItem({
   article,
