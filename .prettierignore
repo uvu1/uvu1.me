@@ -1,3 +1,16 @@
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+eslint.config.js
+
+# generated
+src/generated/
+public/article-thumbs/
+public/article-assets/
+dist/
+.output/
+.wrangler/
+.vinxi/
+
+# submodule contents
+src/content/articles/

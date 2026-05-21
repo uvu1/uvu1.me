@@ -15,6 +15,17 @@ export default [
     },
   },
   {
-    ignores: ['eslint.config.js', 'prettier.config.js'],
+    ignores: [
+      "src/generated/**",
+      "public/article-thumbs/**",
+      "public/article-assets/**",
+      "dist/**",
+      ".output/**",
+      ".wrangler/**",
+      ".vinxi/**",
+
+      "src/content/articles/**",
+      "eslint.config.js",
+    ],
   },
 ]
