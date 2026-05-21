@@ -40,13 +40,6 @@ export function Footer() {
     <footer className="rounded-[2rem] border border-white/70 bg-white/60 px-8 py-6 shadow-[0_18px_60px_rgba(127,183,232,0.12)] backdrop-blur-xl">
       <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-wrap items-center gap-6">
-          <Link
-            to="/"
-            className="grid size-12 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-white/60 text-xl text-[var(--accent-strong)] transition hover:bg-[var(--blue-50)]/70"
-            aria-label="Home"
-          >
-            ✻
-          </Link>
 
           <nav className="flex flex-wrap items-center gap-5 text-sm font-medium text-[var(--text)]">
             {navItems.map((item) => (
