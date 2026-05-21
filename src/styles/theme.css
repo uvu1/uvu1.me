@@ -1,0 +1,20 @@
+:root {
+  --bg: #f7faff;
+  --surface: #ffffff;
+  --surface-soft: #f7faff;
+
+  --blue-50: #e6f2ff;
+  --blue-100: #d9ecff;
+  --blue-200: #bfd9f7;
+  --blue-300: #93c5fd;
+
+  --lavender: #dce7ff;
+  --pink-soft: #fcecf4;
+  --pink-lavender: #f6e6f8;
+
+  --text: #2f3e46;
+  --muted: #7a8a99;
+  --border: rgba(146, 180, 216, 0.32);
+  --accent: #7fb7e8;
+  --accent-strong: #5fa8e8;
+}
