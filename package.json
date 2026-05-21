@@ -20,6 +20,7 @@
     "generate:sitemap": "bun run scripts/generate-sitemap.tsx",
     "generate:robots": "bun run scripts/generate-robots.tsx",
     "generate:rss": "bun run scripts/generate-rss.tsx",
+    "generate:favicons": "bun run scripts/generate-favicon.ts",
     "generate:contents": "bun run scripts/generate-thumbnails.tsx && bun run scripts/generate-projects.tsx && bun run scripts/generate-rss.tsx && bun run scripts/generate-sitemap.tsx && bun run scripts/generate-robots.tsx"
   },
   "dependencies": {

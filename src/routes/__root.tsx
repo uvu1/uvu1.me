@@ -58,10 +58,6 @@ export const Route = createRootRoute({
         href: "/rss.xml",
       },
       {
-        rel: "icon",
-        href: "/favicon.ico",
-      },
-      {
         rel: "stylesheet",
         href: appCss,
       }
@@ -83,6 +79,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           href="/rss.xml"
         />
         <link rel="stylesheet" href="https://use.typekit.net/aie2fls.css" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/favicons/favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
         <HeadContent />
       </head>
       <body>
