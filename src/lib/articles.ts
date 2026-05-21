@@ -1,57 +1,40 @@
-import matter from "gray-matter";
+import { articles } from "../generated/articles";
 
-export type Article = {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  tags: string[];
-  pin: boolean;
-  thumbnail: string;
-  body: string;
-};
-
-type RawFrontmatter = {
-  title?: string;
-  description?: string;
-  date?: string;
-  tags?: string[];
-  pin?: boolean;
-};
-
-const markdownFiles = import.meta.glob("../content/articles/*.{md,mdx}", {
-  query: "?raw",
-  import: "default",
-  eager: true,
-});
-
-function getSlug(path: string) {
-  return path.split("/").pop()?.replace(/\.(md|mdx)$/, "") ?? "";
-}
-
-function parseArticle(path: string, raw: string): Article {
-  const { data, content } = matter(raw);
-  const fm = data as RawFrontmatter;
-  const slug = getSlug(path);
-
-  return {
-    slug,
-    title: fm.title ?? "Untitled",
-    description: fm.description ?? "",
-    date: fm.date ?? "1970-01-01",
-    tags: fm.tags ?? [],
-    pin: fm.pin ?? false,
-    thumbnail: `/article-thumbs/${slug}.png`,
-    body: content,
-  };
-}
+export type { Article } from "../generated/articles";
 
 export function getAllArticles() {
-  return Object.entries(markdownFiles)
-    .map(([path, raw]) => parseArticle(path, raw as string))
-    .sort((a, b) => b.date.localeCompare(a.date));
+  return articles;
 }
 
 export function getPinnedArticles() {
-  return getAllArticles().filter((article) => article.pin);
+  return articles.filter((article) => article.pin);
+}
+
+export function getArchiveArticles() {
+  return articles;
+}
+
+export function getArticleBySlug(slug: string) {
+  return articles.find((article) => article.slug === slug);
+}
+
+export function getArticlesByTag(tag: string) {
+  return articles.filter((article) => article.tags.includes(tag));
+}
+
+export function getAllTags() {
+  const tagCounts = new Map<string, number>();
+
+  for (const article of articles) {
+    for (const tag of article.tags) {
+      tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+    }
+  }
+
+  return [...tagCounts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => {
+      if (b.count !== a.count) return b.count - a.count;
+      return a.name.localeCompare(b.name, "ja");
+    });
 }
