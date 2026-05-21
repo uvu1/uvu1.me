@@ -16,7 +16,7 @@ export function ArticleActionRail() {
   } = useArticleActionsContext()
 
   return (
-    <aside className="fixed left-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] top-49 z-40 hidden h-fit flex-col items-center gap-3 xl:flex">
+    <aside className="fixed left-[max(1.5rem,calc((100vw-80rem)/2+0.5rem))] top-49 z-40 hidden h-fit flex-col items-center gap-3 xl:flex">
       <button
         type="button"
         onClick={toggleLike}
