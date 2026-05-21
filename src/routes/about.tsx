@@ -7,29 +7,16 @@ import { PageLayout } from "../components/layout/PageLayout";
 import { SectionTitle } from "../components/ui/SectionTitle";
 import { TagPill } from "../components/ui/TagPill";
 import { siteConfig } from "../config/site";
+import { createSeo } from "../lib/seo";
 
 export const Route = createFileRoute("/about")({
   head: () => {
-    const title = `About | ${siteConfig.name}`;
-    const description = "uvu1.meのプロフィールです。";
-    const url = `${siteConfig.url}/about`;
-
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: url },
-        { property: "og:image", content: `${siteConfig.url}/ogp.png` },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: `${siteConfig.url}/ogp.png` },
-      ],
-      links: [{ rel: "canonical", href: url }],
-    };
+    return createSeo({
+      title: `About | ${siteConfig.name}`,
+      description: "uvu1.meのプロフィールです。",
+      path: "/about",
+      type: "website"
+    })
   },
   component: AboutPage,
 });

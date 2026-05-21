@@ -5,29 +5,15 @@ import { SectionTitle } from "../components/ui/SectionTitle";
 import { getAllProjects } from "../lib/projects";
 import type { Project, ProjectStatus } from "../lib/projects";
 import { siteConfig } from "../config/site";
+import { createSeo } from "../lib/seo";
 
 export const Route = createFileRoute("/projects")({
   head: () => {
-    const title = `Projects | ${siteConfig.name}`;
-    const description = "uvu1.me で公開しているプロジェクトの一覧です。";
-    const url = `${siteConfig.url}/projects`;
-
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: url },
-        { property: "og:image", content: `${siteConfig.url}/ogp.png` },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: `${siteConfig.url}/ogp.png` },
-      ],
-      links: [{ rel: "canonical", href: url }],
-    };
+    return createSeo({
+      title: `Projects | ${siteConfig.name}`,
+      description: `uvu1.me で公開しているプロジェクトの一覧です。`,
+      path: "/projects"
+    })
   },
   component: ProjectsPage,
 });

@@ -10,29 +10,15 @@ import {
   getPinnedArticles,
 } from "../lib/articles";
 import { siteConfig } from "../config/site";
+import { createSeo } from "../lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () => {
-    const title = `${siteConfig.name}`;
-    const description = "uvu1.me ";
-    const url = `${siteConfig.url}`;
-
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "website" },
-        { property: "og:url", content: url },
-        { property: "og:image", content: `${siteConfig.url}/ogp.png` },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: `${siteConfig.url}/ogp.png` },
-      ],
-      links: [{ rel: "canonical", href: url }],
-    };
+    return createSeo({
+      title: siteConfig.name,
+      description: "uvu1.me",
+      path: "/"
+    })
   },
   component: HomePage,
 });

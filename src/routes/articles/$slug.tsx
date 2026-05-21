@@ -14,6 +14,7 @@ import {
   getArticleBySlug,
   getAdjacentArticles,
 } from "../../lib/articles";
+import { createSeo } from "../../lib/seo";
 
 export const Route = createFileRoute("/articles/$slug")({
   head: ({ params }) => {
@@ -25,36 +26,17 @@ export const Route = createFileRoute("/articles/$slug")({
       };
     }
 
-    const url = `${siteConfig.url}/articles/${article.slug}`;
-    const title = `${article.title} | ${siteConfig.name}`;
     const description =
       article.description || `${article.title} の記事です。`;
     const image = new URL(article.thumbnail, siteConfig.url).toString();
 
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-
-        { property: "og:site_name", content: siteConfig.name },
-        { property: "og:type", content: "article" },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:url", content: url },
-        { property: "og:image", content: image },
-
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: image },
-      ],
-      links: [
-        {
-          rel: "canonical",
-          href: url,
-        },
-      ],
-    };
+    return createSeo({
+      title: `${article.title} | ${siteConfig.name}`,
+      description,
+      path: `articles/${article.slug}`,
+      type: "article",
+      image,
+    })
   },
   component: ArticlePage,
 });

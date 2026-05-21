@@ -3,40 +3,18 @@ import { PageLayout } from "../components/layout/PageLayout";
 import { ArticleListItem } from "../components/article/ArticleListItem";
 import { getAllTags, getArticlesByTag } from "../lib/articles";
 import { siteConfig } from "../config/site";
+import { createSeo } from "../lib/seo";
 
 export const Route = createFileRoute("/tags/$tag")({
   head: ({ params }) => {
     const tag = decodeURIComponent(params.tag);
     const encodedTag = encodeURIComponent(tag);
 
-    const title = `#${tag} | ${siteConfig.name}`;
-    const description = `#${tag} の記事一覧です。`;
-    const url = `${siteConfig.url}/tags/${encodedTag}`;
-
-    return {
-      meta: [
-        { title },
-        { name: "description", content: description },
-
-        { property: "og:site_name", content: siteConfig.name },
-        { property: "og:type", content: "website" },
-        { property: "og:title", content: title },
-        { property: "og:description", content: description },
-        { property: "og:url", content: url },
-        { property: "og:image", content: `${siteConfig.url}/ogp.png` },
-
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: title },
-        { name: "twitter:description", content: description },
-        { name: "twitter:image", content: `${siteConfig.url}/ogp.png` },
-      ],
-      links: [
-        {
-          rel: "canonical",
-          href: url,
-        },
-      ],
-    };
+    return createSeo({
+      title: `#${tag} | ${siteConfig.name}`,
+      description: `#${tag} の記事一覧です。`,
+      path: "/tags/" + encodedTag,
+    })
   },
   component: TagPage,
 });
