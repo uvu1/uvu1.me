@@ -34,6 +34,7 @@ const socialItems = [
   },
 ] as const;
 
+
 export function Footer() {
   return (
     <footer className="rounded-[2rem] border border-white/70 bg-white/60 px-8 py-6 shadow-[0_18px_60px_rgba(127,183,232,0.12)] backdrop-blur-xl">
@@ -81,7 +82,13 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="text-sm text-[var(--muted)]">© 2026 uvu1.me</p>
+        <div className="flex items-center gap-2 text-sm text-[var(--muted)]">
+          <p>© 2026 uvu1.me</p>
+
+          <span className="bg-gradient-to-r from-[#F2B8D8] via-[#D6C7FF] to-[#9DCCF5] bg-clip-text text-xl leading-none text-transparent">
+            ✧
+          </span>
+        </div>
       </div>
     </footer>
   );
