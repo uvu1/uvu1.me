@@ -14,14 +14,15 @@
     "lint": "eslint",
     "format": "prettier --write . && eslint --fix",
     "check": "prettier --check .",
-    "deploy": "bun run build && wrangler deploy",
+    "ci": "bun run check && bun run lint && bun run test:run && bun run build",
+    "deploy": "wrangler deploy",
     "generate:thumbs": "bun run scripts/generate-thumbnails.tsx",
     "generate:projects": "bun run scripts/generate-projects.tsx",
     "generate:sitemap": "bun run scripts/generate-sitemap.tsx",
     "generate:robots": "bun run scripts/generate-robots.tsx",
     "generate:rss": "bun run scripts/generate-rss.tsx",
     "generate:favicons": "bun run scripts/generate-favicon.ts",
-    "generate:contents": "bun run scripts/generate-thumbnails.tsx && bun run scripts/generate-projects.tsx && bun run scripts/generate-rss.tsx && bun run scripts/generate-sitemap.tsx && bun run scripts/generate-robots.tsx"
+    "generate:contents": "bun run scripts/generate-thumbnails.tsx && bun run scripts/generate-projects.tsx && bun run scripts/generate-rss.tsx && bun run scripts/generate-sitemap.tsx && bun run scripts/generate-robots.tsx && bun run scripts/generate-favicon.ts"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "1.37.2",

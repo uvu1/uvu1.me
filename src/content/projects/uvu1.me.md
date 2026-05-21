@@ -2,7 +2,7 @@
 title: "uvu1.me"
 description: "このサイトです"
 category: "web"
-status: "active"
+status: "running"
 date: "2026-05-20"
 stack:
   - tanstack
