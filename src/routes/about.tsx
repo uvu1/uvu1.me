@@ -1,91 +1,92 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { FaGithub } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { FiCode, FiHeart, FiMapPin, FiTool } from "react-icons/fi";
-import { SiMisskey } from "react-icons/si";
-import { PageLayout } from "../components/layout/PageLayout";
-import { SectionTitle } from "../components/ui/SectionTitle";
-import { TagPill } from "../components/ui/TagPill";
-import { siteConfig } from "../config/site";
-import { createSeo } from "../lib/seo";
+import { createFileRoute } from '@tanstack/react-router'
+import { FaGithub } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
+import { FiCode, FiHeart, FiMapPin, FiTool } from 'react-icons/fi'
+import { SiMisskey } from 'react-icons/si'
+import { PageLayout } from '../components/layout/PageLayout'
+import { SectionTitle } from '../components/ui/SectionTitle'
+import { TagPill } from '../components/ui/TagPill'
+import { siteConfig } from '../config/site'
+import { createSeo } from '../lib/seo'
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute('/about')({
   head: () => {
     return createSeo({
       title: `About | ${siteConfig.name}`,
-      description: "uvu1.meのプロフィールです。",
-      path: "/about",
-      type: "website"
+      description: 'uvu1.meのプロフィールです。',
+      path: '/about',
+      type: 'website',
     })
   },
   component: AboutPage,
-});
+})
 
 const profileItems = [
   {
     icon: FiTool,
-    label: "Tools",
-    value: "Rust, TypeScript, Vim",
+    label: 'Tools',
+    value: 'Rust, TypeScript, Vim',
   },
   {
     icon: FiHeart,
-    label: "Interest",
-    value: "Infra, CLI, Security",
+    label: 'Interest',
+    value: 'Infra, CLI, Security',
   },
   {
     icon: FiMapPin,
-    label: "Location",
-    value: "Japan",
+    label: 'Location',
+    value: 'Japan',
   },
-];
+]
 
-const skills = ["Rust", "TypeScript", "Python", "C++", "neovim", "Kubernetes",];
+const skills = ['Rust', 'TypeScript', 'Python', 'C++', 'neovim', 'Kubernetes']
 
 const timelineItems = [
   {
-    year: "2019",
-    title: "Start",
-    description: "プログラミングを初めてDiscordBotをリリース",
+    year: '2019',
+    title: 'Start',
+    description: 'プログラミングを初めてDiscordBotをリリース',
   },
   {
-    year: "2021",
-    title: "Developing Yui",
-    description: "DiscordBot Yuiを開発。100サーバー以上で利用される。",
+    year: '2021',
+    title: 'Developing Yui',
+    description: 'DiscordBot Yuiを開発。100サーバー以上で利用される。',
   },
   {
-    year: "2023",
-    title: "Working with ESCL",
-    description: "ESCLにてスクリム内部の集計アプリを開発。",
+    year: '2023',
+    title: 'Working with ESCL',
+    description: 'ESCLにてスクリム内部の集計アプリを開発。',
   },
   {
-    year: "2025",
-    title: "Learning",
-    description: "セキュリティやインフラについて自宅サーバーを運用しながら学ぶ。",
+    year: '2025',
+    title: 'Learning',
+    description:
+      'セキュリティやインフラについて自宅サーバーを運用しながら学ぶ。',
   },
   {
-    year: "Now",
-    title: "Explore",
-    description: "Kubernetes、認証認可を中心に探求中。",
+    year: 'Now',
+    title: 'Explore',
+    description: 'Kubernetes、認証認可を中心に探求中。',
   },
-];
+]
 
 const socialItems = [
   {
-    label: "GitHub",
-    href: "https://github.com/uvu1",
+    label: 'GitHub',
+    href: 'https://github.com/uvu1',
     icon: FaGithub,
   },
   {
-    label: "X",
-    href: "https://x.com/kigou_",
+    label: 'X',
+    href: 'https://x.com/kigou_',
     icon: FaXTwitter,
   },
   {
-    label: "Misskey",
-    href: "https://misskey.io/@kigou",
+    label: 'Misskey',
+    href: 'https://misskey.io/@kigou',
     icon: SiMisskey,
   },
-];
+]
 
 function AboutPage() {
   return (
@@ -110,7 +111,8 @@ function AboutPage() {
             </h1>
 
             <p className="mt-5 max-w-2xl text-sm leading-8 text-[var(--muted)]">
-              技術のこと、作ったもの、考えたことから日常の何でも無いことまでいろいろなことを記録する予定です。<br />
+              技術のこと、作ったもの、考えたことから日常の何でも無いことまでいろいろなことを記録する予定です。
+              <br />
             </p>
           </section>
 
@@ -118,11 +120,10 @@ function AboutPage() {
             <SectionTitle>Timeline</SectionTitle>
             <Timeline />
           </section>
-
         </main>
       </div>
     </PageLayout>
-  );
+  )
 }
 
 function ProfileCard() {
@@ -147,7 +148,7 @@ function ProfileCard() {
 
         <div className="mt-6 flex items-center gap-3">
           {socialItems.map((item) => {
-            const Icon = item.icon;
+            const Icon = item.icon
 
             return (
               <a
@@ -160,12 +161,12 @@ function ProfileCard() {
               >
                 <Icon className="size-4" />
               </a>
-            );
+            )
           })}
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function InfoCard() {
@@ -173,7 +174,7 @@ function InfoCard() {
     <section className="rounded-[2rem] border border-white/70 bg-[var(--card-bg)]/62 p-6 shadow-[0_18px_60px_rgba(127,183,232,0.1)] backdrop-blur-xl">
       <div className="space-y-5">
         {profileItems.map((item) => {
-          const Icon = item.icon;
+          const Icon = item.icon
 
           return (
             <div key={item.label} className="flex items-start gap-3">
@@ -190,7 +191,7 @@ function InfoCard() {
                 </p>
               </div>
             </div>
-          );
+          )
         })}
       </div>
 
@@ -206,7 +207,7 @@ function InfoCard() {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
 function Timeline() {
@@ -216,7 +217,7 @@ function Timeline() {
 
       <div className="space-y-8">
         {timelineItems.map((item, index) => {
-          const isLatest = index === timelineItems.length - 1;
+          const isLatest = index === timelineItems.length - 1
 
           return (
             <div
@@ -225,9 +226,11 @@ function Timeline() {
             >
               <span
                 className={[
-                  "absolute left-0 top-1.5 size-5 rounded-full border-2 border-[var(--accent-strong)]",
-                  isLatest ? "bg-[var(--accent-strong)]" : "bg-[var(--card-bg)]",
-                ].join(" ")}
+                  'absolute left-0 top-1.5 size-5 rounded-full border-2 border-[var(--accent-strong)]',
+                  isLatest
+                    ? 'bg-[var(--accent-strong)]'
+                    : 'bg-[var(--card-bg)]',
+                ].join(' ')}
               />
 
               <time className="text-sm font-bold text-[var(--accent-strong)]">
@@ -251,9 +254,9 @@ function Timeline() {
                 </div>
               </div>
             </div>
-          );
+          )
         })}
       </div>
     </div>
-  );
+  )
 }

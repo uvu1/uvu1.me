@@ -11,7 +11,11 @@ body {
   background:
     radial-gradient(circle at 12% 18%, var(--blue-50), transparent 32rem),
     radial-gradient(circle at 88% 28%, var(--pink-soft), transparent 30rem),
-    radial-gradient(circle at 50% 100%, var(--pink-lavender), transparent 34rem),
+    radial-gradient(
+      circle at 50% 100%,
+      var(--pink-lavender),
+      transparent 34rem
+    ),
     var(--bg);
   color: var(--text);
   font-family: var(--font-sans);

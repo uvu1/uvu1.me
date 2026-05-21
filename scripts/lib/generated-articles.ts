@@ -1,6 +1,6 @@
-import path from "node:path";
-import { promises as fs } from "node:fs";
-import type { GeneratedArticle } from "./article-types";
+import path from 'node:path'
+import { promises as fs } from 'node:fs'
+import type { GeneratedArticle } from './article-types'
 
 export async function writeGeneratedArticles(
   outputPath: string,
@@ -30,8 +30,8 @@ export type Article = {
 };
 
 export const articles: Article[] = ${JSON.stringify(articles, null, 2)} as const;
-`;
+`
 
-  await fs.mkdir(path.dirname(outputPath), { recursive: true });
-  await fs.writeFile(outputPath, generatedCode);
+  await fs.mkdir(path.dirname(outputPath), { recursive: true })
+  await fs.writeFile(outputPath, generatedCode)
 }

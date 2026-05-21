@@ -1,28 +1,28 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
-import { articles } from "../src/generated/articles";
-import { siteConfig } from "../src/config/site";
-import { absoluteUrl, escapeXml } from "./lib/xml";
+import { mkdir, writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { articles } from '../src/generated/articles'
+import { siteConfig } from '../src/config/site'
+import { absoluteUrl, escapeXml } from './lib/xml'
 
-const rootDir = process.cwd();
-const publicDir = path.join(rootDir, "public");
-const outputPath = path.join(publicDir, "rss.xml");
+const rootDir = process.cwd()
+const publicDir = path.join(rootDir, 'public')
+const outputPath = path.join(publicDir, 'rss.xml')
 
 function toRfc822(date: string) {
-  return new Date(date).toUTCString();
+  return new Date(date).toUTCString()
 }
 
 async function main() {
-  await mkdir(publicDir, { recursive: true });
+  await mkdir(publicDir, { recursive: true })
 
   const sortedArticles = [...articles].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  )
 
   const items = sortedArticles
     .map((article) => {
-      const articleUrl = absoluteUrl(`/articles/${article.slug}`);
-      const imageUrl = absoluteUrl(article.thumbnail);
+      const articleUrl = absoluteUrl(`/articles/${article.slug}`)
+      const imageUrl = absoluteUrl(article.thumbnail)
 
       return `
     <item>
@@ -33,11 +33,11 @@ async function main() {
       <pubDate>${toRfc822(article.date)}</pubDate>
       ${article.tags
         .map((tag) => `<category>${escapeXml(tag)}</category>`)
-        .join("\n      ")}
+        .join('\n      ')}
       <enclosure url="${escapeXml(imageUrl)}" type="image/webp" />
-    </item>`;
+    </item>`
     })
-    .join("");
+    .join('')
 
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
@@ -50,14 +50,14 @@ async function main() {
     <generator>uvu1.me generator</generator>${items}
   </channel>
 </rss>
-`;
+`
 
-  await writeFile(outputPath, rss, "utf-8");
+  await writeFile(outputPath, rss, 'utf-8')
 
-  console.log(`Generated RSS: ${outputPath}`);
+  console.log(`Generated RSS: ${outputPath}`)
 }
 
 main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+  console.error(error)
+  process.exit(1)
+})

@@ -1,13 +1,13 @@
 type ArticleThumbProps = {
-  src: string;
-  title: string;
-  className?: string;
-};
+  src: string
+  title: string
+  className?: string
+}
 
 export function ArticleThumb({
   src,
   title,
-  className = "",
+  className = '',
 }: ArticleThumbProps) {
   return (
     <div
@@ -21,5 +21,5 @@ export function ArticleThumb({
         decoding="async"
       />
     </div>
-  );
+  )
 }

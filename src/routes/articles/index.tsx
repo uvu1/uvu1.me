@@ -1,25 +1,25 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { PageLayout } from "../../components/layout/PageLayout";
-import { ArticleListItem } from "../../components/article/ArticleListItem";
-import { getArchiveArticles } from "../../lib/articles";
-import { siteConfig } from "../../config/site";
-import { createSeo  }from "../../lib/seo"; 
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { PageLayout } from '../../components/layout/PageLayout'
+import { ArticleListItem } from '../../components/article/ArticleListItem'
+import { getArchiveArticles } from '../../lib/articles'
+import { siteConfig } from '../../config/site'
+import { createSeo } from '../../lib/seo'
 
-export const Route = createFileRoute("/articles/")({
+export const Route = createFileRoute('/articles/')({
   head: () => {
     return createSeo({
       title: `Articles | ${siteConfig.name}`,
-      description: `Article archive of ${siteConfig.name}.`, 
-      path: "/articles/",
-      type: "article",
+      description: `Article archive of ${siteConfig.name}.`,
+      path: '/articles/',
+      type: 'article',
     })
   },
 
   component: ArticlesPage,
-});
+})
 
 function ArticlesPage() {
-  const articles = getArchiveArticles();
+  const articles = getArchiveArticles()
 
   return (
     <PageLayout maxWidth="md">
@@ -52,5 +52,5 @@ function ArticlesPage() {
         ))}
       </div>
     </PageLayout>
-  );
+  )
 }

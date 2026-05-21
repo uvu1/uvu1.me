@@ -2,21 +2,11 @@
   color-scheme: light;
 
   --font-sans:
-    "futura-pt",
-    "Noto Sans JP",
-    "Noto Sans CJK JP",
-    system-ui,
-    sans-serif;
+    'futura-pt', 'Noto Sans JP', 'Noto Sans CJK JP', system-ui, sans-serif;
 
   --font-mono:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    "Liberation Mono",
-    "Courier New",
-    monospace;
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
 
   --bg: #f7faff;
   --surface: #ffffff;
@@ -59,7 +49,7 @@
   --inline-code-color: var(--accent-strong);
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   color-scheme: dark;
 
   --bg: #0f172a;

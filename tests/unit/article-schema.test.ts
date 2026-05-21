@@ -1,106 +1,106 @@
-import { describe, expect, test } from "vitest";
-import { ArticleFrontmatterSchema } from "../../scripts/lib/article-schema";
+import { describe, expect, test } from 'vitest'
+import { ArticleFrontmatterSchema } from '../../scripts/lib/article-schema'
 
-describe("ArticleFrontmatterSchema", () => {
-  test("valid frontmatterを通す", () => {
+describe('ArticleFrontmatterSchema', () => {
+  test('valid frontmatterを通す', () => {
     const parsed = ArticleFrontmatterSchema.parse({
-      title: "Test Article",
-      description: "表示確認用の記事です。",
-      date: "2026-05-21",
-      tags: ["test", "markdown"],
+      title: 'Test Article',
+      description: '表示確認用の記事です。',
+      date: '2026-05-21',
+      tags: ['test', 'markdown'],
       pin: true,
       draft: false,
-    });
+    })
 
     expect(parsed).toEqual({
-      title: "Test Article",
-      description: "表示確認用の記事です。",
-      date: "2026-05-21",
-      tags: ["test", "markdown"],
+      title: 'Test Article',
+      description: '表示確認用の記事です。',
+      date: '2026-05-21',
+      tags: ['test', 'markdown'],
       pin: true,
       draft: false,
-    });
-  });
+    })
+  })
 
-  test("optional fieldsにdefaultが入る", () => {
+  test('optional fieldsにdefaultが入る', () => {
     const parsed = ArticleFrontmatterSchema.parse({
-      title: "Test Article",
-      date: "2026-05-21",
-    });
+      title: 'Test Article',
+      date: '2026-05-21',
+    })
 
     expect(parsed).toEqual({
-      title: "Test Article",
-      description: "",
-      date: "2026-05-21",
+      title: 'Test Article',
+      description: '',
+      date: '2026-05-21',
       tags: [],
       pin: false,
       draft: false,
-    });
-  });
+    })
+  })
 
-  test("titleが空文字なら落ちる", () => {
+  test('titleが空文字なら落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
-      title: "",
-      date: "2026-05-21",
-    });
+      title: '',
+      date: '2026-05-21',
+    })
 
-    expect(result.success).toBe(false);
-  });
+    expect(result.success).toBe(false)
+  })
 
-  test("titleがないなら落ちる", () => {
+  test('titleがないなら落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
-      date: "2026-05-21",
-    });
+      date: '2026-05-21',
+    })
 
-    expect(result.success).toBe(false);
-  });
+    expect(result.success).toBe(false)
+  })
 
-  test("dateがYYYY-MM-DDでなければ落ちる", () => {
+  test('dateがYYYY-MM-DDでなければ落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
-      title: "Test Article",
-      date: "2026/05/21",
-    });
+      title: 'Test Article',
+      date: '2026/05/21',
+    })
 
-    expect(result.success).toBe(false);
-  });
+    expect(result.success).toBe(false)
+  })
 
-  test("tagsが配列でなければ落ちる", () => {
+  test('tagsが配列でなければ落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
-      title: "Test Article",
-      date: "2026-05-21",
-      tags: "test",
-    });
+      title: 'Test Article',
+      date: '2026-05-21',
+      tags: 'test',
+    })
 
-    expect(result.success).toBe(false);
-  });
+    expect(result.success).toBe(false)
+  })
 
-  test("tagsに空文字が含まれていたら落ちる", () => {
+  test('tagsに空文字が含まれていたら落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
-      title: "Test Article",
-      date: "2026-05-21",
-      tags: ["test", ""],
-    });
+      title: 'Test Article',
+      date: '2026-05-21',
+      tags: ['test', ''],
+    })
 
-    expect(result.success).toBe(false);
-  });
+    expect(result.success).toBe(false)
+  })
 
-  test("pinがbooleanでなければ落ちる", () => {
+  test('pinがbooleanでなければ落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
-      title: "Test Article",
-      date: "2026-05-21",
-      pin: "true",
-    });
+      title: 'Test Article',
+      date: '2026-05-21',
+      pin: 'true',
+    })
 
-    expect(result.success).toBe(false);
-  });
+    expect(result.success).toBe(false)
+  })
 
-  test("draftがbooleanでなければ落ちる", () => {
+  test('draftがbooleanでなければ落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
-      title: "Test Article",
-      date: "2026-05-21",
-      draft: "false",
-    });
+      title: 'Test Article',
+      date: '2026-05-21',
+      draft: 'false',
+    })
 
-    expect(result.success).toBe(false);
-  });
-});
+    expect(result.success).toBe(false)
+  })
+})

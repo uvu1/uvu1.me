@@ -1,25 +1,25 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { FiExternalLink, } from "react-icons/fi";
-import { PageLayout } from "../components/layout/PageLayout";
-import { SectionTitle } from "../components/ui/SectionTitle";
-import { getAllProjects } from "../lib/projects";
-import type { Project, ProjectStatus } from "../lib/projects";
-import { siteConfig } from "../config/site";
-import { createSeo } from "../lib/seo";
+import { createFileRoute } from '@tanstack/react-router'
+import { FiExternalLink } from 'react-icons/fi'
+import { PageLayout } from '../components/layout/PageLayout'
+import { SectionTitle } from '../components/ui/SectionTitle'
+import { getAllProjects } from '../lib/projects'
+import type { Project, ProjectStatus } from '../lib/projects'
+import { siteConfig } from '../config/site'
+import { createSeo } from '../lib/seo'
 
-export const Route = createFileRoute("/projects")({
+export const Route = createFileRoute('/projects')({
   head: () => {
     return createSeo({
       title: `Projects | ${siteConfig.name}`,
       description: `uvu1.me で公開しているプロジェクトの一覧です。`,
-      path: "/projects"
+      path: '/projects',
     })
   },
   component: ProjectsPage,
-});
+})
 
 function ProjectsPage() {
-  const projects = getAllProjects();
+  const projects = getAllProjects()
 
   return (
     <PageLayout maxWidth="lg">
@@ -37,7 +37,7 @@ function ProjectsPage() {
         </section>
       </main>
     </PageLayout>
-  );
+  )
 }
 
 function TerminalProjectList({ projects }: { projects: Project[] }) {
@@ -65,7 +65,7 @@ function TerminalProjectList({ projects }: { projects: Project[] }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function TerminalProjectItem({ project }: { project: Project }) {
@@ -106,10 +106,8 @@ function TerminalProjectItem({ project }: { project: Project }) {
 
           {project.stack.length > 0 && (
             <p className="mt-3 text-xs text-white/45">
-              <span className="text-white/30">stack:</span>{" "}
-              <span className="text-white/70">
-                {project.stack.join(" / ")}
-              </span>
+              <span className="text-white/30">stack:</span>{' '}
+              <span className="text-white/70">{project.stack.join(' / ')}</span>
             </p>
           )}
         </div>
@@ -117,7 +115,6 @@ function TerminalProjectItem({ project }: { project: Project }) {
         <div className="flex flex-col items-start gap-3 md:items-end">
           <StatusBadge status={project.status} />
           <div className="flex items-center gap-2">
-
             {project.link && (
               <a
                 href={project.link}
@@ -133,24 +130,24 @@ function TerminalProjectItem({ project }: { project: Project }) {
         </div>
       </div>
     </article>
-  );
+  )
 }
 
 function StatusBadge({ status }: { status: ProjectStatus }) {
   const statusClass = {
-    running: "border-[#7EE0B5]/40 bg-[#7EE0B5]/10 text-[#7EE0B5]",
-    planning: "border-[#F2B8D8]/40 bg-[#F2B8D8]/10 text-[#F2B8D8]",
-    archived: "border-white/20 bg-[var(--card-bg)]/5 text-white/45",
-  } satisfies Record<ProjectStatus, string>;
+    running: 'border-[#7EE0B5]/40 bg-[#7EE0B5]/10 text-[#7EE0B5]',
+    planning: 'border-[#F2B8D8]/40 bg-[#F2B8D8]/10 text-[#F2B8D8]',
+    archived: 'border-white/20 bg-[var(--card-bg)]/5 text-white/45',
+  } satisfies Record<ProjectStatus, string>
 
   return (
     <span
       className={[
-        "rounded-full border px-2.5 py-1 text-[0.68rem] font-bold",
+        'rounded-full border px-2.5 py-1 text-[0.68rem] font-bold',
         statusClass[status],
-      ].join(" ")}
+      ].join(' ')}
     >
       status: {status}
     </span>
-  );
+  )
 }

@@ -1,67 +1,67 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { FiList } from "react-icons/fi";
-import type { TocItem } from "../../generated/articles";
+import { useEffect, useState } from 'react'
+import { FiList } from 'react-icons/fi'
+import type { TocItem } from '../../generated/articles'
 
 type ArticleTocProps = {
-  toc: TocItem[];
-};
+  toc: TocItem[]
+}
 
 export function ArticleToc({ toc }: ArticleTocProps) {
-  const [isOpen, setIsOpen] = useState(true);
-  const [activeId, setActiveId] = useState(toc[0]?.id ?? "");
+  const [isOpen, setIsOpen] = useState(true)
+  const [activeId, setActiveId] = useState(toc[0]?.id ?? '')
 
   useEffect(() => {
-    if (toc.length === 0) return;
+    if (toc.length === 0) return
 
     const headings = toc
       .map((item) => document.getElementById(item.id))
-      .filter((element): element is HTMLElement => element !== null);
+      .filter((element): element is HTMLElement => element !== null)
 
-    if (headings.length === 0) return;
+    if (headings.length === 0) return
 
     const updateActiveHeading = () => {
       const current = [...headings]
         .reverse()
-        .find((heading) => heading.getBoundingClientRect().top <= 140);
+        .find((heading) => heading.getBoundingClientRect().top <= 140)
 
       if (current) {
-        setActiveId(current.id);
+        setActiveId(current.id)
       } else {
-        setActiveId(headings[0]?.id ?? "");
+        setActiveId(headings[0]?.id ?? '')
       }
-    };
+    }
 
     const observer = new IntersectionObserver(
       () => {
-        updateActiveHeading();
+        updateActiveHeading()
       },
       {
         root: null,
-        rootMargin: "-120px 0px -70% 0px",
+        rootMargin: '-120px 0px -70% 0px',
         threshold: [0, 1],
       },
-    );
+    )
 
     for (const heading of headings) {
-      observer.observe(heading);
+      observer.observe(heading)
     }
 
-    updateActiveHeading();
+    updateActiveHeading()
 
-    window.addEventListener("scroll", updateActiveHeading, { passive: true });
-    window.addEventListener("resize", updateActiveHeading);
+    window.addEventListener('scroll', updateActiveHeading, { passive: true })
+    window.addEventListener('resize', updateActiveHeading)
 
     return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", updateActiveHeading);
-      window.removeEventListener("resize", updateActiveHeading);
-    };
-  }, [toc]);
+      observer.disconnect()
+      window.removeEventListener('scroll', updateActiveHeading)
+      window.removeEventListener('resize', updateActiveHeading)
+    }
+  }, [toc])
 
   if (toc.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -79,52 +79,52 @@ export function ArticleToc({ toc }: ArticleTocProps) {
         <button
           type="button"
           onClick={() => setIsOpen((current) => !current)}
-          aria-label={isOpen ? "目次を折りたたむ" : "目次を開く"}
+          aria-label={isOpen ? '目次を折りたたむ' : '目次を開く'}
           aria-expanded={isOpen}
           className="grid size-7 shrink-0 place-items-center rounded-full border border-[var(--accent-strong)]/35 bg-[var(--card-bg)]/70 text-sm font-bold leading-none text-[var(--accent-strong)] transition duration-200 hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70"
         >
           <span
             className={[
-              "block transition duration-300 ease-out",
-              isOpen ? "rotate-0 scale-100" : "rotate-90 scale-110",
-            ].join(" ")}
+              'block transition duration-300 ease-out',
+              isOpen ? 'rotate-0 scale-100' : 'rotate-90 scale-110',
+            ].join(' ')}
           >
-            {isOpen ? "−" : "+"}
+            {isOpen ? '−' : '+'}
           </span>
         </button>
       </div>
 
       <div
         className={[
-          "grid transition-[grid-template-rows,opacity,margin] duration-300 ease-out",
+          'grid transition-[grid-template-rows,opacity,margin] duration-300 ease-out',
           isOpen
-            ? "mt-4 grid-rows-[1fr] opacity-100"
-            : "mt-0 grid-rows-[0fr] opacity-0",
-        ].join(" ")}
+            ? 'mt-4 grid-rows-[1fr] opacity-100'
+            : 'mt-0 grid-rows-[0fr] opacity-0',
+        ].join(' ')}
       >
         <nav className="min-h-0 overflow-hidden space-y-1.5">
           {toc.map((item) => {
-            const isActive = item.id === activeId;
+            const isActive = item.id === activeId
 
             return (
               <a
                 key={item.id}
                 href={`#${encodeURIComponent(item.id)}`}
-                aria-current={isActive ? "true" : undefined}
+                aria-current={isActive ? 'true' : undefined}
                 onClick={() => setActiveId(item.id)}
                 className={[
-                  "block border-l-2 px-3 py-1.5 text-sm leading-6 transition duration-200",
+                  'block border-l-2 px-3 py-1.5 text-sm leading-6 transition duration-200',
                   isActive
-                    ? "border-[var(--accent-strong)] bg-[var(--blue-50)]/70 font-semibold text-[var(--accent-strong)]"
-                    : "border-transparent text-[var(--text)] hover:border-[var(--accent-strong)]/45 hover:bg-[var(--card-bg)]/45 hover:text-[var(--accent-strong)]",
-                ].join(" ")}
+                    ? 'border-[var(--accent-strong)] bg-[var(--blue-50)]/70 font-semibold text-[var(--accent-strong)]'
+                    : 'border-transparent text-[var(--text)] hover:border-[var(--accent-strong)]/45 hover:bg-[var(--card-bg)]/45 hover:text-[var(--accent-strong)]',
+                ].join(' ')}
               >
                 {item.text}
               </a>
-            );
+            )
           })}
         </nav>
       </div>
     </aside>
-  );
+  )
 }

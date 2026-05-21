@@ -1,8 +1,9 @@
 ---
 title: ghqとfzfで快適にプロジェクト移動できるようにした
-tags: ["zsh"]
-date: "2024-11-30"
+tags: ['zsh']
+date: '2024-11-30'
 ---
+
 ## プロジェクト移動がめんどくさい
 
 そこのあなた！！！異なるプロジェクトを移動するときにいちいち `cd ~/repo/github.com/Kigou-No1/...`とかタイピングしていませんか？
@@ -22,7 +23,7 @@ $ sudo apt install fzf
 Windows:
 
 ```bash
-$ winget install fzf 
+$ winget install fzf
 ```
 
 ## 使い方
@@ -46,7 +47,7 @@ function Get-FzfRepo {
 Set-PSReadLineKeyHandler -Chord Ctrl+g -ScriptBlock { # Ctrl+gに割り当て
     Get-FzfRepo
     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
-} 
+}
 ```
 
 Zsh:

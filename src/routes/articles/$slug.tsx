@@ -1,55 +1,51 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArticleActionRail } from "../../components/article/ArticleActionRail";
-import { ArticleBody } from "../../components/article/ArticleBody";
-import { ArticleMetaCards } from "../../components/article/ArticleMetaCards";
-import { ArticleMobileActions } from "../../components/article/ArticleMobileActions";
-import { ArticleNavigation } from "../../components/article/ArticleNavigation";
-import { ArticleToc } from "../../components/article/ArticleToc";
-import { CodeCopyController } from "../../components/article/CodeCopyController";
-import { ArticleActionsProvider } from "../../components/article/useArticleActions";
-import { PageLayout } from "../../components/layout/PageLayout";
-import { TagPill } from "../../components/ui/TagPill";
-import { siteConfig } from "../../config/site";
-import {
-  getArticleBySlug,
-  getAdjacentArticles,
-} from "../../lib/articles";
-import { createSeo } from "../../lib/seo";
+import { createFileRoute, Link, notFound } from '@tanstack/react-router'
+import { ArticleActionRail } from '../../components/article/ArticleActionRail'
+import { ArticleBody } from '../../components/article/ArticleBody'
+import { ArticleMetaCards } from '../../components/article/ArticleMetaCards'
+import { ArticleMobileActions } from '../../components/article/ArticleMobileActions'
+import { ArticleNavigation } from '../../components/article/ArticleNavigation'
+import { ArticleToc } from '../../components/article/ArticleToc'
+import { CodeCopyController } from '../../components/article/CodeCopyController'
+import { ArticleActionsProvider } from '../../components/article/useArticleActions'
+import { PageLayout } from '../../components/layout/PageLayout'
+import { TagPill } from '../../components/ui/TagPill'
+import { siteConfig } from '../../config/site'
+import { getArticleBySlug, getAdjacentArticles } from '../../lib/articles'
+import { createSeo } from '../../lib/seo'
 
-export const Route = createFileRoute("/articles/$slug")({
+export const Route = createFileRoute('/articles/$slug')({
   head: ({ params }) => {
-    const article = getArticleBySlug(params.slug);
+    const article = getArticleBySlug(params.slug)
 
     if (!article) {
       return {
         meta: [{ title: `Article Not Found | ${siteConfig.name}` }],
-      };
+      }
     }
 
-    const description =
-      article.description || `${article.title} の記事です。`;
-    const image = new URL(article.thumbnail, siteConfig.url).toString();
+    const description = article.description || `${article.title} の記事です。`
+    const image = new URL(article.thumbnail, siteConfig.url).toString()
 
     return createSeo({
       title: `${article.title} | ${siteConfig.name}`,
       description,
       path: `articles/${article.slug}`,
-      type: "article",
+      type: 'article',
       image,
     })
   },
   component: ArticlePage,
-});
+})
 
 function ArticlePage() {
-  const { slug } = Route.useParams();
+  const { slug } = Route.useParams()
 
-  const article = getArticleBySlug(slug);
+  const article = getArticleBySlug(slug)
 
   if (!article) {
-    throw notFound();
+    throw notFound()
   }
-  const { newerArticle, olderArticle } = getAdjacentArticles(slug);
+  const { newerArticle, olderArticle } = getAdjacentArticles(slug)
 
   return (
     <PageLayout maxWidth="xl">
@@ -110,5 +106,5 @@ function ArticlePage() {
         </div>
       </ArticleActionsProvider>
     </PageLayout>
-  );
+  )
 }

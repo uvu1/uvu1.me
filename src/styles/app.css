@@ -1,26 +1,16 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans:
-    "futura-pt",
-    "Noto Sans JP",
-    "Noto Sans CJK JP",
-    system-ui,
-    sans-serif;
+    'futura-pt', 'Noto Sans JP', 'Noto Sans CJK JP', system-ui, sans-serif;
 
   --font-mono:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    "Liberation Mono",
-    "Courier New",
-    monospace;
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
 }
 
-@import "./tokens.css";
-@import "./base.css";
-@import "./components.css";
-@import "./markdown/index.css";
+@import './tokens.css';
+@import './base.css';
+@import './components.css';
+@import './markdown/index.css';

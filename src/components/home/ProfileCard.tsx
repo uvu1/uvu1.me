@@ -1,4 +1,4 @@
-import { SectionTitle } from "../ui/SectionTitle";
+import { SectionTitle } from '../ui/SectionTitle'
 
 export function ProfileCard() {
   return (
@@ -21,5 +21,5 @@ export function ProfileCard() {
         </p>
       </div>
     </section>
-  );
+  )
 }

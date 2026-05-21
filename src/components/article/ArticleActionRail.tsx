@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { FiHeart, FiLink } from "react-icons/fi";
-import { ArticleShareButtons } from "./ArticleShareButtons";
-import { useArticleActionsContext } from "./useArticleActions";
+import { FiHeart, FiLink } from 'react-icons/fi'
+import { ArticleShareButtons } from './ArticleShareButtons'
+import { useArticleActionsContext } from './useArticleActions'
 
 export function ArticleActionRail() {
   const {
@@ -13,7 +13,7 @@ export function ArticleActionRail() {
     copied,
     toggleLike,
     copyUrl,
-  } = useArticleActionsContext();
+  } = useArticleActionsContext()
 
   return (
     <aside className="fixed left-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))] top-49 z-40 hidden h-fit flex-col items-center gap-3 xl:flex">
@@ -24,17 +24,17 @@ export function ArticleActionRail() {
         aria-pressed={liked}
         aria-label="この記事にいいねする"
         className={[
-          "grid size-11 place-items-center rounded-full border transition duration-200 disabled:cursor-wait disabled:opacity-70",
+          'grid size-11 place-items-center rounded-full border transition duration-200 disabled:cursor-wait disabled:opacity-70',
           liked
-            ? "border-[#F2B8D8]/70 bg-[#FCECF4]/80 text-[#D978A6]"
-            : "border-[var(--accent-strong)]/30 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] hover:border-[#F2B8D8]/70 hover:bg-[#FCECF4]/70 hover:text-[#D978A6]",
-        ].join(" ")}
+            ? 'border-[#F2B8D8]/70 bg-[#FCECF4]/80 text-[#D978A6]'
+            : 'border-[var(--accent-strong)]/30 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] hover:border-[#F2B8D8]/70 hover:bg-[#FCECF4]/70 hover:text-[#D978A6]',
+        ].join(' ')}
       >
-        <FiHeart className={liked ? "size-5 fill-current" : "size-5"} />
+        <FiHeart className={liked ? 'size-5 fill-current' : 'size-5'} />
       </button>
 
       <span className="text-xs font-semibold text-[var(--muted)]">
-        {likeLoading ? "…" : likeCount}
+        {likeLoading ? '…' : likeCount}
       </span>
 
       <Divider />
@@ -54,9 +54,9 @@ export function ArticleActionRail() {
         )}
       </button>
     </aside>
-  );
+  )
 }
 
 function Divider() {
-  return <div className="my-1 h-px w-8 bg-[var(--border)]" />;
+  return <div className="my-1 h-px w-8 bg-[var(--border)]" />
 }

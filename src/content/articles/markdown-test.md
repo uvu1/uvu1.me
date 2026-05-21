@@ -1,11 +1,12 @@
 ---
-title: "Test Markdown"
-date: "2026-05-21"
+title: 'Test Markdown'
+date: '2026-05-21'
 pin: true
 draft: true
-tags: 
+tags:
   - test
 ---
+
 # 見出しレベル1
 
 これは `h1` の表示確認です。  
@@ -49,28 +50,28 @@ TypeScript のコードブロックです。
 
 ```ts
 type Article = {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  tags: string[];
-  pin: boolean;
-};
+  slug: string
+  title: string
+  description: string
+  date: string
+  tags: string[]
+  pin: boolean
+}
 
 function formatDate(date: string) {
-  return date.replaceAll("-", "/");
+  return date.replaceAll('-', '/')
 }
 
 const article: Article = {
-  slug: "markdown-display-test",
-  title: "Markdown表示テスト",
-  description: "表示確認用の記事です。",
-  date: "2026-05-21",
-  tags: ["Markdown", "UI"],
+  slug: 'markdown-display-test',
+  title: 'Markdown表示テスト',
+  description: '表示確認用の記事です。',
+  date: '2026-05-21',
+  tags: ['Markdown', 'UI'],
   pin: true,
-};
+}
 
-console.log(formatDate(article.date));
+console.log(formatDate(article.date))
 ```
 
 Bash のコードブロックです。
@@ -88,14 +89,14 @@ bun run build
 表の表示確認です。  
 ヘッダー、罫線、セルの余白、背景色を確認します。
 
-| 項目 | 内容 | 状態 |
-|---|---|---|
-| h1 | 見出しレベル1 | OK |
-| h2 | 見出しレベル2 | OK |
-| h3 | 見出しレベル3 | OK |
-| code | シンタックスハイライト | 確認中 |
-| table | 表示テスト | OK |
-| image | 画像表示 | OK |
+| 項目  | 内容                   | 状態   |
+| ----- | ---------------------- | ------ |
+| h1    | 見出しレベル1          | OK     |
+| h2    | 見出しレベル2          | OK     |
+| h3    | 見出しレベル3          | OK     |
+| code  | シンタックスハイライト | 確認中 |
+| table | 表示テスト             | OK     |
+| image | 画像表示               | OK     |
 
 # 画像
 
@@ -128,7 +129,7 @@ Markdown記事では、見出しやコードだけでなく、普通の文章が
 
 ```ts
 export function hello(name: string) {
-  return `Hello, ${name}!`;
+  return `Hello, ${name}!`
 }
 ```
 

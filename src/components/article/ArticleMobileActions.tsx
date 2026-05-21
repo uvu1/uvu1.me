@@ -1,12 +1,12 @@
-"use client";
+'use client'
 
-import { FiHeart, FiLink } from "react-icons/fi";
-import { ArticleShareButtons } from "./ArticleShareButtons";
-import { useArticleActionsContext } from "./useArticleActions";
+import { FiHeart, FiLink } from 'react-icons/fi'
+import { ArticleShareButtons } from './ArticleShareButtons'
+import { useArticleActionsContext } from './useArticleActions'
 
 export function ArticleMobileActions() {
   const { shareLinks, liked, likeLoading, copied, toggleLike, copyUrl } =
-    useArticleActionsContext();
+    useArticleActionsContext()
 
   return (
     <section className="mt-10 xl:hidden">
@@ -18,13 +18,13 @@ export function ArticleMobileActions() {
           aria-pressed={liked}
           aria-label="この記事にいいねする"
           className={[
-            "grid size-10 place-items-center rounded-full border transition disabled:cursor-wait disabled:opacity-70",
+            'grid size-10 place-items-center rounded-full border transition disabled:cursor-wait disabled:opacity-70',
             liked
-              ? "border-[#F2B8D8]/70 bg-[#FCECF4]/30 text-[#D978A6]"
-              : "border-[var(--accent-strong)]/30 text-[var(--accent-strong)] hover:bg-[var(--blue-50)]",
-          ].join(" ")}
+              ? 'border-[#F2B8D8]/70 bg-[#FCECF4]/30 text-[#D978A6]'
+              : 'border-[var(--accent-strong)]/30 text-[var(--accent-strong)] hover:bg-[var(--blue-50)]',
+          ].join(' ')}
         >
-          <FiHeart className={liked ? "size-4 fill-current" : "size-4"} />
+          <FiHeart className={liked ? 'size-4 fill-current' : 'size-4'} />
         </button>
 
         <ArticleShareButtons links={shareLinks} variant="mobile" />
@@ -43,5 +43,5 @@ export function ArticleMobileActions() {
         </button>
       </div>
     </section>
-  );
+  )
 }

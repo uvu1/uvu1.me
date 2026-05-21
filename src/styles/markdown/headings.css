@@ -50,7 +50,7 @@
 .article-body h1::after,
 .article-body h2::after,
 .article-body h3::after {
-  content: "🔗";
+  content: '🔗';
   margin-left: 0.35rem;
   color: var(--accent-strong);
   font-size: 0.75em;
@@ -65,10 +65,10 @@
   opacity: 0.75;
 }
 
-.article-body h1[data-copied="true"]::after,
-.article-body h2[data-copied="true"]::after,
-.article-body h3[data-copied="true"]::after {
-  content: "copied";
+.article-body h1[data-copied='true']::after,
+.article-body h2[data-copied='true']::after,
+.article-body h3[data-copied='true']::after {
+  content: 'copied';
   opacity: 1;
   font-size: 0.65em;
   color: var(--accent-strong);
@@ -85,7 +85,7 @@
 }
 
 .article-body h1::before {
-  content: "#";
+  content: '#';
   font-size: 2.15rem;
 }
 
@@ -96,7 +96,7 @@
 }
 
 .article-body h2::before {
-  content: "##";
+  content: '##';
   font-size: 1.45rem;
 }
 
@@ -107,6 +107,6 @@
 }
 
 .article-body h3::before {
-  content: "###";
+  content: '###';
   font-size: 1.05rem;
 }

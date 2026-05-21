@@ -15,7 +15,7 @@ export function ThemeScript() {
     document.documentElement.dataset.theme = "light";
   }
 })();
-`;
+`
 
-  return <script dangerouslySetInnerHTML={{ __html: script }} />;
+  return <script dangerouslySetInnerHTML={{ __html: script }} />
 }

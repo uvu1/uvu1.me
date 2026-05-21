@@ -1,14 +1,14 @@
-import { Link } from "@tanstack/react-router";
-import type { Article } from "../../lib/articles";
-import { ArticleThumb } from "../ui/ArticleThumb";
-import { TagPill } from "../ui/TagPill";
-import { formatDate } from "../../lib/date";
+import { Link } from '@tanstack/react-router'
+import type { Article } from '../../lib/articles'
+import { ArticleThumb } from '../ui/ArticleThumb'
+import { TagPill } from '../ui/TagPill'
+import { formatDate } from '../../lib/date'
 
 type ArticleListItemProps = {
-  article: Article;
-  compact?: boolean;
-  showDate?: boolean;
-};
+  article: Article
+  compact?: boolean
+  showDate?: boolean
+}
 
 export function ArticleListItem({
   article,
@@ -25,9 +25,9 @@ export function ArticleListItem({
         src={article.thumbnail}
         title={article.title}
         className={[
-          "h-20 w-28 shrink-0 sm:h-24 sm:w-40",
-          compact ? "sm:h-16 sm:w-28" : "",
-        ].join(" ")}
+          'h-20 w-28 shrink-0 sm:h-24 sm:w-40',
+          compact ? 'sm:h-16 sm:w-28' : '',
+        ].join(' ')}
       />
 
       <div className="min-w-0">
@@ -39,9 +39,9 @@ export function ArticleListItem({
 
         <h3
           className={[
-            "line-clamp-1 text-sm font-semibold text-[var(--text)] transition group-hover:text-[var(--accent-strong)] sm:text-lg",
-            showDate ? "mt-1" : "",
-          ].join(" ")}
+            'line-clamp-1 text-sm font-semibold text-[var(--text)] transition group-hover:text-[var(--accent-strong)] sm:text-lg',
+            showDate ? 'mt-1' : '',
+          ].join(' ')}
         >
           {article.title}
         </h3>
@@ -65,5 +65,5 @@ export function ArticleListItem({
         続きを読む →
       </div>
     </Link>
-  );
+  )
 }

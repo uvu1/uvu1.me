@@ -1,7 +1,7 @@
 type Bindings = {
-  DB: D1Database;
+  DB: D1Database
 }
 
-declare module "cloudflare:workers" {
-  export const env: Bindings;
+declare module 'cloudflare:workers' {
+  export const env: Bindings
 }

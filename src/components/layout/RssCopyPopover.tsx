@@ -1,31 +1,28 @@
-"use client";
+'use client'
 
-import { useEffect } from "react";
-import { FiCheck, FiRss, FiX } from "react-icons/fi";
+import { useEffect } from 'react'
+import { FiCheck, FiRss, FiX } from 'react-icons/fi'
 
 type RssCopyPopoverProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
 
-export function RssCopyPopover({
-  open,
-  onOpenChange,
-}: RssCopyPopoverProps) {
+export function RssCopyPopover({ open, onOpenChange }: RssCopyPopoverProps) {
   useEffect(() => {
-    if (!open) return;
+    if (!open) return
 
     const timeout = window.setTimeout(() => {
-      onOpenChange(false);
-    }, 3600);
+      onOpenChange(false)
+    }, 3600)
 
     return () => {
-      window.clearTimeout(timeout);
-    };
-  }, [open, onOpenChange]);
+      window.clearTimeout(timeout)
+    }
+  }, [open, onOpenChange])
 
   if (!open) {
-    return null;
+    return null
   }
 
   return (
@@ -45,7 +42,8 @@ export function RssCopyPopover({
             </div>
 
             <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
-              お好みのRSSリーダーに登録すると、uvu1.me の最新記事を簡単に確認できます。
+              お好みのRSSリーダーに登録すると、uvu1.me
+              の最新記事を簡単に確認できます。
             </p>
 
             <p className="mt-3 truncate rounded-full border border-[var(--accent-strong)]/20 bg-[var(--card-bg)]/65 px-3 py-1.5 font-mono text-xs text-[var(--accent-strong)]">
@@ -64,5 +62,5 @@ export function RssCopyPopover({
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,20 +1,20 @@
-import { Link } from "@tanstack/react-router";
-import type { Article } from "../../lib/articles";
-import { formatDate } from "../../lib/date";
+import { Link } from '@tanstack/react-router'
+import type { Article } from '../../lib/articles'
+import { formatDate } from '../../lib/date'
 
 type ArticleNavigationProps = {
-  newerArticle?: Article;
-  olderArticle?: Article;
-};
+  newerArticle?: Article
+  olderArticle?: Article
+}
 
 function NavCard({
   label,
   direction,
   article,
 }: {
-  label: string;
-  direction: "prev" | "next";
-  article?: Article;
+  label: string
+  direction: 'prev' | 'next'
+  article?: Article
 }) {
   if (!article) {
     return (
@@ -22,7 +22,7 @@ function NavCard({
         <p className="text-xs text-[var(--muted)]">{label}</p>
         <p className="mt-2 text-sm text-[var(--muted)]">記事がありません</p>
       </div>
-    );
+    )
   }
 
   return (
@@ -32,9 +32,9 @@ function NavCard({
       className="group block border border-transparent bg-transparent px-5 py-4 transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[var(--blue-50)]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/45"
     >
       <p className="text-xs font-medium text-[var(--accent-strong)]">
-        {direction === "prev" ? "← " : ""}
+        {direction === 'prev' ? '← ' : ''}
         {label}
-        {direction === "next" ? " →" : ""}
+        {direction === 'next' ? ' →' : ''}
       </p>
 
       <h3 className="mt-2 line-clamp-1 text-base font-semibold text-[var(--text)] transition group-hover:text-[var(--accent-strong)]">
@@ -45,7 +45,7 @@ function NavCard({
         {formatDate(article.date)}
       </time>
     </Link>
-  );
+  )
 }
 
 export function ArticleNavigation({
@@ -55,18 +55,10 @@ export function ArticleNavigation({
   return (
     <nav className="mt-16 border-t border-[var(--border)] pt-8">
       <div className="grid gap-4 md:grid-cols-2">
-        <NavCard
-          label="前の記事"
-          direction="prev"
-          article={olderArticle}
-        />
+        <NavCard label="前の記事" direction="prev" article={olderArticle} />
 
-        <NavCard
-          label="次の記事"
-          direction="next"
-          article={newerArticle}
-        />
+        <NavCard label="次の記事" direction="next" article={newerArticle} />
       </div>
     </nav>
-  );
+  )
 }

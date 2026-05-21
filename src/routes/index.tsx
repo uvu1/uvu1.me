@@ -1,32 +1,32 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { PageLayout } from "../components/layout/PageLayout";
-import { PinnedSection } from "../components/home/PinnedSection";
-import { ArchivesSection } from "../components/home/ArchivesSection";
-import { ProfileCard } from "../components/home/ProfileCard";
-import { TagsCard } from "../components/home/TagsCard";
+import { createFileRoute } from '@tanstack/react-router'
+import { PageLayout } from '../components/layout/PageLayout'
+import { PinnedSection } from '../components/home/PinnedSection'
+import { ArchivesSection } from '../components/home/ArchivesSection'
+import { ProfileCard } from '../components/home/ProfileCard'
+import { TagsCard } from '../components/home/TagsCard'
 import {
   getAllTags,
   getArchiveArticles,
   getPinnedArticles,
-} from "../lib/articles";
-import { siteConfig } from "../config/site";
-import { createSeo } from "../lib/seo";
+} from '../lib/articles'
+import { siteConfig } from '../config/site'
+import { createSeo } from '../lib/seo'
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute('/')({
   head: () => {
     return createSeo({
       title: siteConfig.name,
-      description: "uvu1.me",
-      path: "/"
+      description: 'uvu1.me',
+      path: '/',
     })
   },
   component: HomePage,
-});
+})
 
 function HomePage() {
-  const pinnedArticles = getPinnedArticles();
-  const archiveArticles = getArchiveArticles();
-  const tags = getAllTags();
+  const pinnedArticles = getPinnedArticles()
+  const archiveArticles = getArchiveArticles()
+  const tags = getAllTags()
 
   return (
     <PageLayout maxWidth="lg">
@@ -41,5 +41,5 @@ function HomePage() {
         </aside>
       </div>
     </PageLayout>
-  );
+  )
 }

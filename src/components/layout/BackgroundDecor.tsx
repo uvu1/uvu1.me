@@ -28,10 +28,10 @@ export function BackgroundDecor() {
 
       <div className="absolute inset-0 opacity-[0.14] [background-image:radial-gradient(#9DCCF5_1px,transparent_1px)] [background-size:28px_28px]" />
     </div>
-  );
+  )
 }
 
-function Cloud({ className = "" }: { className?: string }) {
+function Cloud({ className = '' }: { className?: string }) {
   return (
     <div className={`absolute ${className}`}>
       <div className="relative h-40 w-80">
@@ -41,15 +41,15 @@ function Cloud({ className = "" }: { className?: string }) {
         <div className="absolute bottom-2 left-0 h-20 w-72 rounded-full bg-[#E6F2FF]/55 blur-sm" />
       </div>
     </div>
-  );
+  )
 }
 
-function Sparkle({ className = "" }: { className?: string }) {
+function Sparkle({ className = '' }: { className?: string }) {
   return (
     <div
       className={`absolute text-2xl text-[#A7BDF4]/70 drop-shadow-[0_0_12px_rgba(167,189,244,0.5)] ${className}`}
     >
       ✧
     </div>
-  );
+  )
 }

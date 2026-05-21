@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
-import { FiArrowLeft, FiHome, FiSearch } from "react-icons/fi";
+import { Link } from '@tanstack/react-router'
+import { FiArrowLeft, FiHome, FiSearch } from 'react-icons/fi'
 
 export function NotFoundPage() {
   return (
@@ -55,5 +55,5 @@ export function NotFoundPage() {
         </div>
       </section>
     </main>
-  );
+  )
 }

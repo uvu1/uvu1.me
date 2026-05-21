@@ -1,15 +1,15 @@
-import { ArticleListItem } from "../article/ArticleListItem";
-import { SectionTitle } from "../ui/SectionTitle";
-import type { Article } from "../../lib/articles";
-import { formatDate } from "../../lib/date";
+import { ArticleListItem } from '../article/ArticleListItem'
+import { SectionTitle } from '../ui/SectionTitle'
+import type { Article } from '../../lib/articles'
+import { formatDate } from '../../lib/date'
 
 type ArchivesSectionProps = {
-  articles: Article[];
-};
+  articles: Article[]
+}
 
 export function ArchivesSection({ articles }: ArchivesSectionProps) {
   if (articles.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -21,7 +21,7 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
 
         <div className="space-y-7">
           {articles.map((article, index) => {
-            const isLatest = index === 0;
+            const isLatest = index === 0
 
             return (
               <div
@@ -31,11 +31,11 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
                 <div className="relative z-10 flex items-start gap-3 pt-2 sm:gap-4 sm:pt-5">
                   <span
                     className={[
-                      "mt-1 size-4 shrink-0 rounded-full border-2 border-[var(--accent-strong)]",
+                      'mt-1 size-4 shrink-0 rounded-full border-2 border-[var(--accent-strong)]',
                       isLatest
-                        ? "bg-[var(--accent-strong)]"
-                        : "bg-[var(--surface)]",
-                    ].join(" ")}
+                        ? 'bg-[var(--accent-strong)]'
+                        : 'bg-[var(--surface)]',
+                    ].join(' ')}
                   />
 
                   <time className="hidden text-sm font-semibold text-[var(--text)] sm:block">
@@ -51,10 +51,10 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
                   <ArticleListItem article={article} showDate={false} />
                 </div>
               </div>
-            );
+            )
           })}
         </div>
       </div>
     </section>
-  );
+  )
 }

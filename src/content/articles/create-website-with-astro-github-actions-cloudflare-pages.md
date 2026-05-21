@@ -1,8 +1,9 @@
 ---
 title: Astro.js + Github Actions + Cloudflare Pagesでサイトを作った
-date: "2024-10-23"
-tags: ["astro", "github", "cloudflare"]
+date: '2024-10-23'
+tags: ['astro', 'github', 'cloudflare']
 ---
+
 # 個人サイト作った！！
 
 ## 動機

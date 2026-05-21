@@ -1,14 +1,14 @@
-import { SectionTitle } from "../ui/SectionTitle";
-import { TagPill } from "../ui/TagPill";
+import { SectionTitle } from '../ui/SectionTitle'
+import { TagPill } from '../ui/TagPill'
 
 type Tag = {
-  name: string;
-  count: number;
-};
+  name: string
+  count: number
+}
 
 type TagsCardProps = {
-  tags: Tag[];
-};
+  tags: Tag[]
+}
 
 export function TagsCard({ tags }: TagsCardProps) {
   return (
@@ -31,5 +31,5 @@ export function TagsCard({ tags }: TagsCardProps) {
         </div>
       )}
     </section>
-  );
+  )
 }

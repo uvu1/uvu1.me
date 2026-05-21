@@ -1,59 +1,59 @@
-"use client";
+'use client'
 
-import { Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { FiMenu, FiRss, FiSearch, FiX } from "react-icons/fi";
-import { SearchDialog } from "../search/SearchDialog";
-import { RssCopyPopover } from "./RssCopyPopover";
-import { ThemeToggle } from "../theme/ThemeToggle";
+import { Link } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
+import { FiMenu, FiRss, FiSearch, FiX } from 'react-icons/fi'
+import { SearchDialog } from '../search/SearchDialog'
+import { RssCopyPopover } from './RssCopyPopover'
+import { ThemeToggle } from '../theme/ThemeToggle'
 
 const navItems = [
-  { label: "Home", to: "/" },
-  { label: "Articles", to: "/articles" },
-  { label: "About", to: "/about" },
-  { label: "Projects", to: "/projects" },
-] as const;
+  { label: 'Home', to: '/' },
+  { label: 'Articles', to: '/articles' },
+  { label: 'About', to: '/about' },
+  { label: 'Projects', to: '/projects' },
+] as const
 
-const rssUrl = "https://uvu1.me/rss.xml";
+const rssUrl = 'https://uvu1.me/rss.xml'
 
 export function Header() {
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [rssPopoverOpen, setRssPopoverOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [rssPopoverOpen, setRssPopoverOpen] = useState(false)
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       const isSearchShortcut =
-        (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
+        (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k'
 
       if (isSearchShortcut) {
-        event.preventDefault();
-        setSearchOpen(true);
+        event.preventDefault()
+        setSearchOpen(true)
       }
 
-      if (event.key === "Escape") {
-        setMenuOpen(false);
+      if (event.key === 'Escape') {
+        setMenuOpen(false)
       }
     }
 
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener('keydown', onKeyDown)
 
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, []);
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [])
 
   async function copyRssUrl() {
     try {
-      await navigator.clipboard.writeText(rssUrl);
+      await navigator.clipboard.writeText(rssUrl)
     } finally {
-      setRssPopoverOpen(true);
-      setMenuOpen(false);
+      setRssPopoverOpen(true)
+      setMenuOpen(false)
     }
   }
 
   function closeMenu() {
-    setMenuOpen(false);
+    setMenuOpen(false)
   }
 
   return (
@@ -76,7 +76,7 @@ export function Header() {
                   to={item.to}
                   className="transition hover:text-[var(--accent-strong)]"
                   activeProps={{
-                    className: "text-[var(--accent-strong)]",
+                    className: 'text-[var(--accent-strong)]',
                   }}
                 >
                   {item.label}
@@ -111,7 +111,7 @@ export function Header() {
               <button
                 type="button"
                 onClick={() => setMenuOpen((current) => !current)}
-                aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"}
+                aria-label={menuOpen ? 'メニューを閉じる' : 'メニューを開く'}
                 aria-expanded={menuOpen}
                 className="grid size-9 place-items-center rounded-full border border-[var(--accent-strong)]/25 bg-[var(--card-bg)]/55 text-[var(--accent-strong)] shadow-[0_8px_24px_rgba(127,183,232,0.08)] backdrop-blur transition hover:border-[var(--accent-strong)] hover:bg-[var(--blue-50)]/70 md:hidden"
               >
@@ -134,12 +134,9 @@ export function Header() {
 
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
 
-      <RssCopyPopover
-        open={rssPopoverOpen}
-        onOpenChange={setRssPopoverOpen}
-      />
+      <RssCopyPopover open={rssPopoverOpen} onOpenChange={setRssPopoverOpen} />
     </>
-  );
+  )
 }
 
 function MobileMenu({
@@ -147,32 +144,32 @@ function MobileMenu({
   onClose,
   onRssClick,
 }: {
-  open: boolean;
-  onClose: () => void;
-  onRssClick: () => void;
+  open: boolean
+  onClose: () => void
+  onRssClick: () => void
 }) {
   return (
     <div
       className={[
-        "md:hidden",
-        open ? "pointer-events-auto" : "pointer-events-none",
-      ].join(" ")}
+        'md:hidden',
+        open ? 'pointer-events-auto' : 'pointer-events-none',
+      ].join(' ')}
     >
       <button
         type="button"
         aria-label="メニューを閉じる"
         onClick={onClose}
         className={[
-          "fixed inset-0 z-40 bg-[#101827]/10 backdrop-blur-[2px] transition-opacity duration-200",
-          open ? "opacity-100" : "opacity-0",
-        ].join(" ")}
+          'fixed inset-0 z-40 bg-[#101827]/10 backdrop-blur-[2px] transition-opacity duration-200',
+          open ? 'opacity-100' : 'opacity-0',
+        ].join(' ')}
       />
 
       <div
         className={[
-          "fixed left-4 right-4 top-20 z-50 overflow-hidden rounded-[1.75rem] border border-white/70 bg-[var(--card-bg)]/90 shadow-[0_24px_80px_rgba(127,183,232,0.26)] backdrop-blur-2xl transition duration-200",
-          open ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
-        ].join(" ")}
+          'fixed left-4 right-4 top-20 z-50 overflow-hidden rounded-[1.75rem] border border-white/70 bg-[var(--card-bg)]/90 shadow-[0_24px_80px_rgba(127,183,232,0.26)] backdrop-blur-2xl transition duration-200',
+          open ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0',
+        ].join(' ')}
       >
         <nav className="p-3">
           {navItems.map((item) => (
@@ -182,7 +179,7 @@ function MobileMenu({
               onClick={onClose}
               className="flex items-center justify-between rounded-[1.25rem] px-4 py-3 text-sm font-bold text-[var(--text)] transition hover:bg-[var(--blue-50)]/70 hover:text-[var(--accent-strong)]"
               activeProps={{
-                className: "text-[var(--accent-strong)] bg-[var(--blue-50)]/55",
+                className: 'text-[var(--accent-strong)] bg-[var(--blue-50)]/55',
               }}
             >
               <span>{item.label}</span>
@@ -213,5 +210,5 @@ function MobileMenu({
         </div>
       </div>
     </div>
-  );
+  )
 }

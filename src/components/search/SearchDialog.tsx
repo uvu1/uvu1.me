@@ -1,63 +1,63 @@
-"use client";
+'use client'
 
-import { Link, useRouter } from "@tanstack/react-router";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { FiSearch, FiX } from "react-icons/fi";
-import { getArchiveArticles } from "../../lib/articles";
-import type { Article } from "../../lib/articles";
-import { formatDate } from "../../lib/date";
+import { Link, useRouter } from '@tanstack/react-router'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
+import { FiSearch, FiX } from 'react-icons/fi'
+import { getArchiveArticles } from '../../lib/articles'
+import type { Article } from '../../lib/articles'
+import { formatDate } from '../../lib/date'
 import {
   escapeRegExp,
   normalizeText,
   parseQuery,
   searchArticles,
-} from "../../lib/search";
-import { TagPill } from "../ui/TagPill";
+} from '../../lib/search'
+import { TagPill } from '../ui/TagPill'
 
 type SearchDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-};
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
 
 const FOCUSABLE_SELECTOR = [
-  "a[href]",
-  "button:not([disabled])",
-  "input:not([disabled])",
-  "select:not([disabled])",
-  "textarea:not([disabled])",
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
   '[tabindex]:not([tabindex="-1"])',
-].join(",");
+].join(',')
 
 function getFocusableElements(container: HTMLElement) {
-  return [...container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR)].filter(
-    (element) => {
-      const style = window.getComputedStyle(element);
+  return [
+    ...container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
+  ].filter((element) => {
+    const style = window.getComputedStyle(element)
 
-      return style.display !== "none" && style.visibility !== "hidden";
-    },
-  );
+    return style.display !== 'none' && style.visibility !== 'hidden'
+  })
 }
 
 function HighlightText({ text, query }: { text: string; query: string }) {
-  const { words } = parseQuery(query);
+  const { words } = parseQuery(query)
 
   if (words.length === 0) {
-    return <>{text}</>;
+    return <>{text}</>
   }
 
-  const pattern = words.map(escapeRegExp).join("|");
-  const regex = new RegExp(`(${pattern})`, "gi");
-  const parts = text.split(regex);
+  const pattern = words.map(escapeRegExp).join('|')
+  const regex = new RegExp(`(${pattern})`, 'gi')
+  const parts = text.split(regex)
 
   return (
     <>
       {parts.map((part, index) => {
         const isMatch = words.some(
           (word) => normalizeText(part) === normalizeText(word),
-        );
+        )
 
         if (!isMatch) {
-          return <span key={`${part}-${index}`}>{part}</span>;
+          return <span key={`${part}-${index}`}>{part}</span>
         }
 
         return (
@@ -67,166 +67,166 @@ function HighlightText({ text, query }: { text: string; query: string }) {
           >
             {part}
           </mark>
-        );
+        )
       })}
     </>
-  );
+  )
 }
 
 export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
-  const router = useRouter();
-  const dialogTitleId = useId();
-  const dialogDescriptionId = useId();
-  const [query, setQuery] = useState("");
-  const [activeIndex, setActiveIndex] = useState(0);
-  const dialogRef = useRef<HTMLDivElement | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const resultRefs = useRef<Array<HTMLAnchorElement | null>>([]);
+  const router = useRouter()
+  const dialogTitleId = useId()
+  const dialogDescriptionId = useId()
+  const [query, setQuery] = useState('')
+  const [activeIndex, setActiveIndex] = useState(0)
+  const dialogRef = useRef<HTMLDivElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  const resultRefs = useRef<Array<HTMLAnchorElement | null>>([])
 
-  const articles = getArchiveArticles();
-  const parsedQuery = useMemo(() => parseQuery(query), [query]);
+  const articles = getArchiveArticles()
+  const parsedQuery = useMemo(() => parseQuery(query), [query])
   const hasQuery =
-    parsedQuery.words.length > 0 || parsedQuery.tagFilters.length > 0;
+    parsedQuery.words.length > 0 || parsedQuery.tagFilters.length > 0
 
   const results = useMemo(() => {
-    return searchArticles(articles, query).slice(0, 10);
-  }, [articles, query]);
+    return searchArticles(articles, query).slice(0, 10)
+  }, [articles, query])
 
   useEffect(() => {
-    setActiveIndex(0);
-  }, [query]);
+    setActiveIndex(0)
+  }, [query])
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return
 
     const previouslyFocused =
       document.activeElement instanceof HTMLElement
         ? document.activeElement
-        : null;
-    const previousBodyOverflow = document.body.style.overflow;
+        : null
+    const previousBodyOverflow = document.body.style.overflow
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden'
 
     const timeout = window.setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
+      inputRef.current?.focus()
+    }, 0)
 
     return () => {
-      window.clearTimeout(timeout);
-      document.body.style.overflow = previousBodyOverflow;
+      window.clearTimeout(timeout)
+      document.body.style.overflow = previousBodyOverflow
 
       if (previouslyFocused && document.contains(previouslyFocused)) {
-        previouslyFocused.focus({ preventScroll: true });
+        previouslyFocused.focus({ preventScroll: true })
       }
-    };
-  }, [open]);
+    }
+  }, [open])
 
   useEffect(() => {
     if (!open) {
-      setQuery("");
-      setActiveIndex(0);
+      setQuery('')
+      setActiveIndex(0)
     }
-  }, [open]);
+  }, [open])
 
   useEffect(() => {
-    const current = resultRefs.current[activeIndex];
+    const current = resultRefs.current[activeIndex]
 
     current?.scrollIntoView({
-      block: "nearest",
-    });
-  }, [activeIndex]);
+      block: 'nearest',
+    })
+  }, [activeIndex])
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) return
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Tab") {
-        const dialog = dialogRef.current;
+      if (event.key === 'Tab') {
+        const dialog = dialogRef.current
 
-        if (!dialog) return;
+        if (!dialog) return
 
-        const focusableElements = getFocusableElements(dialog);
+        const focusableElements = getFocusableElements(dialog)
 
         if (focusableElements.length === 0) {
-          event.preventDefault();
-          dialog.focus();
-          return;
+          event.preventDefault()
+          dialog.focus()
+          return
         }
 
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
-        const activeElement = document.activeElement;
+        const firstElement = focusableElements[0]
+        const lastElement = focusableElements[focusableElements.length - 1]
+        const activeElement = document.activeElement
 
         if (!dialog.contains(activeElement)) {
-          event.preventDefault();
-          (event.shiftKey ? lastElement : firstElement).focus();
-          return;
+          event.preventDefault()
+          ;(event.shiftKey ? lastElement : firstElement).focus()
+          return
         }
 
         if (event.shiftKey && activeElement === firstElement) {
-          event.preventDefault();
-          lastElement.focus();
-          return;
+          event.preventDefault()
+          lastElement.focus()
+          return
         }
 
         if (!event.shiftKey && activeElement === lastElement) {
-          event.preventDefault();
-          firstElement.focus();
+          event.preventDefault()
+          firstElement.focus()
         }
 
-        return;
+        return
       }
 
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onOpenChange(false);
-        return;
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onOpenChange(false)
+        return
       }
 
-      if (event.key === "ArrowDown") {
-        event.preventDefault();
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
         setActiveIndex((current) => {
-          if (results.length === 0) return 0;
-          return (current + 1) % results.length;
-        });
-        return;
+          if (results.length === 0) return 0
+          return (current + 1) % results.length
+        })
+        return
       }
 
-      if (event.key === "ArrowUp") {
-        event.preventDefault();
+      if (event.key === 'ArrowUp') {
+        event.preventDefault()
         setActiveIndex((current) => {
-          if (results.length === 0) return 0;
-          return (current - 1 + results.length) % results.length;
-        });
-        return;
+          if (results.length === 0) return 0
+          return (current - 1 + results.length) % results.length
+        })
+        return
       }
 
-      if (event.key === "Enter") {
-        if (results.length === 0) return;
+      if (event.key === 'Enter') {
+        if (results.length === 0) return
 
-        event.preventDefault();
-        onOpenChange(false);
+        event.preventDefault()
+        onOpenChange(false)
 
-        const selected = results[Math.min(activeIndex, results.length - 1)];
+        const selected = results[Math.min(activeIndex, results.length - 1)]
 
         router.navigate({
-          to: "/articles/$slug",
+          to: '/articles/$slug',
           params: {
             slug: selected.article.slug,
           },
-        });
+        })
       }
     }
 
-    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener('keydown', onKeyDown)
 
     return () => {
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [activeIndex, onOpenChange, open, results, router]);
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [activeIndex, onOpenChange, open, results, router])
 
   if (!open) {
-    return null;
+    return null
   }
 
   return (
@@ -270,7 +270,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           {query && (
             <button
               type="button"
-              onClick={() => setQuery("")}
+              onClick={() => setQuery('')}
               aria-label="検索をクリア"
               className="grid size-8 place-items-center rounded-full text-[var(--muted)] transition hover:bg-[var(--blue-50)]/70 hover:text-[var(--accent-strong)]"
             >
@@ -312,7 +312,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                   query={query}
                   active={index === activeIndex}
                   refCallback={(element) => {
-                    resultRefs.current[index] = element;
+                    resultRefs.current[index] = element
                   }}
                   onMouseEnter={() => setActiveIndex(index)}
                   onSelect={() => onOpenChange(false)}
@@ -337,11 +337,11 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
               <>
                 <span className="font-semibold text-[var(--accent-strong)]">
                   {results.length}
-                </span>{" "}
+                </span>{' '}
                 results
               </>
             ) : (
-              "Type keyword to search"
+              'Type keyword to search'
             )}
           </p>
 
@@ -352,7 +352,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function SearchEmptyState() {
@@ -369,10 +369,10 @@ function SearchEmptyState() {
       <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
         タイトル・説明・タグ・本文から記事を検索できます。
         <br />
-        タグで絞り込むときは{" "}
+        タグで絞り込むときは{' '}
         <code className="rounded-full bg-[var(--blue-50)] px-2 py-0.5 text-[var(--accent-strong)]">
-          {"{tag: UI}"}
-        </code>{" "}
+          {'{tag: UI}'}
+        </code>{' '}
         のように入力します。
       </p>
 
@@ -382,7 +382,7 @@ function SearchEmptyState() {
         <ExampleQuery query="TanStack {tag: Web}" />
       </div>
     </div>
-  );
+  )
 }
 
 function ExampleQuery({ query }: { query: string }) {
@@ -390,7 +390,7 @@ function ExampleQuery({ query }: { query: string }) {
     <span className="rounded-full border border-[var(--accent-strong)]/20 bg-[var(--card-bg)]/55 px-3 py-1 text-xs font-semibold text-[var(--muted)]">
       {query}
     </span>
-  );
+  )
 }
 
 function SearchResultItem({
@@ -401,12 +401,12 @@ function SearchResultItem({
   onMouseEnter,
   onSelect,
 }: {
-  article: Article;
-  query: string;
-  active: boolean;
-  refCallback: (element: HTMLAnchorElement | null) => void;
-  onMouseEnter: () => void;
-  onSelect: () => void;
+  article: Article
+  query: string
+  active: boolean
+  refCallback: (element: HTMLAnchorElement | null) => void
+  onMouseEnter: () => void
+  onSelect: () => void
 }) {
   return (
     <Link
@@ -415,13 +415,13 @@ function SearchResultItem({
       params={{ slug: article.slug }}
       onMouseEnter={onMouseEnter}
       onClick={onSelect}
-      aria-current={active ? "true" : undefined}
+      aria-current={active ? 'true' : undefined}
       className={[
-        "group block rounded-[1.25rem] px-4 py-3 transition duration-200",
+        'group block rounded-[1.25rem] px-4 py-3 transition duration-200',
         active
-          ? "bg-[var(--blue-50)]/80 shadow-[0_10px_30px_rgba(127,183,232,0.14)]"
-          : "hover:bg-[var(--blue-50)]/60",
-      ].join(" ")}
+          ? 'bg-[var(--blue-50)]/80 shadow-[0_10px_30px_rgba(127,183,232,0.14)]'
+          : 'hover:bg-[var(--blue-50)]/60',
+      ].join(' ')}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
@@ -431,11 +431,11 @@ function SearchResultItem({
 
           <h3
             className={[
-              "mt-1 line-clamp-1 text-base font-bold transition",
+              'mt-1 line-clamp-1 text-base font-bold transition',
               active
-                ? "text-[var(--accent-strong)]"
-                : "text-[var(--text)] group-hover:text-[var(--accent-strong)]",
-            ].join(" ")}
+                ? 'text-[var(--accent-strong)]'
+                : 'text-[var(--text)] group-hover:text-[var(--accent-strong)]',
+            ].join(' ')}
           >
             <HighlightText text={article.title} query={query} />
           </h3>
@@ -457,15 +457,15 @@ function SearchResultItem({
 
         <span
           className={[
-            "mt-1 shrink-0 text-sm font-bold text-[var(--accent-strong)] transition",
+            'mt-1 shrink-0 text-sm font-bold text-[var(--accent-strong)] transition',
             active
-              ? "translate-x-1 opacity-100"
-              : "opacity-0 group-hover:translate-x-1 group-hover:opacity-100",
-          ].join(" ")}
+              ? 'translate-x-1 opacity-100'
+              : 'opacity-0 group-hover:translate-x-1 group-hover:opacity-100',
+          ].join(' ')}
         >
           →
         </span>
       </div>
     </Link>
-  );
+  )
 }

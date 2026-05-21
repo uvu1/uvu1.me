@@ -1,11 +1,12 @@
 ---
-title: "Test Pin"
-date: "2026-05-21"
+title: 'Test Pin'
+date: '2026-05-21'
 pin: true
-tags: 
+tags:
   - test
 draft: true
 ---
+
 # はじめに
 
 これは本文のテストです。淡い背景に対して、読みやすい余白と行間になっているかを確認します。
@@ -21,6 +22,6 @@ Markdownの見出し、リスト、コード、引用がちゃんと見えるか
 `inline code` はこんな感じで表示されます。
 
 ```ts
-const site = "uvu1.me";
-console.log(site);
+const site = 'uvu1.me'
+console.log(site)
 ```

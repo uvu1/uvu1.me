@@ -1,16 +1,16 @@
-import { Link } from "@tanstack/react-router";
-import type { Article } from "../../lib/articles";
-import { ArticleThumb } from "../ui/ArticleThumb";
-import { SectionTitle } from "../ui/SectionTitle";
-import { formatDate } from "../../lib/date";
+import { Link } from '@tanstack/react-router'
+import type { Article } from '../../lib/articles'
+import { ArticleThumb } from '../ui/ArticleThumb'
+import { SectionTitle } from '../ui/SectionTitle'
+import { formatDate } from '../../lib/date'
 
 type PinnedSectionProps = {
-  articles: Article[];
-};
+  articles: Article[]
+}
 
 export function PinnedSection({ articles }: PinnedSectionProps) {
   if (articles.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -44,5 +44,5 @@ export function PinnedSection({ articles }: PinnedSectionProps) {
         ))}
       </div>
     </section>
-  );
+  )
 }

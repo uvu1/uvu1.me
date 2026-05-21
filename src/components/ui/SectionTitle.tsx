@@ -1,7 +1,7 @@
 type SectionTitleProps = {
-  children: string;
-  sparkle?: boolean;
-};
+  children: string
+  sparkle?: boolean
+}
 
 export function SectionTitle({ children, sparkle = true }: SectionTitleProps) {
   return (
@@ -10,9 +10,7 @@ export function SectionTitle({ children, sparkle = true }: SectionTitleProps) {
         #
       </span>
 
-      <span className="text-[var(--accent-strong)]">
-        {children}
-      </span>
+      <span className="text-[var(--accent-strong)]">{children}</span>
 
       {sparkle && (
         <span className="ml-0.5 bg-gradient-to-r from-[#F2B8D8] via-[#D6C7FF] to-[#9DCCF5] bg-clip-text text-xl leading-none text-transparent">
@@ -20,5 +18,5 @@ export function SectionTitle({ children, sparkle = true }: SectionTitleProps) {
         </span>
       )}
     </h2>
-  );
+  )
 }
