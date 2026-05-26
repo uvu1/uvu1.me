@@ -5,6 +5,7 @@
     "eslint.config.js",
     "prettier.config.js",
     "vite.config.js",
+    "public/theme-init.js",
     "@cloudflare/workers-types"
   ],
 

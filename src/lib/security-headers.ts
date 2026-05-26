@@ -61,7 +61,9 @@ export function withSecurityHeaders(request: Request, response: Response) {
   headers.delete('Server')
 
   if (isHttpsRequest(request)) {
-    for (const [name, value] of Object.entries(PRODUCTION_ONLY_SECURITY_HEADERS)) {
+    for (const [name, value] of Object.entries(
+      PRODUCTION_ONLY_SECURITY_HEADERS,
+    )) {
       headers.set(name, value)
     }
   }
