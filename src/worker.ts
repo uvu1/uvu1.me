@@ -82,6 +82,18 @@ function parseWebVitalsPayload(value: unknown): WebVitalsPayload | null {
 }
 
 async function handleVitals(request: Request, env: Env) {
+  const origin = request.headers.get('origin')
+  const allowedOrigins = new Set(['https://uvu1.me'])
+
+  if (origin && allowedOrigins.has(origin)) {
+    return Response.json({ ok: false, error: 'Forbidden' }, { status: 403 })
+  }
+
+  const contentLength = Number(request.headers.get('content-length') ?? '0')
+  if (contentLength > 16_384) {
+    return new Response('Payload Too Large', { status: 413 })
+  }
+
   if (request.method !== 'POST') {
     return new Response('Method Not Allowed', { status: 405 })
   }
