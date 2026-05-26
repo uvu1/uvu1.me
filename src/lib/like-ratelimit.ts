@@ -19,9 +19,9 @@ const IP_MAX_REQUESTS = 60
 
 function getClientIp(request: Request) {
   return (
-    request.headers.get("cf-connecting-ip") ??
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    "unknown"
+    request.headers.get('cf-connecting-ip') ??
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    'unknown'
   )
 }
 

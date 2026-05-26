@@ -18,3 +18,4 @@ public/rss.xml
 public/sitemap.xml
 src/generated/*
 *Zone.identifier
+.dev.vars

@@ -14,6 +14,16 @@ type ClientLikedRow = {
 
 const ALLOWED_ORIGINS = new Set(['https://uvu1.me', 'http://localhost:3000'])
 
+function getLikeCookieSecret() {
+  const secret = (env as { LIKE_COOKIE_SECRET?: string }).LIKE_COOKIE_SECRET
+
+  if (!secret) {
+    throw new Error('LIKE_COOKIE_SECRET is not set in environment variables')
+  }
+
+  return secret
+}
+
 function json(
   data: unknown,
   init?: ResponseInit & {
@@ -87,7 +97,10 @@ export const Route = createFileRoute('/api/likes/$slug')({
           return json({ error: 'Article not found' }, { status: 404 })
         }
 
-        const { clientId, setCookie } = getOrCreateLikeClientId(request)
+        const { clientId, setCookie } = await getOrCreateLikeClientId(
+          request,
+          getLikeCookieSecret(),
+        )
 
         return json(await getLikeState(slug, clientId), { setCookie })
       },
@@ -102,7 +115,10 @@ export const Route = createFileRoute('/api/likes/$slug')({
           return json({ error: 'Article not found' }, { status: 404 })
         }
 
-        const { clientId, setCookie } = getOrCreateLikeClientId(request)
+        const { clientId, setCookie } = await getOrCreateLikeClientId(
+          request,
+          getLikeCookieSecret(),
+        )
 
         const rateLimit = await checkLikeRateLimit({
           db: env.DB,

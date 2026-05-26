@@ -12,6 +12,11 @@ export type CookieOptions = {
   sameSite?: 'Strict' | 'Lax' | 'None'
 }
 
+type LikeClientCookieResult = {
+  clientId: string
+  setCookie?: string
+}
+
 export function parseCookies(cookieHeader: string | null) {
   const cookies = new Map<string, string>()
 
@@ -70,19 +75,104 @@ export function serializeCookie(
   return parts.join('; ')
 }
 
-export function getLikeClientIdFromCookie(request: Request) {
-  const cookies = parseCookies(request.headers.get('cookie'))
-  const clientId = cookies.get(CLIENT_ID_COOKIE)?.trim().toLowerCase()
+function base64UrlEncode(buffer: ArrayBuffer) {
+  let binary = ''
 
-  if (!clientId || !CLIENT_ID_RE.test(clientId)) {
+  for (const byte of new Uint8Array(buffer)) {
+    binary += String.fromCharCode(byte)
+  }
+
+  return btoa(binary)
+    .replaceAll('+', '-')
+    .replaceAll('/', '_')
+    .replaceAll('=', '')
+}
+
+async function createSignature(clientId: string, secret: string) {
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    {
+      name: 'HMAC',
+      hash: 'SHA-256',
+    },
+    false,
+    ['sign'],
+  )
+
+  const signature = await crypto.subtle.sign(
+    'HMAC',
+    key,
+    new TextEncoder().encode(clientId),
+  )
+
+  return base64UrlEncode(signature)
+}
+
+function timingSafeEqual(a: string, b: string) {
+  const aBytes = new TextEncoder().encode(a)
+  const bBytes = new TextEncoder().encode(b)
+  const length = Math.max(aBytes.length, bBytes.length)
+
+  let diff = aBytes.length ^ bBytes.length
+
+  for (let i = 0; i < length; i += 1) {
+    diff |= (aBytes[i] ?? 0) ^ (bBytes[i] ?? 0)
+  }
+
+  return diff === 0
+}
+
+async function createSignedClientId(clientId: string, secret: string) {
+  const normalizedClientId = clientId.toLowerCase()
+  const signature = await createSignature(normalizedClientId, secret)
+
+  return `${normalizedClientId}.${signature}`
+}
+
+async function verifySignedClientId(value: string, secret: string) {
+  const [clientId, signature, ...rest] = value.split('.')
+
+  if (rest.length > 0 || !clientId || !signature) {
     return undefined
   }
 
-  return clientId
+  const normalizedClientId = clientId.trim().toLowerCase()
+
+  if (!CLIENT_ID_RE.test(normalizedClientId)) {
+    return undefined
+  }
+
+  const expectedSignature = await createSignature(normalizedClientId, secret)
+
+  if (!timingSafeEqual(signature, expectedSignature)) {
+    return undefined
+  }
+
+  return normalizedClientId
 }
 
-export function createLikeClientIdCookie(clientId: string) {
-  return serializeCookie(CLIENT_ID_COOKIE, clientId, {
+export async function getLikeClientIdFromCookie(
+  request: Request,
+  secret: string,
+) {
+  const cookies = parseCookies(request.headers.get('cookie'))
+  const value = cookies.get(CLIENT_ID_COOKIE)
+
+  if (!value) {
+    return undefined
+  }
+
+  return verifySignedClientId(value, secret)
+}
+
+export async function createLikeClientIdCookie(
+  clientId: string,
+  secret: string,
+) {
+  const signedClientId = await createSignedClientId(clientId, secret)
+
+  return serializeCookie(CLIENT_ID_COOKIE, signedClientId, {
     path: '/',
     maxAge: CLIENT_ID_MAX_AGE_SECONDS,
     httpOnly: true,
@@ -91,20 +181,23 @@ export function createLikeClientIdCookie(clientId: string) {
   })
 }
 
-export function getOrCreateLikeClientId(request: Request) {
-  const existingClientId = getLikeClientIdFromCookie(request)
+export async function getOrCreateLikeClientId(
+  request: Request,
+  secret: string,
+): Promise<LikeClientCookieResult> {
+  const existingClientId = await getLikeClientIdFromCookie(request, secret)
 
   if (existingClientId) {
     return {
       clientId: existingClientId,
-      setCookie: undefined,
     }
   }
 
   const clientId = crypto.randomUUID()
+  const setCookie = await createLikeClientIdCookie(clientId, secret)
 
   return {
     clientId,
-    setCookie: createLikeClientIdCookie(clientId),
+    setCookie,
   }
 }
