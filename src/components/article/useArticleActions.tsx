@@ -40,6 +40,17 @@ export type ArticleActionsState = {
 const MISSKEY_INSTANCE = 'misskey.io'
 const ArticleActionsContext = createContext<ArticleActionsState | null>(null)
 
+function isLikeState(value: unknown): value is LikeState {
+  if (!value || typeof value !== 'object') return false
+  return true
+}
+
+async function readLikeState(response: Response) {
+  const data: unknown = await response.json()
+  if (!isLikeState(data)) throw new Error('Invalid like state response')
+  return data
+}
+
 export function useArticleActions({
   slug,
   title,
@@ -69,7 +80,7 @@ export function useArticleActions({
           throw new Error('Failed to load likes')
         }
 
-        const data = (await response.json()) as LikeState
+        const data = await readLikeState(response)
 
         if (cancelled) return
 
@@ -133,7 +144,7 @@ export function useArticleActions({
         throw new Error('Failed to update like')
       }
 
-      const data = (await response.json()) as LikeState
+      const data = await readLikeState(response)
 
       setLiked(data.liked)
       setLikeCount(data.count)

@@ -28,6 +28,7 @@ export default [
       "src/content/articles/**",
       "eslint.config.js",
       "prettier.config.js",
+      "worker-configuration.d.ts",
     ],
   },
 ]

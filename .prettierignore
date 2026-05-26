@@ -11,6 +11,7 @@ dist/
 .output/
 .wrangler/
 .vinxi/
+worker-configuration.d.ts
 
 # submodule contents
 src/content/articles/

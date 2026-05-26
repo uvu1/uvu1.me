@@ -149,7 +149,7 @@ export const Route = createFileRoute('/api/likes/$slug')({
             .bind(slug, clientId)
             .run()
 
-          if ((inserted.meta.changes ?? 0) > 0) {
+          if (inserted.meta.changes > 0) {
             await env.DB.prepare(
               `
               INSERT INTO article_likes (slug, count, updated_at)
@@ -169,7 +169,7 @@ export const Route = createFileRoute('/api/likes/$slug')({
             .bind(slug, clientId)
             .run()
 
-          if ((deleted.meta.changes ?? 0) > 0) {
+          if (deleted.meta.changes > 0) {
             await env.DB.prepare(
               `
               UPDATE article_likes

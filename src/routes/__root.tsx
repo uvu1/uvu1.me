@@ -4,6 +4,7 @@ import { NotFoundPage } from '../components/error/NotFoundPage'
 import { ThemeScript } from '../components/theme/ThemeScript'
 
 import appCss from '../styles/app.css?url'
+import { WebVitalsReporter } from '#/components/observability/WebVitalsReporter'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -100,6 +101,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <WebVitalsReporter />
         {children}
         <Scripts />
       </body>
