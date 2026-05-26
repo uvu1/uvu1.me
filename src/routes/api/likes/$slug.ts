@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { env } from 'cloudflare:workers'
 import { getArticleBySlug } from '../../../lib/articles'
 import { getOrCreateLikeClientId } from '../../../lib/cookie'
+import { checkLikeRateLimit } from '../../../lib/like-ratelimit'
 
 type LikeRow = {
   count: number
@@ -102,6 +103,20 @@ export const Route = createFileRoute('/api/likes/$slug')({
         }
 
         const { clientId, setCookie } = getOrCreateLikeClientId(request)
+
+        const rateLimit = await checkLikeRateLimit({
+          db: env.DB,
+          request,
+          slug,
+          clientId,
+        })
+
+        if (!rateLimit.allowed) {
+          return json(
+            { error: 'Too many requests', reset: rateLimit.reset },
+            { status: 429, setCookie, headers: rateLimit.headers },
+          )
+        }
 
         const body = (await request.json().catch(() => null)) as {
           liked?: boolean
