@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { env } from 'cloudflare:workers'
 import { getArticleBySlug } from '../../../lib/articles'
+import { getOrCreateLikeClientId } from '../../../lib/cookie'
 
 type LikeRow = {
   count: number
@@ -10,18 +11,33 @@ type ClientLikedRow = {
   liked: number
 }
 
-function json(data: unknown, init?: ResponseInit) {
+const ALLOWED_ORIGINS = new Set(['https://uvu1.me', 'http://localhost:3000'])
+
+function json(
+  data: unknown,
+  init?: ResponseInit & {
+    setCookie?: string
+  },
+) {
+  const headers = new Headers(init?.headers)
+
+  headers.set('content-type', 'application/json; charset=utf-8')
+  headers.set('cache-control', 'no-store')
+
+  if (init?.setCookie) {
+    headers.append('set-cookie', init.setCookie)
+  }
+
   return new Response(JSON.stringify(data), {
     ...init,
-    headers: {
-      'content-type': 'application/json; charset=utf-8',
-      ...(init?.headers ?? {}),
-    },
+    headers,
   })
 }
 
-function getClientId(request: Request) {
-  return request.headers.get('x-uvu-client-id')?.trim() ?? ''
+function isAllowedOrigin(requrest: Request) {
+  const origin = requrest.headers.get('origin')
+
+  return origin && ALLOWED_ORIGINS.has(origin)
 }
 
 function getExistingArticleSlug(slug: string) {
@@ -70,26 +86,22 @@ export const Route = createFileRoute('/api/likes/$slug')({
           return json({ error: 'Article not found' }, { status: 404 })
         }
 
-        const clientId = getClientId(request)
+        const { clientId, setCookie } = getOrCreateLikeClientId(request)
 
-        return json(await getLikeState(slug, clientId))
+        return json(await getLikeState(slug, clientId), { setCookie })
       },
 
       POST: async ({ request, params }) => {
+        if (!isAllowedOrigin(request)) {
+          return json({ error: 'Forbidden' }, { status: 403 })
+        }
         const slug = getExistingArticleSlug(params.slug)
 
         if (!slug) {
           return json({ error: 'Article not found' }, { status: 404 })
         }
 
-        const clientId = getClientId(request)
-
-        if (!clientId) {
-          return json(
-            { error: 'Missing x-uvu-client-id header' },
-            { status: 400 },
-          )
-        }
+        const { clientId, setCookie } = getOrCreateLikeClientId(request)
 
         const body = (await request.json().catch(() => null)) as {
           liked?: boolean
@@ -141,7 +153,7 @@ export const Route = createFileRoute('/api/likes/$slug')({
           }
         }
 
-        return json(await getLikeState(slug, clientId))
+        return json(await getLikeState(slug, clientId), { setCookie })
       },
     },
   },

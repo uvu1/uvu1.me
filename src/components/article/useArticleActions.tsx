@@ -9,7 +9,6 @@ import {
   useState,
 } from 'react'
 import type { ReactNode } from 'react'
-import { getClientId } from '../../lib/client-id'
 
 type LikeState = {
   slug: string
@@ -63,9 +62,7 @@ export function useArticleActions({
         setLikeLoading(true)
 
         const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
-          headers: {
-            'x-uvu-client-id': getClientId(),
-          },
+          credentials: 'same-origin',
         })
 
         if (!response.ok) {
@@ -123,9 +120,9 @@ export function useArticleActions({
     try {
       const response = await fetch(`/api/likes/${encodeURIComponent(slug)}`, {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
           'content-type': 'application/json',
-          'x-uvu-client-id': getClientId(),
         },
         body: JSON.stringify({
           liked: nextLiked,
