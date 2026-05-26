@@ -26,7 +26,7 @@
     "generate:contents": "bun run scripts/generate-thumbnails.tsx && bun run scripts/generate-projects.tsx && bun run scripts/generate-rss.tsx && bun run scripts/generate-sitemap.tsx && bun run scripts/generate-robots.tsx && bun run scripts/generate-favicon.ts"
   },
   "dependencies": {
-    "@cloudflare/vite-plugin": "1.37.2",
+    "@cloudflare/vite-plugin": "1.38.0",
     "@resvg/resvg-js": "2.6.2",
     "@tailwindcss/vite": "4.3.0",
     "@tanstack/react-router": "1.170.4",
@@ -76,7 +76,7 @@
     "vite": "8.0.13",
     "vite-tsconfig-paths": "6.1.1",
     "vitest": "4.1.7",
-    "wrangler": "4.93.0"
+    "wrangler": "4.94.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
