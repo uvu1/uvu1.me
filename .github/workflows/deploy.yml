@@ -9,6 +9,9 @@ on:
       - articles-updated
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: deploy-production
   cancel-in-progress: true
@@ -40,19 +43,13 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.3.14 
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Check formatting
-        run: bun run check
-
-      - name: Unit test
-        run: bun run test:run
-
-      - name: Build
-        run: bun run build
+      - name: CI
+        run: bun run ci
 
       - name: Deploy
         run: bun run deploy
