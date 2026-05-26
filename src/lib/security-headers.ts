@@ -19,11 +19,22 @@ const PRODUCTION_ONLY_SECURITY_HEADERS = {
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
 } as const
 
-const INLINE_SCRIPT_HASHES = [
-  "'sha256-QLwTIkJpb/FWTl/tzuo2rtJOpEghwkMlMv/y348KkB4='",
-  "'sha256-yGy8/3fKZx15OjVREDveuJVTvclw18TavwMfGbRIh0A='",
-  "'sha256-hiltWrir4j3C3lm46R6aVp8AJSXtHycnRH60iNjf+3w='",
-] as const
+const CSP = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'none'",
+  "form-action 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://use.typekit.net",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: https://use.typekit.net https://p.typekit.net",
+  "connect-src 'self' https://p.typekit.net",
+  "media-src 'self'",
+  "manifest-src 'self'",
+  "worker-src 'self'",
+  'upgrade-insecure-requests',
+].join('; ')
 
 function isHtmlResponse(headers: Headers) {
   const contentType = headers.get('content-type')
@@ -37,98 +48,6 @@ function isHttpsRequest(request: Request) {
     url.protocol === 'https:' ||
     request.headers.get('x-forwarded-proto') === 'https'
   )
-}
-
-function isLocalhostRequest(request: Request) {
-  const hostname = new URL(request.url).hostname
-
-  return hostname === 'localhost' || hostname === '127.0.0.1'
-}
-
-function createCsp(request: Request) {
-  const isLocalhost = isLocalhostRequest(request)
-
-  if (isLocalhost) {
-    return [
-      "default-src 'self'",
-      "base-uri 'self'",
-      "object-src 'none'",
-      "frame-ancestors 'none'",
-      "form-action 'self'",
-
-      // Vite / React Refresh / TanStack dev tools 用
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-      "style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net",
-
-      "img-src 'self' data: blob: http: https:",
-      "font-src 'self' data: https://use.typekit.net https://p.typekit.net",
-      "connect-src 'self' ws: http: https:",
-
-      "media-src 'self'",
-      "manifest-src 'self'",
-      "worker-src 'self' blob:",
-    ].join('; ')
-  }
-
-  return [
-    "default-src 'self'",
-    "base-uri 'self'",
-    "object-src 'none'",
-    "frame-ancestors 'none'",
-    "form-action 'self'",
-
-    [
-      'script-src',
-      "'self'",
-      'https://static.cloudflareinsights.com',
-      ...INLINE_SCRIPT_HASHES,
-    ].join(' '),
-
-    [
-      'script-src-elem',
-      "'self'",
-      'https://static.cloudflareinsights.com',
-      ...INLINE_SCRIPT_HASHES,
-    ].join(' '),
-
-    [
-      'style-src',
-      "'self'",
-      "'unsafe-inline'",
-      'https://use.typekit.net',
-      'https://p.typekit.net',
-    ].join(' '),
-
-    [
-      'style-src-elem',
-      "'self'",
-      'https://use.typekit.net',
-      'https://p.typekit.net',
-    ].join(' '),
-
-    [
-      'font-src',
-      "'self'",
-      'data:',
-      'https://use.typekit.net',
-      'https://p.typekit.net',
-    ].join(' '),
-
-    ['img-src', "'self'", 'data:', 'blob:', 'https:'].join(' '),
-
-    [
-      'connect-src',
-      "'self'",
-      'https://p.typekit.net',
-      'https://cloudflareinsights.com',
-      'https://static.cloudflareinsights.com',
-    ].join(' '),
-
-    "media-src 'self'",
-    "manifest-src 'self'",
-    "worker-src 'self'",
-    'upgrade-insecure-requests',
-  ].join('; ')
 }
 
 export function withSecurityHeaders(request: Request, response: Response) {
@@ -150,7 +69,7 @@ export function withSecurityHeaders(request: Request, response: Response) {
   }
 
   if (isHtmlResponse(headers)) {
-    headers.set('Content-Security-Policy', createCsp(request))
+    headers.set('Content-Security-Policy', CSP)
   }
 
   return new Response(response.body, {
