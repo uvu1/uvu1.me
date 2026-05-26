@@ -5,6 +5,7 @@ import remarkRehype from 'remark-rehype'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import rehypeStringify from 'rehype-stringify'
+import rehypeSanitize from 'rehype-sanitize'
 import { visit } from 'unist-util-visit'
 import type { TocItem } from './article-types'
 
@@ -138,6 +139,7 @@ export async function markdownToHtml(markdown: string) {
     .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeSlug)
+    .use(rehypeSanitize)
     .use(() => collectToc(toc))
     .use(rehypePrettyCode, {
       theme: {
