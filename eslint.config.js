@@ -19,6 +19,7 @@ export default [
       "src/generated/**",
       "public/article-thumbs/**",
       "public/article-assets/**",
+      "public/theme-init.js",
       "dist/**",
       ".output/**",
       ".wrangler/**",
