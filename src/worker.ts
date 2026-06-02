@@ -85,7 +85,7 @@ async function handleVitals(request: Request, env: Env) {
   const origin = request.headers.get('origin')
   const allowedOrigins = new Set(['https://uvu1.me'])
 
-  if (origin && allowedOrigins.has(origin)) {
+  if (origin && !allowedOrigins.has(origin)) {
     return Response.json({ ok: false, error: 'Forbidden' }, { status: 403 })
   }
 
