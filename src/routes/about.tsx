@@ -64,9 +64,14 @@ const timelineItems = [
       'セキュリティやインフラについて自宅サーバーを運用しながら学ぶ。',
   },
   {
+    year: '2026',
+    title: 'Seccamp',
+    description: 'セキュリティ・キャンプ 2026 専門Bに参加。',
+  },
+  {
     year: 'Now',
-    title: 'Explore',
-    description: 'Kubernetes、認証認可を中心に探求中。',
+    title: 'Working',
+    description: 'Kubernetes、認証認可を中心に学習中。',
   },
 ]
 
