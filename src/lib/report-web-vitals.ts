@@ -1,11 +1,18 @@
-import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals/attribution'
+import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals'
 import type { Metric } from 'web-vitals'
 
 function send(metric: Metric) {
   const body = JSON.stringify({
-    metric,
+    metric: {
+      id: metric.id,
+      name: metric.name,
+      value: metric.value,
+      delta: metric.delta,
+      rating: metric.rating,
+      navigationType: metric.navigationType,
+    },
     path: location.pathname,
-    url: location.href,
+    url: `${location.origin}${location.pathname}`,
     viewport: {
       width: window.innerWidth,
       height: window.innerHeight,
@@ -18,7 +25,10 @@ function send(metric: Metric) {
 
   const blob = new Blob([body], { type: 'application/json' })
   const sent = navigator.sendBeacon('/api/vitals', blob)
-  if (sent) return
+
+  if (sent) {
+    return
+  }
 
   void fetch('/api/vitals', {
     method: 'POST',
