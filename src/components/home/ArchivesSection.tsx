@@ -26,7 +26,7 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
             return (
               <div
                 key={article.slug}
-                className="relative grid grid-cols-[2rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:gap-x-5"
+                className="relative grid grid-cols-[1.25rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:gap-x-5"
               >
                 <div className="relative z-10 flex items-start gap-3 pt-2 sm:gap-4 sm:pt-5">
                   <span

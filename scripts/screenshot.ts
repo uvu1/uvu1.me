@@ -5,7 +5,10 @@ import { parseArgs } from 'node:util'
 const rootDir = process.cwd()
 
 // ブラウザ実体は Nix 提供(.playwright-browsers は nix store への GC ルート symlink)
-process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(rootDir, '.playwright-browsers')
+process.env.PLAYWRIGHT_BROWSERS_PATH ??= path.join(
+  rootDir,
+  '.playwright-browsers',
+)
 process.env.PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS ??= 'true'
 // システムに fontconfig/フォントが無いため、日本語フォントは .fonts/ から解決する
 process.env.FONTCONFIG_FILE ??= path.join(rootDir, 'scripts/fonts.conf')
@@ -46,7 +49,9 @@ if (positionals.length === 0) {
 
 const launchers = { chromium, firefox }
 const browserNames =
-  values.browser === 'all' ? (['chromium', 'firefox'] as const) : [values.browser]
+  values.browser === 'all'
+    ? (['chromium', 'firefox'] as const)
+    : [values.browser]
 
 for (const name of browserNames) {
   if (!(name in launchers)) {
@@ -60,9 +65,13 @@ const urls = positionals.map((p) =>
 )
 
 for (const url of urls) {
-  const reachable = await fetch(url, { signal: AbortSignal.timeout(3000) }).catch(() => null)
+  const reachable = await fetch(url, {
+    signal: AbortSignal.timeout(3000),
+  }).catch(() => null)
   if (!reachable) {
-    console.error(`${url} に接続できません。先に dev サーバーを起動してください: bun run dev`)
+    console.error(
+      `${url} に接続できません。先に dev サーバーを起動してください: bun run dev`,
+    )
     process.exit(1)
   }
 }
@@ -72,7 +81,9 @@ await mkdir(outDir, { recursive: true })
 
 const slugOf = (url: string) => {
   const { pathname } = new URL(url)
-  return pathname === '/' ? 'home' : pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-')
+  return pathname === '/'
+    ? 'home'
+    : pathname.replace(/^\/|\/$/g, '').replace(/\//g, '-')
 }
 
 for (const name of browserNames as ('chromium' | 'firefox')[]) {

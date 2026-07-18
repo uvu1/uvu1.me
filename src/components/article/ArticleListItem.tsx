@@ -19,13 +19,13 @@ export function ArticleListItem({
     <Link
       to="/articles/$slug"
       params={{ slug: article.slug }}
-      className="group grid grid-cols-[7rem_minmax(0,1fr)] items-center gap-3 bg-transparent px-3 py-4 transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[var(--blue-50)]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/45 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:gap-5 sm:px-5"
+      className="group grid grid-cols-[6rem_minmax(0,1fr)] items-center gap-3 bg-transparent px-2 py-4 transition duration-200 ease-out hover:-translate-y-0.5 hover:bg-[var(--blue-50)]/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]/45 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:gap-5 sm:px-5"
     >
       <ArticleThumb
         src={article.thumbnail}
         title={article.title}
         className={[
-          'h-20 w-28 shrink-0 sm:h-24 sm:w-40',
+          'h-16 w-24 shrink-0 sm:h-24 sm:w-40',
           compact ? 'sm:h-16 sm:w-28' : '',
         ].join(' ')}
       />
@@ -39,7 +39,7 @@ export function ArticleListItem({
 
         <h3
           className={[
-            'line-clamp-1 text-sm font-semibold text-[var(--text)] transition group-hover:text-[var(--accent-strong)] sm:text-lg',
+            'line-clamp-2 text-sm font-semibold text-[var(--text)] transition group-hover:text-[var(--accent-strong)] sm:line-clamp-1 sm:text-lg',
             showDate ? 'mt-1' : '',
           ].join(' ')}
         >
