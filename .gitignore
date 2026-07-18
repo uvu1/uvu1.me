@@ -20,3 +20,6 @@ src/generated/*
 *Zone.identifier
 .dev.vars
 worker-configuration.d.ts
+.playwright-browsers
+.screenshots
+.fonts
