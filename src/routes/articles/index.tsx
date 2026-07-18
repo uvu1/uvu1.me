@@ -46,7 +46,7 @@ function ArticlesPage() {
         </div>
       </div>
 
-      <div className="space-y-3 border-t border-[var(--border)] pt-6">
+      <div className="space-y-3 border-t border-[var(--border)] pt-6 @container">
         {articles.map((article) => (
           <ArticleListItem key={article.slug} article={article} />
         ))}

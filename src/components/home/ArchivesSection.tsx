@@ -16,8 +16,8 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
     <section>
       <SectionTitle>Archives</SectionTitle>
 
-      <div className="relative mt-8">
-        <div className="absolute left-[0.45rem] top-3 bottom-3 w-px bg-[var(--accent-strong)]/35 sm:left-[0.55rem]" />
+      <div className="relative mt-8 @container">
+        <div className="absolute left-[0.45rem] top-3 bottom-3 w-px bg-[var(--accent-strong)]/35 @2xl:left-[0.55rem]" />
 
         <div className="space-y-7">
           {articles.map((article, index) => {
@@ -26,9 +26,9 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
             return (
               <div
                 key={article.slug}
-                className="relative grid grid-cols-[1.25rem_minmax(0,1fr)] gap-x-3 sm:grid-cols-[8.5rem_minmax(0,1fr)] sm:gap-x-5"
+                className="relative grid grid-cols-[1.25rem_minmax(0,1fr)] gap-x-3 @2xl:grid-cols-[8.5rem_minmax(0,1fr)] @2xl:gap-x-5"
               >
-                <div className="relative z-10 flex items-start gap-3 pt-2 sm:gap-4 sm:pt-5">
+                <div className="relative z-10 flex items-start gap-3 pt-2 @2xl:gap-4 @2xl:pt-5">
                   <span
                     className={[
                       'mt-1 size-4 shrink-0 rounded-full border-2 border-[var(--accent-strong)]',
@@ -38,13 +38,13 @@ export function ArchivesSection({ articles }: ArchivesSectionProps) {
                     ].join(' ')}
                   />
 
-                  <time className="hidden text-sm font-semibold text-[var(--text)] sm:block">
+                  <time className="hidden text-sm font-semibold text-[var(--text)] @2xl:block">
                     {formatDate(article.date)}
                   </time>
                 </div>
 
                 <div className="min-w-0">
-                  <time className="mb-2 block text-sm font-semibold text-[var(--text)] sm:hidden">
+                  <time className="mb-2 block text-sm font-semibold text-[var(--text)] @2xl:hidden">
                     {formatDate(article.date)}
                   </time>
 
