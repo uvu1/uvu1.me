@@ -84,6 +84,47 @@ describe('ArticleFrontmatterSchema', () => {
     expect(result.success).toBe(false)
   })
 
+  test('draftならtagsに空文字が含まれていても通る', () => {
+    const parsed = ArticleFrontmatterSchema.parse({
+      title: 'Test Article',
+      date: '2026-05-21',
+      draft: true,
+      tags: ['test', ''],
+    })
+
+    expect(parsed.tags).toEqual(['test', ''])
+  })
+
+  test('draftならtagsが空欄(null)でも通り[]になる', () => {
+    const parsed = ArticleFrontmatterSchema.parse({
+      title: 'Test Article',
+      date: '2026-05-21',
+      draft: true,
+      tags: null,
+    })
+
+    expect(parsed.tags).toEqual([])
+  })
+
+  test('非draftでもtagsが空欄(null)なら[]として通る', () => {
+    const parsed = ArticleFrontmatterSchema.parse({
+      title: 'Test Article',
+      date: '2026-05-21',
+      tags: null,
+    })
+
+    expect(parsed.tags).toEqual([])
+  })
+
+  test('draftでもtitleがないなら落ちる', () => {
+    const result = ArticleFrontmatterSchema.safeParse({
+      date: '2026-05-21',
+      draft: true,
+    })
+
+    expect(result.success).toBe(false)
+  })
+
   test('pinがbooleanでなければ落ちる', () => {
     const result = ArticleFrontmatterSchema.safeParse({
       title: 'Test Article',
