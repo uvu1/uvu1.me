@@ -1,0 +1,40 @@
+.article-body .callout {
+  margin-top: 1.75rem;
+  border-left: 4px solid var(--accent-strong);
+  background: var(--blue-50);
+  padding: 1rem 1.25rem 1rem 1.5rem;
+  color: var(--text);
+}
+
+.article-body .callout > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 2;
+  user-select: none;
+}
+
+.article-body .callout > summary::-webkit-details-marker {
+  display: none;
+}
+
+.article-body .callout > summary::before {
+  content: '';
+  flex-shrink: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid var(--accent-strong);
+  border-bottom: 2px solid var(--accent-strong);
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+
+.article-body .callout[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+.article-body .callout p {
+  margin-top: 0.75rem;
+}

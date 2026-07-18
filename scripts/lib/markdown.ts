@@ -57,6 +57,85 @@ function collectToc(toc: TocItem[]) {
   }
 }
 
+const CALLOUT_MARKER = /^\[!([a-zA-Z0-9-]+)\]([-+])[ \t]*/
+
+function transformFoldableCallouts() {
+  return (tree: any) => {
+    visit(tree, 'element', (node: any) => {
+      if (node.tagName !== 'blockquote') return
+
+      const children: any[] = node.children ?? []
+      const paragraphIndex = children.findIndex(
+        (child: any) => child.type === 'element',
+      )
+      const paragraph = children[paragraphIndex]
+
+      if (!paragraph || paragraph.tagName !== 'p') return
+
+      const [lead, ...inline] = paragraph.children ?? []
+
+      if (lead?.type !== 'text') return
+
+      const match = lead.value.match(CALLOUT_MARKER)
+
+      if (!match) return
+
+      const [marker, type, fold] = match
+      const breakIndex = inline.findIndex(
+        (child: any) => child.type === 'element' && child.tagName === 'br',
+      )
+      const titleLead = lead.value.slice(marker.length)
+      const titleRest = breakIndex === -1 ? inline : inline.slice(0, breakIndex)
+      const bodyInline = breakIndex === -1 ? [] : inline.slice(breakIndex + 1)
+
+      if (bodyInline[0]?.type === 'text') {
+        bodyInline[0].value = bodyInline[0].value.replace(/^\n/, '')
+      }
+
+      const titleChildren =
+        titleLead.trim() || titleRest.length > 0
+          ? [{ type: 'text', value: titleLead }, ...titleRest]
+          : [
+              {
+                type: 'text',
+                value: type.charAt(0).toUpperCase() + type.slice(1),
+              },
+            ]
+
+      node.tagName = 'details'
+      node.properties = {
+        ...(node.properties ?? {}),
+        className: ['callout'],
+        dataCallout: type.toLowerCase(),
+      }
+
+      if (fold === '+') {
+        node.properties.open = true
+      }
+
+      node.children = [
+        {
+          type: 'element',
+          tagName: 'summary',
+          properties: {},
+          children: titleChildren,
+        },
+        ...(bodyInline.length > 0
+          ? [
+              {
+                type: 'element',
+                tagName: 'p',
+                properties: {},
+                children: bodyInline,
+              },
+            ]
+          : []),
+        ...children.slice(paragraphIndex + 1),
+      ]
+    })
+  }
+}
+
 function addCodeBlockMeta() {
   return (tree: any) => {
     visit(tree, 'element', (node: any) => {
@@ -143,6 +222,7 @@ export async function markdownToHtml(markdown: string) {
     .use(rehypeSlug)
     .use(rehypeSanitize)
     .use(() => collectToc(toc))
+    .use(transformFoldableCallouts)
     .use(rehypePrettyCode, {
       theme: {
         light: 'github-light',
