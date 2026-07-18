@@ -2,6 +2,7 @@ import path from 'node:path'
 import { promises as fs } from 'node:fs'
 import matter from 'gray-matter'
 import { ArticleFrontmatterSchema } from './lib/article-schema'
+import type { ArticleFrontmatter } from './lib/article-schema'
 import {
   BACKGROUND_PATH,
   CONTENT_DIR,
@@ -34,8 +35,14 @@ async function main() {
   await ensureCleanDir(THUMBNAILS_DIR)
   await ensureCleanDir(ARTICLE_ASSETS_DIR)
 
+  const publishedArticles: {
+    slug: string
+    articleDir: string
+    frontmatter: ArticleFrontmatter
+    content: string
+  }[] = []
+
   for (const articleFile of articleFiles) {
-    const slug = articleFile.slug
     const raw = await fs.readFile(articleFile.filePath, 'utf8')
     const { data, content } = matter(raw)
 
@@ -49,23 +56,41 @@ async function main() {
       process.exit(1)
     }
 
-    const frontmatter = parsed.data
-
-    if (frontmatter.draft && process.env.INCLUDE_DRAFTS !== 'true') {
+    if (parsed.data.draft && process.env.INCLUDE_DRAFTS !== 'true') {
       console.log(`skipped (draft): ${articleFile.filePath}`)
       continue
     }
 
+    publishedArticles.push({
+      slug: articleFile.slug,
+      articleDir: articleFile.articleDir,
+      frontmatter: parsed.data,
+      content,
+    })
+  }
+
+  const articlesBySlug = new Map(
+    publishedArticles.map((article) => [
+      article.slug,
+      { slug: article.slug, title: article.frontmatter.title },
+    ]),
+  )
+
+  for (const { slug, articleDir, frontmatter, content } of publishedArticles) {
     const tags = normalizeTags(frontmatter.tags)
     const formattedDate = formatDate(frontmatter.date)
 
     const processedContent = await processArticleImages({
       markdown: content,
-      articleDir: articleFile.articleDir,
+      articleDir,
       slug,
     })
 
-    const { html, toc } = await markdownToHtml(processedContent)
+    const { html, toc } = await markdownToHtml(processedContent, {
+      resolveArticle: (target) => articlesBySlug.get(target) ?? null,
+      onUnresolved: (source) =>
+        console.warn(`unresolved wikilink in ${slug}: ${source}`),
+    })
 
     const webp = await renderArticleThumbnail({
       title: frontmatter.title,
