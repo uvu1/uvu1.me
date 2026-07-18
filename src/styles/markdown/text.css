@@ -36,11 +36,11 @@
   margin-top: 0;
 }
 
-.article-body ul ul {
+.article-body :is(ul, ol) ul {
   list-style: circle;
 }
 
-.article-body ul ul ul {
+.article-body :is(ul, ol) :is(ul, ol) ul {
   list-style: square;
 }
 
