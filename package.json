@@ -7,7 +7,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "bun run generate:contents && vite dev --port 3000",
+    "dev": "INCLUDE_DRAFTS=true bun run generate:contents && vite dev --port 3000",
     "build": "bun run generate:contents && vite build",
     "cf-typegen": "wrangler types",
     "preview": "vite preview",

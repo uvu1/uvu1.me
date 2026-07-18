@@ -31,6 +31,19 @@
   list-style: decimal;
 }
 
+.article-body li > ul,
+.article-body li > ol {
+  margin-top: 0;
+}
+
+.article-body :is(ul, ol) ul {
+  list-style: circle;
+}
+
+.article-body :is(ul, ol) :is(ul, ol) ul {
+  list-style: square;
+}
+
 .article-body li {
   padding-left: 0.25rem;
 }

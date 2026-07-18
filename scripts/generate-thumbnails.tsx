@@ -51,7 +51,7 @@ async function main() {
 
     const frontmatter = parsed.data
 
-    if (frontmatter.draft) {
+    if (frontmatter.draft && process.env.INCLUDE_DRAFTS !== 'true') {
       console.log(`skipped (draft): ${articleFile.filePath}`)
       continue
     }
