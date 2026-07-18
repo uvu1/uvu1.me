@@ -1,0 +1,25 @@
+[tools]
+bun = "1.3.14"
+
+[tasks.setup]
+description = "Fetch content submodule and install dependencies"
+run = [
+  "git submodule update --init --recursive",
+  "bun install",
+]
+
+[tasks.dev]
+description = "Start the Vite dev server (generates contents first)"
+run = "bun run dev"
+
+[tasks.build]
+description = "Build the site"
+run = "bun run build"
+
+[tasks.test]
+description = "Run tests once"
+run = "bun run test:run"
+
+[tasks.check]
+description = "Run format check, lint, tests and build (CI)"
+run = "bun run ci"
